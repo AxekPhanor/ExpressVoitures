@@ -4,6 +4,7 @@ using ExpressVoitures.Server.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ExpressVoitures.Server.Data.Migrations
 {
     [DbContext(typeof(ExpressVoituresDbContext))]
-    partial class ExpressVoituresDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240221154026_Table Annonce Voiture VoitureEnregistre")]
+    partial class TableAnnonceVoitureVoitureEnregistre
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

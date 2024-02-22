@@ -1,4 +1,6 @@
 using ExpressVoitures.Server.Data;
+using ExpressVoitures.Server.Repositories;
+using ExpressVoitures.Server.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,6 +17,9 @@ builder.Services.AddDbContext<ExpressVoituresDbContext>(
     opts => opts.UseSqlServer(builder.Configuration.GetConnectionString("SqlServerConnection")));
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<ExpressVoituresDbContext>();
+
+builder.Services.AddTransient<IVoitureRepository, VoitureRepository>();
+builder.Services.AddTransient<IVoitureService, VoitureService>();
 
 var app = builder.Build();
 
