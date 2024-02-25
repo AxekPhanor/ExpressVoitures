@@ -1,7 +1,4 @@
-﻿using ExpressVoitures.Server.Models;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
+﻿using ExpressVoitures.Server.Models.InputModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,7 +17,7 @@ namespace ExpressVoitures.Server.Controllers
         }
 
         [HttpPost(Name = "Register")]
-        public async Task<IActionResult> Register([FromBody] AuthentificationModel model)
+        public async Task<IActionResult> Register([FromBody] AuthentificationInputModel model)
         {
             if(model.UserName == "Admin")
             {
@@ -40,7 +37,7 @@ namespace ExpressVoitures.Server.Controllers
         }
 
         [HttpPost(Name = "Login")]
-        public async Task<IActionResult> Login([FromBody] AuthentificationModel model)
+        public async Task<IActionResult> Login([FromBody] AuthentificationInputModel model)
         {
             var result = await signInManager.PasswordSignInAsync(
                 model.UserName, 

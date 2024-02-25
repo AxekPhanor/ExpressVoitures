@@ -1,4 +1,6 @@
-﻿namespace ExpressVoitures.Server.Models
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace ExpressVoitures.Server.Models.Entities
 {
     public class Annonce
     {
@@ -9,6 +11,7 @@
         public DateTime DateCreation { get; set; }
         public double PrixVente { get; set; }
         public DateTime DateVente { get; set; }
+        public int VoitureEnregistreId { get; set; }
         public VoitureEnregistre VoitureEnregistre { get; set; }
     }
 }

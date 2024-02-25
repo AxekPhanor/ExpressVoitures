@@ -1,7 +1,7 @@
 ﻿using ExpressVoitures.Server.Models.InputModels;
 using ExpressVoitures.Server.Models.OutputModels;
 
-namespace ExpressVoitures.Server.Services
+namespace ExpressVoitures.Server.Models.Services
 {
     public interface IVoitureService
     {

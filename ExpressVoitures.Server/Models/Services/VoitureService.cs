@@ -1,9 +1,9 @@
-﻿using ExpressVoitures.Server.Models;
+﻿using ExpressVoitures.Server.Models.Entities;
 using ExpressVoitures.Server.Models.InputModels;
 using ExpressVoitures.Server.Models.OutputModels;
-using ExpressVoitures.Server.Repositories;
+using ExpressVoitures.Server.Models.Repositories;
 
-namespace ExpressVoitures.Server.Services
+namespace ExpressVoitures.Server.Models.Services
 {
     public class VoitureService : IVoitureService
     {
@@ -37,7 +37,7 @@ namespace ExpressVoitures.Server.Services
         public async Task<VoitureOutputModel?> GetById(int id)
         {
             var voiture = await voitureRepository.GetById(id);
-            if(voiture is not null)
+            if (voiture is not null)
             {
                 return ToOutputModel(voiture);
             }
@@ -55,6 +55,7 @@ namespace ExpressVoitures.Server.Services
             {
                 Id = voiture.Id,
                 Marque = voiture.Marque,
+                Annee = voiture.Annee,
                 Modele = voiture.Modele,
                 Finition = voiture.Finition
             };

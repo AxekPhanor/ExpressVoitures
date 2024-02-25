@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ExpressVoitures.Server.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class Initialmigration : Migration
+    public partial class db : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -48,6 +48,22 @@ namespace ExpressVoitures.Server.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Voitures",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Marque = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Annee = table.Column<int>(type: "int", nullable: false),
+                    Modele = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Finition = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Voitures", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -156,6 +172,60 @@ namespace ExpressVoitures.Server.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "VoitureEnregistres",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DateAchat = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    PrixAchat = table.Column<double>(type: "float", nullable: false),
+                    Reparations = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CoutReparations = table.Column<int>(type: "int", nullable: false),
+                    VoitureId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_VoitureEnregistres", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_VoitureEnregistres_Voitures_VoitureId",
+                        column: x => x.VoitureId,
+                        principalTable: "Voitures",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Annonces",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Titre = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Photos = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DateCreation = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    PrixVente = table.Column<double>(type: "float", nullable: false),
+                    DateVente = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    VoitureEnregistreId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Annonces", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Annonces_VoitureEnregistres_VoitureEnregistreId",
+                        column: x => x.VoitureEnregistreId,
+                        principalTable: "VoitureEnregistres",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Annonces_VoitureEnregistreId",
+                table: "Annonces",
+                column: "VoitureEnregistreId",
+                unique: true);
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -194,11 +264,19 @@ namespace ExpressVoitures.Server.Data.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_VoitureEnregistres_VoitureId",
+                table: "VoitureEnregistres",
+                column: "VoitureId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Annonces");
+
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -215,10 +293,16 @@ namespace ExpressVoitures.Server.Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "VoitureEnregistres");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Voitures");
         }
     }
 }

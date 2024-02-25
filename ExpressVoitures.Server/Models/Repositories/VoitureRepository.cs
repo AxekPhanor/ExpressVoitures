@@ -1,9 +1,8 @@
 ﻿using ExpressVoitures.Server.Data;
-using ExpressVoitures.Server.Models;
-
+using ExpressVoitures.Server.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace ExpressVoitures.Server.Repositories
+namespace ExpressVoitures.Server.Models.Repositories
 {
     public class VoitureRepository : IVoitureRepository
     {
@@ -15,7 +14,7 @@ namespace ExpressVoitures.Server.Repositories
         public async Task<bool> Create(Voiture voiture)
         {
             var result = await _dbContext.Voitures.AddAsync(voiture);
-            if(result is not null)
+            if (result is not null)
             {
                 await _dbContext.SaveChangesAsync();
                 return true;
@@ -26,7 +25,7 @@ namespace ExpressVoitures.Server.Repositories
         public async Task<bool> DeleteById(int id)
         {
             var result = _dbContext.Voitures.Where(v => v.Id == id).FirstOrDefault();
-            if(result is not null)
+            if (result is not null)
             {
                 _dbContext.Voitures.Remove(result);
                 await _dbContext.SaveChangesAsync();
@@ -50,9 +49,10 @@ namespace ExpressVoitures.Server.Repositories
 
         public async Task<bool> Update(Voiture voiture)
         {
-            var result = _dbContext.Voitures.Update(voiture);
-            if(result is not null)
+            var result = await _dbContext.Voitures.Where(v => v.Id == voiture.Id).FirstOrDefaultAsync();
+            if (result is not null)
             {
+                _dbContext.Voitures.Update(voiture);
                 await _dbContext.SaveChangesAsync();
                 return true;
             }

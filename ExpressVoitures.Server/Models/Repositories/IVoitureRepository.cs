@@ -1,6 +1,6 @@
-﻿using ExpressVoitures.Server.Models;
+﻿using ExpressVoitures.Server.Models.Entities;
 
-namespace ExpressVoitures.Server.Repositories
+namespace ExpressVoitures.Server.Models.Repositories
 {
     public interface IVoitureRepository
     {

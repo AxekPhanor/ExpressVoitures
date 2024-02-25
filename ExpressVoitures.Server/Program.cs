@@ -1,6 +1,6 @@
 using ExpressVoitures.Server.Data;
-using ExpressVoitures.Server.Repositories;
-using ExpressVoitures.Server.Services;
+using ExpressVoitures.Server.Models.Repositories;
+using ExpressVoitures.Server.Models.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,6 +20,8 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>()
 
 builder.Services.AddTransient<IVoitureRepository, VoitureRepository>();
 builder.Services.AddTransient<IVoitureService, VoitureService>();
+builder.Services.AddTransient<IVoitureEnregistreRepository, VoitureEnregistreRepository>();
+builder.Services.AddTransient<IVoitureEnregistreService, VoitureEnregistreService>();
 
 var app = builder.Build();
 

@@ -1,5 +1,5 @@
 ﻿using ExpressVoitures.Server.Models.InputModels;
-using ExpressVoitures.Server.Services;
+using ExpressVoitures.Server.Models.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,7 +15,7 @@ namespace ExpressVoitures.Server.Controllers
             this.voitureService = voitureService;
         }
 
-        [HttpPost(Name = "Create")]
+        [HttpPost()]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([FromBody] VoitureInputModel voiture)
         {
@@ -26,7 +26,7 @@ namespace ExpressVoitures.Server.Controllers
             return BadRequest();
         }
 
-        [HttpGet(Name = "GetAll")]
+        [HttpGet()]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetAll()
         {
@@ -38,7 +38,7 @@ namespace ExpressVoitures.Server.Controllers
             return BadRequest();
         }
 
-        [HttpGet(Name = "GetById")]
+        [HttpGet()]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetById([FromQuery] int id)
         {
@@ -50,7 +50,7 @@ namespace ExpressVoitures.Server.Controllers
             return BadRequest();
         }
 
-        [HttpPut(Name = "Update")]
+        [HttpPut()]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Update([FromQuery] int id, [FromBody] VoitureInputModel voiture)
         {
@@ -61,7 +61,7 @@ namespace ExpressVoitures.Server.Controllers
             return BadRequest();
         }
 
-        [HttpDelete(Name = "DeleteById")]
+        [HttpDelete()]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteById([FromQuery] int id)
         {
