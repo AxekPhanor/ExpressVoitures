@@ -58,7 +58,6 @@ namespace ExpressVoitures.Server.Models.Services
                 return await voitureEnregistreRepository.Update(result);
             }
             return false;
-            
         }
 
         private VoitureEnregistreOutputModel ToOutputModel(VoitureEnregistre voitureEnregistre)
@@ -79,7 +78,7 @@ namespace ExpressVoitures.Server.Models.Services
             var voiture = await voitureRepository.GetById(voitureEnregistreInputModel.VoitureId);
             if (voiture is not null)
             {
-                var voitureEnregistre = new VoitureEnregistre()
+                return new VoitureEnregistre()
                 {
                     Id = id,
                     DateAchat = voitureEnregistreInputModel.DateAchat,
@@ -89,7 +88,7 @@ namespace ExpressVoitures.Server.Models.Services
                     VoitureId = voitureEnregistreInputModel.VoitureId,
                     Voiture = voiture
                 };
-                return voitureEnregistre;
+                
             }
             return null;
         }

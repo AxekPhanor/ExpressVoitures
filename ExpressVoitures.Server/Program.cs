@@ -22,6 +22,8 @@ builder.Services.AddTransient<IVoitureRepository, VoitureRepository>();
 builder.Services.AddTransient<IVoitureService, VoitureService>();
 builder.Services.AddTransient<IVoitureEnregistreRepository, VoitureEnregistreRepository>();
 builder.Services.AddTransient<IVoitureEnregistreService, VoitureEnregistreService>();
+builder.Services.AddTransient<IAnnonceRepository, AnnonceRepository>();
+builder.Services.AddTransient<IAnnonceService, AnnonceService>();
 
 var app = builder.Build();
 

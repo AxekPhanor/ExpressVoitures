@@ -31,11 +31,7 @@ namespace ExpressVoitures.Server.Controllers
         public async Task<IActionResult> GetAll()
         {
             var result = await voitureEnregistreService.GetAll();
-            if (result is not [])
-            {
-                return Ok(result);
-            }
-            return BadRequest();
+            return Ok(result);
         }
 
         [HttpGet("GetById")]
@@ -47,7 +43,7 @@ namespace ExpressVoitures.Server.Controllers
             {
                 return Ok(result);
             }
-            return BadRequest();
+            return NotFound();
         }
 
         [HttpPut("Update")]

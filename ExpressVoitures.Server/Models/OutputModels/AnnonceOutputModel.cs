@@ -1,6 +1,6 @@
-﻿namespace ExpressVoitures.Server.Models.Entities
+﻿namespace ExpressVoitures.Server.Models.InputModels
 {
-    public class Annonce
+    public class AnnonceOutputModel
     {
         public int Id { get; set; }
         public string Titre { get; set; }
@@ -10,6 +10,5 @@
         public double PrixVente { get; set; }
         public DateTime? DateVente { get; set; }
         public int VoitureEnregistreId { get; set; }
-        public VoitureEnregistre VoitureEnregistre { get; set; }
     }
 }
