@@ -1,6 +1,8 @@
 ﻿using ExpressVoitures.Server.Models.Entities;
 using ExpressVoitures.Server.Models.InputModels;
 using ExpressVoitures.Server.Models.Repositories;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.IO;
 
 namespace ExpressVoitures.Server.Models.Services
 {
@@ -81,6 +83,26 @@ namespace ExpressVoitures.Server.Models.Services
             return await annonceRepository.DeleteById(id);
         }
 
+        public async Task<bool> Sold(int id)
+        {
+            var annonce = await annonceRepository.GetById(id);
+            if (annonce is null)
+            {
+                return false;
+            }
+            annonce.DateVente = DateTime.Now;
+            await annonceRepository.Update(annonce);
+            return true;
+        }
+
+        public async Task Upload(IFormFile file)
+        {
+            using var memoryStream = new MemoryStream();
+            await file.CopyToAsync(memoryStream);
+            memoryStream.Seek(0, SeekOrigin.Begin);
+            File.WriteAllBytes($"../expressvoitures.client/src/img/annonces/{file.FileName}", memoryStream.ToArray());
+        }
+
         private AnnonceOutputModel ToOutputModel(Annonce annonce) 
         {
             return new AnnonceOutputModel()
@@ -118,18 +140,6 @@ namespace ExpressVoitures.Server.Models.Services
                 }
             }
             return null;
-        }
-
-        public async Task<bool> Sold(int id)
-        {
-            var annonce = await annonceRepository.GetById(id);
-            if (annonce is null)
-            {
-                return false;
-            }
-            annonce.DateVente = DateTime.Now;
-            await annonceRepository.Update(annonce);
-            return true;
         }
     }
 }

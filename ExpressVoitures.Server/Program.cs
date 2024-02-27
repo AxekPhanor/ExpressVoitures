@@ -18,12 +18,16 @@ builder.Services.AddDbContext<ExpressVoituresDbContext>(
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<ExpressVoituresDbContext>();
 
-builder.Services.AddTransient<IVoitureRepository, VoitureRepository>();
-builder.Services.AddTransient<IVoitureService, VoitureService>();
-builder.Services.AddTransient<IVoitureEnregistreRepository, VoitureEnregistreRepository>();
-builder.Services.AddTransient<IVoitureEnregistreService, VoitureEnregistreService>();
-builder.Services.AddTransient<IAnnonceRepository, AnnonceRepository>();
-builder.Services.AddTransient<IAnnonceService, AnnonceService>();
+builder.Services.AddScoped<IMarqueRepository, MarqueRepository>();
+builder.Services.AddScoped<IAnneeRepository, AnneeRepository>();
+builder.Services.AddScoped<IModeleRepository, ModeleRepository>();
+builder.Services.AddScoped<IFinitionRepository, FinitionRepository>();
+builder.Services.AddScoped<IVoitureRepository, VoitureRepository>();
+builder.Services.AddScoped<IVoitureService, VoitureService>();
+builder.Services.AddScoped<IVoitureEnregistreRepository, VoitureEnregistreRepository>();
+builder.Services.AddScoped<IVoitureEnregistreService, VoitureEnregistreService>();
+builder.Services.AddScoped<IAnnonceRepository, AnnonceRepository>();
+builder.Services.AddScoped<IAnnonceService, AnnonceService>();
 
 var app = builder.Build();
 

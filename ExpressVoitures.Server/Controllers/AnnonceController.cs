@@ -2,6 +2,10 @@
 using ExpressVoitures.Server.Models.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.IO;
+using System.Text;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace ExpressVoitures.Server.Controllers
 {
@@ -85,6 +89,14 @@ namespace ExpressVoitures.Server.Controllers
                 return Ok(result);
             }
             return NotFound();
+        }
+
+        [HttpPost("UploadImg")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> UploadImg(IFormFile file)
+        {
+            await annonceService.Upload(file);
+            return Ok();
         }
     }
 }

@@ -6,11 +6,24 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ExpressVoitures.Server.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class db : Migration
+    public partial class applicationde3FN : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Annee",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Valeur = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Annee", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
@@ -51,19 +64,42 @@ namespace ExpressVoitures.Server.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Voitures",
+                name: "Finition",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Marque = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Annee = table.Column<int>(type: "int", nullable: false),
-                    Modele = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Finition = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Nom = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Voitures", x => x.Id);
+                    table.PrimaryKey("PK_Finition", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Marque",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nom = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Marque", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Modele",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nom = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Modele", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -173,6 +209,46 @@ namespace ExpressVoitures.Server.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Voitures",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    MarqueId = table.Column<int>(type: "int", nullable: false),
+                    AnneeId = table.Column<int>(type: "int", nullable: false),
+                    ModeleId = table.Column<int>(type: "int", nullable: false),
+                    FinitionId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Voitures", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Voitures_Annee_AnneeId",
+                        column: x => x.AnneeId,
+                        principalTable: "Annee",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Voitures_Finition_FinitionId",
+                        column: x => x.FinitionId,
+                        principalTable: "Finition",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Voitures_Marque_MarqueId",
+                        column: x => x.MarqueId,
+                        principalTable: "Marque",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Voitures_Modele_ModeleId",
+                        column: x => x.ModeleId,
+                        principalTable: "Modele",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "VoitureEnregistres",
                 columns: table => new
                 {
@@ -206,7 +282,7 @@ namespace ExpressVoitures.Server.Data.Migrations
                     Photos = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DateCreation = table.Column<DateTime>(type: "datetime2", nullable: false),
                     PrixVente = table.Column<double>(type: "float", nullable: false),
-                    DateVente = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateVente = table.Column<DateTime>(type: "datetime2", nullable: true),
                     VoitureEnregistreId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -269,6 +345,26 @@ namespace ExpressVoitures.Server.Data.Migrations
                 name: "IX_VoitureEnregistres_VoitureId",
                 table: "VoitureEnregistres",
                 column: "VoitureId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Voitures_AnneeId",
+                table: "Voitures",
+                column: "AnneeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Voitures_FinitionId",
+                table: "Voitures",
+                column: "FinitionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Voitures_MarqueId",
+                table: "Voitures",
+                column: "MarqueId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Voitures_ModeleId",
+                table: "Voitures",
+                column: "ModeleId");
         }
 
         /// <inheritdoc />
@@ -303,6 +399,18 @@ namespace ExpressVoitures.Server.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Voitures");
+
+            migrationBuilder.DropTable(
+                name: "Annee");
+
+            migrationBuilder.DropTable(
+                name: "Finition");
+
+            migrationBuilder.DropTable(
+                name: "Marque");
+
+            migrationBuilder.DropTable(
+                name: "Modele");
         }
     }
 }

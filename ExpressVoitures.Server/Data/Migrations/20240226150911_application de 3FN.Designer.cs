@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ExpressVoitures.Server.Data.Migrations
 {
     [DbContext(typeof(ExpressVoituresDbContext))]
-    [Migration("20240225134806_db")]
-    partial class db
+    [Migration("20240226150911_application de 3FN")]
+    partial class applicationde3FN
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,22 @@ namespace ExpressVoitures.Server.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("ExpressVoitures.Server.Models.Entities.Annee", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Valeur")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Annee");
+                });
 
             modelBuilder.Entity("ExpressVoitures.Server.Models.Entities.Annonce", b =>
                 {
@@ -36,7 +52,7 @@ namespace ExpressVoitures.Server.Data.Migrations
                     b.Property<DateTime>("DateCreation")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateVente")
+                    b.Property<DateTime?>("DateVente")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
@@ -65,6 +81,57 @@ namespace ExpressVoitures.Server.Data.Migrations
                     b.ToTable("Annonces");
                 });
 
+            modelBuilder.Entity("ExpressVoitures.Server.Models.Entities.Finition", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Nom")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Finition");
+                });
+
+            modelBuilder.Entity("ExpressVoitures.Server.Models.Entities.Marque", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Nom")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Marque");
+                });
+
+            modelBuilder.Entity("ExpressVoitures.Server.Models.Entities.Modele", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Nom")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Modele");
+                });
+
             modelBuilder.Entity("ExpressVoitures.Server.Models.Entities.Voiture", b =>
                 {
                     b.Property<int>("Id")
@@ -73,22 +140,27 @@ namespace ExpressVoitures.Server.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("Annee")
+                    b.Property<int>("AnneeId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Finition")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("FinitionId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Marque")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("MarqueId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Modele")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("ModeleId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AnneeId");
+
+                    b.HasIndex("FinitionId");
+
+                    b.HasIndex("MarqueId");
+
+                    b.HasIndex("ModeleId");
 
                     b.ToTable("Voitures");
                 });
@@ -331,6 +403,41 @@ namespace ExpressVoitures.Server.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("VoitureEnregistre");
+                });
+
+            modelBuilder.Entity("ExpressVoitures.Server.Models.Entities.Voiture", b =>
+                {
+                    b.HasOne("ExpressVoitures.Server.Models.Entities.Annee", "Annee")
+                        .WithMany()
+                        .HasForeignKey("AnneeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ExpressVoitures.Server.Models.Entities.Finition", "Finition")
+                        .WithMany()
+                        .HasForeignKey("FinitionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ExpressVoitures.Server.Models.Entities.Marque", "Marque")
+                        .WithMany()
+                        .HasForeignKey("MarqueId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ExpressVoitures.Server.Models.Entities.Modele", "Modele")
+                        .WithMany()
+                        .HasForeignKey("ModeleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Annee");
+
+                    b.Navigation("Finition");
+
+                    b.Navigation("Marque");
+
+                    b.Navigation("Modele");
                 });
 
             modelBuilder.Entity("ExpressVoitures.Server.Models.Entities.VoitureEnregistre", b =>
