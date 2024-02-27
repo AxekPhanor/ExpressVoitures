@@ -1,0 +1,124 @@
+@use '@angular/material' as mat;
+
+$wheat-palette: (
+    50: #EBD7AE,
+    100: #E3CE9E,
+    200: #DBC58E,
+    300: #D3BC7E,
+    400: #CDB573,
+    500: #C7A968,
+    600: #C1A15D,
+    700: #BB9952,
+    800: #B59147,
+    900: #AE883C,
+    A100: #FFFFFF, // Remplacez par la couleur souhaitée
+    A200: #FFFFFF, // Remplacez par la couleur souhaitée
+    A400: #FFFFFF, // Remplacez par la couleur souhaitée
+    A700: #FFFFFF, // Remplacez par la couleur souhaitée
+    contrast:(
+    50: rgba(black, 0.87),
+    100: rgba(black, 0.87),
+    200: rgba(black, 0.87),
+    300: rgba(black, 0.87),
+    400: rgba(black, 0.87),
+    500: white, 600: white,
+    700: white, 800: white,
+    900: white,
+    A100: rgba(black, 0.87),
+    A200: rgba(black, 0.87),
+    A400: rgba(black, 0.87),
+    A700: rgba(black, 0.87),
+    )
+);
+
+$eerie-black-palette: (
+    50: #1B1B1B,
+    100: #1B1B1B,
+    200: #1B1B1B,
+    300: #1B1B1B,
+    400: #1B1B1B,
+    500: #1B1B1B,
+    600: #1B1B1B,
+    700: #1B1B1B,
+    800: #1B1B1B,
+    900: #1B1B1B,
+    A100: #1B1B1B, // Remplacez par la couleur souhaitée
+    A200: #1B1B1B, // Remplacez par la couleur souhaitée
+    A400: #1B1B1B, // Remplacez par la couleur souhaitée
+    A700: #1B1B1B, // Remplacez par la couleur souhaitée
+    contrast:(
+    50: white,
+    100: white,
+    200: white,
+    300: white,
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+    A100: white,
+    A200: white,
+    A400: white,
+    A700: white,
+    )
+);
+
+$white-palette: (
+    50: #FFFFFF,
+    100: #FFFFFF,
+    200: #FFFFFF,
+    300: #FFFFFF,
+    400: #FFFFFF,
+    500: #FFFFFF,
+    600: #FFFFFF,
+    700: #FFFFFF,
+    800: #FFFFFF,
+    900: #FFFFFF,
+    A100: #FFFFFF,
+    A200: #FFFFFF,
+    A400: #FFFFFF,
+    A700: #FFFFFF,
+    contrast:(
+    50: rgba(black, 0.87),
+    100: rgba(black, 0.87),
+    200: rgba(black, 0.87),
+    300: rgba(black, 0.87),
+    400: rgba(black, 0.87),
+    500: rgba(black, 0.87),
+    600: rgba(black, 0.87),
+    700: rgba(black, 0.87),
+    800: rgba(black, 0.87),
+    900: rgba(black, 0.87),
+    A100: rgba(black, 0.87),
+    A200: rgba(black, 0.87),
+    A400: rgba(black, 0.87),
+    A700: rgba(black, 0.87),
+    )
+);
+
+/* Include the common styles for Angular Material. We include this here so that you only
+   have to load a single css file for Angular Material in your app. */
+@include mat.core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue.
+$custom-primary: mat.define-palette($wheat-palette);
+$custom-accent: mat.define-palette($eerie-black-palette);
+
+// The warn palette is optional (defaults to red).
+/*$custom-warn: mat-palette($mat-red);*/
+
+// Create the theme object (a Sass map containing all of the palettes).
+$custom-theme: mat.define-light-theme((
+    color: (
+    primary: $custom-primary,
+    accent: $custom-accent,
+    )
+));
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include mat.all-component-themes($custom-theme);

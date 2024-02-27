@@ -1,0 +1,12 @@
+.navbar {
+  margin-top: -18px;
+  background-color: #080A0C;
+  opacity: 0.8;
+  height: 60px;
+  padding: 0 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid #EBD7AE;
+}

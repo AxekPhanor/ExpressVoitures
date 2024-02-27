@@ -7,4 +7,10 @@
     <!-- Folder where production build objects will be placed -->
     <PublishAssetsDirectory>$(MSBuildProjectDirectory)\dist\expressvoitures.client\</PublishAssetsDirectory>
   </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="src\app\models\" />
+    <Folder Include="src\app\components\" />
+    <Folder Include="src\app\services\" />
+    <Folder Include="src\img\annonces\" />
+  </ItemGroup>
 </Project>
