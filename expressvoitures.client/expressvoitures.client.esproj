@@ -11,6 +11,5 @@
     <Folder Include="src\app\models\" />
     <Folder Include="src\app\components\" />
     <Folder Include="src\app\services\" />
-    <Folder Include="src\img\annonces\" />
   </ItemGroup>
 </Project>

@@ -5,15 +5,21 @@ import { AppRoutingModule } from './app-routing.module';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatButtonModule } from '@angular/material/button';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { MatCardModule } from '@angular/material/card';
+
 
 import { AppComponent } from './app.component';
-import { PageHomeComponent } from './components/page-home/page-home.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { PageHomeComponent } from './components/page-home/page-home.component';
+import { PageCatalogueComponent } from './components/page-catalogue/page-catalogue.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     PageHomeComponent,
+    PageCatalogueComponent
   ],
   imports: [
     BrowserModule,
@@ -21,7 +27,11 @@ import { NavbarComponent } from './components/navbar/navbar.component';
     AppRoutingModule,
     MatSlideToggleModule,
     MatButtonModule,
-    NavbarComponent
+    NavbarComponent,
+    RouterOutlet,
+    RouterLink,
+    RouterLinkActive,
+    MatCardModule
   ],
   providers: [
     provideAnimationsAsync()

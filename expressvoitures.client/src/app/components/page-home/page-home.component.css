@@ -7,14 +7,16 @@
   z-index: -1;
 }
 
-h1{
-    font-size: 128px;
-    margin-bottom: 30px;
+h1 {
+  font-size: 128px;
+  margin-bottom: 0px;
+  letter-spacing: 2px;
 }
 
 h2 {
   font-size: 32px;
   text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  letter-spacing: 1px;
 }
 
 #buttonCatalogue {

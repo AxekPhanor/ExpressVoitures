@@ -11,6 +11,6 @@ namespace ExpressVoitures.Server.Models.Services
         public Task<bool> Update(AnnonceInputModel annonce, int id);
         public Task<bool> DeleteById(int id);
         public Task<bool> Sold(int id);
-        public Task Upload(IFormFile file);
+        public Task Upload(IFormFile file, int id);
     }
 }

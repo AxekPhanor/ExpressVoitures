@@ -10,6 +10,12 @@ body{
   padding: 0;
 }
 
+.content {
+  margin: 100px 100px 0 100px;
+  padding: 0 0 0 0;
+
+}
+
 /* Polices */
 .lato-thin {
   font-family: "Lato", sans-serif;
@@ -23,7 +29,7 @@ body{
   font-style: normal;
 }
 
-html .lato-regular {
+html, .lato-regular {
   font-family: "Lato", sans-serif;
   font-weight: 400;
   font-style: normal;

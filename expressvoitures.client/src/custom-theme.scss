@@ -11,23 +11,23 @@ $wheat-palette: (
     700: #BB9952,
     800: #B59147,
     900: #AE883C,
-    A100: #FFFFFF, // Remplacez par la couleur souhaitée
-    A200: #FFFFFF, // Remplacez par la couleur souhaitée
-    A400: #FFFFFF, // Remplacez par la couleur souhaitée
-    A700: #FFFFFF, // Remplacez par la couleur souhaitée
+    A100: EBD7AE, // Remplacez par la couleur souhaitée
+    A200: EBD7AE, // Remplacez par la couleur souhaitée
+    A400: EBD7AE, // Remplacez par la couleur souhaitée
+    A700: EBD7AE, // Remplacez par la couleur souhaitée
     contrast:(
-    50: rgba(black, 0.87),
-    100: rgba(black, 0.87),
-    200: rgba(black, 0.87),
-    300: rgba(black, 0.87),
-    400: rgba(black, 0.87),
+    50: rgba(black, 0.0),
+    100: rgba(black, 0.0),
+    200: rgba(black, 0.0),
+    300: rgba(black, 0.0),
+    400: rgba(black, 0.0),
     500: white, 600: white,
     700: white, 800: white,
     900: white,
-    A100: rgba(black, 0.87),
-    A200: rgba(black, 0.87),
-    A400: rgba(black, 0.87),
-    A700: rgba(black, 0.87),
+    A100: rgba(black, 0.0),
+    A200: rgba(black, 0.0),
+    A400: rgba(black, 0.0),
+    A700: rgba(black, 0.0),
     )
 );
 

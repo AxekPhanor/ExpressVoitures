@@ -1,12 +1,35 @@
 .navbar {
-  margin-top: -18px;
   background-color: #080A0C;
-  opacity: 0.8;
+  background: rgba(0, 0, 0, 0.8);
   height: 60px;
   padding: 0 30px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.1);
-  border-bottom: 1px solid #EBD7AE;
+  border-bottom: 2px solid #EBD7AE;
+  position: fixed;
+  width: 100%;
+  z-index: 1;
+}
+
+.logo {
+  margin-left: 60px;
+  width: 48px;
+}
+
+.nav-link, a:link, a:visited {
+  color: #ffff;
+  padding: 20px 40px 4px 10px;
+  text-decoration: none;
+}
+
+.navbar-items li {
+  display: inline;
+  font-size: 24px;
+
+}
+
+.navbar-items {
+  margin-right: 100px;
 }

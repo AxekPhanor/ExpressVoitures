@@ -11,21 +11,33 @@ namespace ExpressVoitures.Server.Models.Services
         private readonly IAnnonceRepository annonceRepository;
         private readonly IVoitureEnregistreRepository voitureEnregistreRepository;
         private readonly IVoitureRepository voitureRepository;
+        private readonly IAnneeRepository anneeRepository;
+        private readonly IModeleRepository modeleRepository;
+        private readonly IMarqueRepository marqueRepository;
+        private readonly IFinitionRepository finitionRepository;
         public AnnonceService(
-            IAnnonceRepository annonceRepository, 
-            IVoitureEnregistreRepository voitureEnregistreRepository, 
-            IVoitureRepository voitureRepository)
+            IAnnonceRepository annonceRepository,
+            IVoitureEnregistreRepository voitureEnregistreRepository,
+            IVoitureRepository voitureRepository,
+            IMarqueRepository marqueRepository,
+            IAnneeRepository anneeRepository,
+            IModeleRepository modeleRepository,
+            IFinitionRepository finitionRepository)
         {
             this.annonceRepository = annonceRepository;
             this.voitureEnregistreRepository = voitureEnregistreRepository;
             this.voitureRepository = voitureRepository;
+            this.anneeRepository = anneeRepository;
+            this.modeleRepository = modeleRepository;
+            this.marqueRepository = marqueRepository;
+            this.finitionRepository = finitionRepository;
         }
 
         public async Task<IList<AnnonceOutputModel>> GetAll()
         {
             List<AnnonceOutputModel> annoncesOutputModel = [];
             var annonces = await annonceRepository.GetAll();
-            foreach(var annonce in annonces)
+            foreach (var annonce in annonces)
             {
                 annoncesOutputModel.Add(ToOutputModel(annonce));
             }
@@ -66,7 +78,7 @@ namespace ExpressVoitures.Server.Models.Services
         public async Task<bool> Update(AnnonceInputModel annonce, int id)
         {
             var existingAnnonce = await annonceRepository.GetById(id);
-            if(existingAnnonce is null)
+            if (existingAnnonce is null)
             {
                 return false;
             }
@@ -95,19 +107,26 @@ namespace ExpressVoitures.Server.Models.Services
             return true;
         }
 
-        public async Task Upload(IFormFile file)
+        public async Task Upload(IFormFile file, int id)
         {
-            using var memoryStream = new MemoryStream();
-            await file.CopyToAsync(memoryStream);
-            memoryStream.Seek(0, SeekOrigin.Begin);
-            File.WriteAllBytes($"../expressvoitures.client/src/img/annonces/{file.FileName}", memoryStream.ToArray());
+            var annonce = await annonceRepository.GetById(id);
+            if (annonce is not null)
+            {
+                var nomFichier = $"{annonce.Id}-{annonce.Titre.Replace(' ', '_')}.jpg";
+                using var memoryStream = new MemoryStream();
+                await file.CopyToAsync(memoryStream);
+                memoryStream.Seek(0, SeekOrigin.Begin);
+                File.WriteAllBytes(
+                    $"../expressvoitures.client/src/assets/img/annonces/{nomFichier}",
+                    memoryStream.ToArray());
+            }
         }
 
-        private AnnonceOutputModel ToOutputModel(Annonce annonce) 
+        private AnnonceOutputModel ToOutputModel(Annonce annonce)
         {
             return new AnnonceOutputModel()
             {
-                Id =  annonce.Id,
+                Id = annonce.Id,
                 Titre = annonce.Titre,
                 Description = annonce.Description,
                 Photos = annonce.Photos,
@@ -121,25 +140,38 @@ namespace ExpressVoitures.Server.Models.Services
         private async Task<Annonce?> ToAnnonce(AnnonceInputModel annonceInputModel, int id)
         {
             var voitureEnregistre = await voitureEnregistreRepository.GetById(annonceInputModel.VoitureEnregistreId);
-            if (voitureEnregistre is not null)
+            if (voitureEnregistre is null)
             {
-                var voiture = await voitureRepository.GetById(voitureEnregistre.VoitureId);
-                if (voiture is not null)
-                {
-                    return new Annonce()
-                    {
-                        Id = id,
-                        Titre = $"{voiture.Marque} {voiture.Annee} {voiture.Modele} {voiture.Finition}",
-                        Description = annonceInputModel.Description,
-                        Photos = annonceInputModel.Photos,
-                        DateCreation = DateTime.Now,
-                        PrixVente = annonceInputModel.PrixVente,
-                        VoitureEnregistreId = annonceInputModel.VoitureEnregistreId,
-                        VoitureEnregistre = voitureEnregistre
-                    };
-                }
+                return null;
             }
-            return null;
+            var voiture = await voitureRepository.GetById(voitureEnregistre.VoitureId);
+            if (voiture is null)
+            {
+                return null;
+            }
+            var marque = await marqueRepository.GetById(voiture.MarqueId);
+            var annee = await anneeRepository.GetById(voiture.AnneeId);
+            var modele = await modeleRepository.GetById(voiture.ModeleId);
+            var finition = await finitionRepository.GetById(voiture.FinitionId);
+            if (marque is null ||
+                annee is null ||
+                modele is null ||
+                finition is null)
+            {
+                return null;
+            }
+            return new Annonce()
+            {
+                Id = id,
+                Titre = $"{marque.Nom} {annee.Valeur} {modele.Nom} {finition.Nom}",
+                Description = annonceInputModel.Description,
+                Photos = annonceInputModel.Photos,
+                DateCreation = DateTime.Now,
+                PrixVente = annonceInputModel.PrixVente,
+                VoitureEnregistreId = annonceInputModel.VoitureEnregistreId,
+                VoitureEnregistre = voitureEnregistre
+            };
+
         }
     }
 }
