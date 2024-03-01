@@ -20,14 +20,13 @@
 
 .nav-link, a:link, a:visited {
   color: #ffff;
-  padding: 20px 40px 4px 10px;
   text-decoration: none;
 }
 
 .navbar-items li {
   display: inline;
   font-size: 24px;
-
+  padding: 20px 40px 4px 10px;
 }
 
 .navbar-items {

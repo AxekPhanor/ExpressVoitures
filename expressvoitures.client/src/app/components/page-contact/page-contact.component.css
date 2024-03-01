@@ -1,0 +1,98 @@
+.contactez {
+  margin-bottom: -30px;
+}
+
+form {
+  border: 2px solid #EBD7AE;
+  border-radius: 18px;
+  padding: 30px 80px 50px 80px;
+}
+
+.form-title {
+    display: block;
+    text-align: left;
+}
+
+button {
+  border-radius: 32px;
+  border: 2px solid black;
+  width: 200px;
+  height: 50px;
+  font-size: 22px;
+}
+
+input, textarea {
+  background-color: #1B1B1B;
+  border: 1px solid #D1D1D1;
+  border-radius: 8px;
+  font-size: 24px;
+  color: white;
+  padding: 15px 10px 15px 10px;
+}
+
+input {
+  width: 300px;
+}
+
+.email-input {
+    width: 400px;
+}
+
+.email {
+  margin-left: 10px;
+}
+
+textarea {
+  width: 700px;
+  height: 300px;
+}
+
+.message {
+    margin-top: 30px;
+}
+
+label {
+  display: block;
+  font-size: 22px;
+}
+
+.nom, .email, .message {
+  text-align: left;
+}
+
+.image, img {
+  margin-top: 40px;
+  margin-bottom: 10px;
+  width: 50%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 32px;
+  flex: 1;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  margin-top: -90px;
+}
+
+.formulaire {
+  flex: 1;
+}
+
+.input-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.button-container {
+  text-align: right;
+  margin-top: 50px;
+}
+
+.souligner {
+  text-decoration: underline;
+  text-decoration-color: #EBD7AE;
+  font-size: 24px;
+  margin-top: -10px;
+}

@@ -13,13 +13,16 @@ import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { PageHomeComponent } from './components/page-home/page-home.component';
 import { PageCatalogueComponent } from './components/page-catalogue/page-catalogue.component';
-
+import { PageLoginComponent } from './components/page-admin/page-login/page-login.component';
+import { PageContactComponent } from './components/page-contact/page-contact.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     PageHomeComponent,
-    PageCatalogueComponent
+    PageCatalogueComponent,
+    PageLoginComponent,
+    PageContactComponent
   ],
   imports: [
     BrowserModule,
