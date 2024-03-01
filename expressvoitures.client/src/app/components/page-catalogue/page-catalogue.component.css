@@ -52,3 +52,7 @@ mat-card-content {
     font-size: 24px;
     border-bottom: 2px solid #EBD7AE;
 }
+
+a {
+  text-decoration: none;
+}

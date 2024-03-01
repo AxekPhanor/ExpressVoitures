@@ -7,10 +7,10 @@ import { BaseService } from './base.service';
 export class AnnonceService extends BaseService {
   override url = 'https://localhost:7182/api/Annonce';
 
-  getById(id: number) {
-    return this.http.get(`${this.url}/GetById/${id}`);
+  getByIdAvailable(id: number) {
+    return this.http.get(`${this.url}/GetByIdAvailable/?id=${id}`);
   }
-  getAll() {
+  getAllAvailable() {
     return this.http.get(`${this.url}/GetAllAvailable`);
   }
 }

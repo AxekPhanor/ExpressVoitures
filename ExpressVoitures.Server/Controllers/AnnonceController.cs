@@ -2,10 +2,6 @@
 using ExpressVoitures.Server.Models.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.IO;
-using System.Text;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace ExpressVoitures.Server.Controllers
 {
@@ -50,6 +46,17 @@ namespace ExpressVoitures.Server.Controllers
         public async Task<IActionResult> GetById([FromQuery] int id)
         {
             var result = await annonceService.GetById(id);
+            if (result is not null)
+            {
+                return Ok(result);
+            }
+            return NotFound();
+        }
+
+        [HttpGet("GetByIdAvailable")]
+        public async Task<IActionResult> GetByIdAvailable([FromQuery] int id)
+        {
+            var result = await annonceService.GetByIdAvailable(id);
             if (result is not null)
             {
                 return Ok(result);

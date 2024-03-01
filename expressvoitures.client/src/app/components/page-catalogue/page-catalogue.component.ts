@@ -12,7 +12,7 @@ export class PageCatalogueComponent {
   public annonces: Annonce[] = [];
 
   constructor(private annonceService: AnnonceService) {
-    this.annonceService.getAll().subscribe(
+    this.annonceService.getAllAvailable().subscribe(
       value => this.annonces = value as Annonce[]
     );
   }

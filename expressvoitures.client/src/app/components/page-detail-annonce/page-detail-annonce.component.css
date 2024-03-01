@@ -1,0 +1,69 @@
+.annonce {
+  display: flex;
+  align-items: flex-start;
+}
+.annonce-titre {
+  text-align: left;
+  word-spacing: 6px;
+}
+img {
+  width: 700px;
+  height: 500px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.image, .description {
+  margin-top: 50px;
+}
+
+.description {
+  margin-top: 88px;
+  margin-left: 20px;
+  flex: 2 1 67%;
+  text-align: left;
+}
+
+.titre-description {
+  margin-left: 20px;
+  font-size: 18px;
+}
+
+p {
+  border: 1px solid #EBD7AE;
+  border-radius: 12px;
+  padding: 30px;
+  margin-left: 20px;
+  text-align: left;
+  font-size: 22px;
+}
+
+span, a {
+    font-size: 24px;
+}
+
+.souligner {
+    text-decoration: underline;
+    text-decoration-color: #EBD7AE;
+}
+
+.texte-retour {
+  position: absolute;
+  top: 94px;
+  left: 130px;
+  text-decoration: none;
+  color: white;
+}
+
+.texte-retour:hover {
+  color: #EBD7AE;
+}
+
+.fleche {
+  position: absolute;
+  transform: rotate(90deg);
+  height: 25px;
+  object-fit: contain;
+  top: 95px;
+  left: -240px;
+}

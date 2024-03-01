@@ -51,6 +51,16 @@ namespace ExpressVoitures.Server.Models.Repositories
             return null;
         }
 
+        public async Task<Annonce?> GetByIdAvailable(int id)
+        {
+            var result = await _dbContext.Annonces.Where(a => a.Id == id && a.DateVente == null).FirstOrDefaultAsync();
+            if (result is not null)
+            {
+                return result;
+            }
+            return null;
+        }
+
         public async Task<bool> Update(Annonce annonce)
         {
             var result = await _dbContext.Annonces.Where(a => a.Id == annonce.Id).FirstOrDefaultAsync();

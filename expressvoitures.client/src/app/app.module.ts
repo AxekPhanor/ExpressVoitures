@@ -8,13 +8,14 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 
-
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { PageHomeComponent } from './components/page-home/page-home.component';
 import { PageCatalogueComponent } from './components/page-catalogue/page-catalogue.component';
 import { PageLoginComponent } from './components/page-admin/page-login/page-login.component';
 import { PageContactComponent } from './components/page-contact/page-contact.component';
+import { PageDetailAnnonceComponent } from './components/page-detail-annonce/page-detail-annonce.component';
+
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { PageContactComponent } from './components/page-contact/page-contact.com
     PageHomeComponent,
     PageCatalogueComponent,
     PageLoginComponent,
-    PageContactComponent
+    PageContactComponent,
+    PageDetailAnnonceComponent
   ],
   imports: [
     BrowserModule,
@@ -34,7 +36,7 @@ import { PageContactComponent } from './components/page-contact/page-contact.com
     RouterOutlet,
     RouterLink,
     RouterLinkActive,
-    MatCardModule
+    MatCardModule,
   ],
   providers: [
     provideAnimationsAsync()

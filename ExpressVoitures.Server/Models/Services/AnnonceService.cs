@@ -1,8 +1,6 @@
 ﻿using ExpressVoitures.Server.Models.Entities;
 using ExpressVoitures.Server.Models.InputModels;
 using ExpressVoitures.Server.Models.Repositories;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-using System.IO;
 
 namespace ExpressVoitures.Server.Models.Services
 {
@@ -58,6 +56,16 @@ namespace ExpressVoitures.Server.Models.Services
         public async Task<AnnonceOutputModel?> GetById(int id)
         {
             var annonce = await annonceRepository.GetById(id);
+            if (annonce is not null)
+            {
+                return ToOutputModel(annonce);
+            }
+            return null;
+        }
+
+        public async Task<AnnonceOutputModel?> GetByIdAvailable(int id)
+        {
+            var annonce = await annonceRepository.GetByIdAvailable(id);
             if (annonce is not null)
             {
                 return ToOutputModel(annonce);
