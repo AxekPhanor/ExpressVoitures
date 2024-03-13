@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-namespace ExpressVoitures.Server.Models.Entities
+﻿namespace ExpressVoitures.Server.Models.Entities
 {
     public class Voiture
     {

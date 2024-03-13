@@ -12,6 +12,9 @@ namespace ExpressVoitures.Server.Models.Repositories
             _dbContext = dbContext;
         }
 
+        public async Task<IList<Marque>> GetAll()
+            => await _dbContext.Marques.ToListAsync();
+
         public async Task<Marque?> GetById(int id)
         {
             var result = await _dbContext.Marques.Where(m => m.Id == id).FirstOrDefaultAsync();

@@ -15,10 +15,10 @@ builder.Services.AddCors(options =>
         {
             builder.WithOrigins("https://localhost:4200")
                 .AllowAnyHeader()
-                .AllowAnyMethod();
+                .AllowAnyMethod()
+                .AllowCredentials();
         });
 }); 
-
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -31,9 +31,13 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<ExpressVoituresDbContext>();
 
 builder.Services.AddScoped<IMarqueRepository, MarqueRepository>();
+builder.Services.AddScoped<IMarqueService, MarqueService>();
 builder.Services.AddScoped<IAnneeRepository, AnneeRepository>();
+builder.Services.AddScoped<IAnneeService, AnneeService>();
 builder.Services.AddScoped<IModeleRepository, ModeleRepository>();
+builder.Services.AddScoped<IModeleService, ModeleService>();
 builder.Services.AddScoped<IFinitionRepository, FinitionRepository>();
+builder.Services.AddScoped<IFinitionService, FinitionService>();
 builder.Services.AddScoped<IVoitureRepository, VoitureRepository>();
 builder.Services.AddScoped<IVoitureService, VoitureService>();
 builder.Services.AddScoped<IVoitureEnregistreRepository, VoitureEnregistreRepository>();

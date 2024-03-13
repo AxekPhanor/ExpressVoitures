@@ -1,4 +1,5 @@
-﻿using ExpressVoitures.Server.Models.InputModels;
+﻿using ExpressVoitures.Server.Models.Entities;
+using ExpressVoitures.Server.Models.InputModels;
 using ExpressVoitures.Server.Models.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -19,11 +20,8 @@ namespace ExpressVoitures.Server.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([FromBody] VoitureInputModel voiture)
         {
-            if(await voitureService.Create(voiture))
-            {
-                return Created("201" , voiture);
-            }
-            return BadRequest();
+            var result = await voitureService.Create(voiture);
+            return Created("201" , result);
         }
 
         [HttpGet()]
@@ -66,6 +64,27 @@ namespace ExpressVoitures.Server.Controllers
                 return Ok();
             }
             return BadRequest();
+        }
+
+        [HttpGet()]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetFiltered([FromQuery] string? marque, int? annee, string? modele, string? finition)
+        {
+            
+            var result = await voitureService.GetFiltered(marque, annee, modele, finition);
+            if (result is null)
+            {
+                result = await voitureService.GetAll();
+            }
+            return Ok(result);
+        }
+
+        [HttpPost()]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Exist([FromBody] VoitureInputModel voiture)
+        {
+            var result = await voitureService.Exist(voiture);
+            return Ok(result);
         }
     }
 }

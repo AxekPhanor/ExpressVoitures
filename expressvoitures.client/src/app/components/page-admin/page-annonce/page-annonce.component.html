@@ -1,0 +1,59 @@
+<app-sidebar></app-sidebar>
+<div class="content">
+  <h1>Annonces</h1>
+
+  <mat-table [dataSource]="annonce">
+    <ng-container matColumnDef="titre">
+      <mat-header-cell *matHeaderCellDef> Titre </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.titre}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="description">
+      <mat-header-cell *matHeaderCellDef> Description </mat-header-cell>
+      <mat-cell *matCellDef="let element"> <span class="color-primary description" (click)="openDialogDescription(element.description)">voir</span> </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="photos">
+      <mat-header-cell *matHeaderCellDef> Photos </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <ul>
+          @for(photo of element.photos; track photo){
+          <li>
+            <a class="color-primary photos" href="assets/img/annonces/{{photo}}" target="_blank">
+              {{photo}}
+            </a>
+          </li>
+          }
+        </ul>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="dateCreation">
+      <mat-header-cell *matHeaderCellDef> Date de création </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.dateCreation | date:'dd/MM/yyyy'}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="PrixVente">
+      <mat-header-cell *matHeaderCellDef> Prix de vente </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.prixVente}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="dateVente">
+      <mat-header-cell *matHeaderCellDef> Date de vente </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.dateVente | date:'dd/MM/yyyy'}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="mettreAJour">
+      <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+      <mat-cell *matCellDef="let element"> <button mat-raised-button color="primary" (click)="openDialogAnnonceMaj(element)">Mettre à jour</button> </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="vendre">
+      <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+      <mat-cell *matCellDef="let element"> <button mat-raised-button color="primary" (click)="vendre(element)">Vendre</button> </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+</div>

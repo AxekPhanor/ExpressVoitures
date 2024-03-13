@@ -1,0 +1,45 @@
+<app-sidebar></app-sidebar>
+<div class="content">
+  <h1>Voitures</h1>
+  <button mat-raised-button color="primary" (click)="openDialogCreate()">Enregistrer une voiture</button><br /><br />
+
+  <mat-table [dataSource]="voitureEnregistres">
+    <ng-container matColumnDef="voiture">
+      <mat-header-cell *matHeaderCellDef> Voiture </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.voiture}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="dateAchat">
+      <mat-header-cell *matHeaderCellDef> Date d’achat </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.dateAchat | date:'dd/MM/yyyy'}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="prixAchat">
+      <mat-header-cell *matHeaderCellDef> Prix d’achat </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.prixAchat}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="reparations">
+      <mat-header-cell *matHeaderCellDef> Réparations </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.reparations}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="coutReparations">
+      <mat-header-cell *matHeaderCellDef> Réparations </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.coutReparations}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="creerAnnonce">
+      <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+      <mat-cell *matCellDef="let element"> <button mat-raised-button color="primary" (click)="openDialogAnnonceCreate(element)">Créer une annonce</button> </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="mettreAJour">
+      <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+      <mat-cell *matCellDef="let element"> <button mat-raised-button color="primary" (click)="openDialogMaj(element)">Mettre à jour</button> </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+</div>

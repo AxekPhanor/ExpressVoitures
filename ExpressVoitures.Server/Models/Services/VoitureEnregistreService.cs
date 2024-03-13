@@ -8,26 +8,18 @@ namespace ExpressVoitures.Server.Models.Services
     public class VoitureEnregistreService : IVoitureEnregistreService
     {
         private readonly IVoitureEnregistreRepository voitureEnregistreRepository;
-        private readonly IVoitureRepository voitureRepository;
-        public VoitureEnregistreService(IVoitureEnregistreRepository voitureEnregistreRepository, IVoitureRepository voitureRepository)
+        public VoitureEnregistreService(IVoitureEnregistreRepository voitureEnregistreRepository)
         {
             this.voitureEnregistreRepository = voitureEnregistreRepository;
-            this.voitureRepository = voitureRepository;
         }
-        public async Task<bool> Create(VoitureEnregistreInputModel voitureEnregistre)
+        public async Task<bool> Create(VoitureEnregistreInputModel voitureEnregistreInputModel)
         {
-            var result = await ToVoitureEnregistre(voitureEnregistre, 0);
-            if (result is not null)
-            {
-                return await voitureEnregistreRepository.Create(result);
-            }
-            return false;
+            var result = ToVoitureEnregistre(voitureEnregistreInputModel, 0);
+            return await voitureEnregistreRepository.Create(result);
         }
 
         public async Task<bool> DeleteById(int id)
-        {
-            return await voitureEnregistreRepository.DeleteById(id);
-        }
+            => await voitureEnregistreRepository.DeleteById(id);
 
         public async Task<IList<VoitureEnregistreOutputModel>> GetAll()
         {
@@ -50,14 +42,21 @@ namespace ExpressVoitures.Server.Models.Services
             return null;
         }
 
-        public async Task<bool> Update(VoitureEnregistreInputModel voitureEnregistre, int id)
+        public async Task<bool> Update(VoitureEnregistreInputModel voitureEnregistreInputModel, int id)
         {
-            var result = await ToVoitureEnregistre(voitureEnregistre, id);
-            if (result is not null)
+            var voitureEnregistre = await voitureEnregistreRepository.GetById(id);
+            if (voitureEnregistre == null)
             {
-                return await voitureEnregistreRepository.Update(result);
+                return false;
             }
-            return false;
+
+            voitureEnregistre.DateAchat = voitureEnregistreInputModel.DateAchat;
+            voitureEnregistre.PrixAchat = voitureEnregistreInputModel.PrixAchat;
+            voitureEnregistre.Reparations = voitureEnregistreInputModel.Reparations;
+            voitureEnregistre.CoutReparations = voitureEnregistreInputModel.CoutReparations;
+            voitureEnregistre.VoitureId = voitureEnregistreInputModel.VoitureId;
+
+            return await voitureEnregistreRepository.Update(voitureEnregistre);
         }
 
         private VoitureEnregistreOutputModel ToOutputModel(VoitureEnregistre voitureEnregistre)
@@ -66,6 +65,7 @@ namespace ExpressVoitures.Server.Models.Services
             {
                 Id = voitureEnregistre.Id,
                 VoitureId = voitureEnregistre.VoitureId,
+                Voiture = voitureEnregistre.Voiture.ToString(),
                 DateAchat = voitureEnregistre.DateAchat,
                 PrixAchat = voitureEnregistre.PrixAchat,
                 Reparations = voitureEnregistre.Reparations,
@@ -73,24 +73,17 @@ namespace ExpressVoitures.Server.Models.Services
             };
         }
 
-        private async Task<VoitureEnregistre?> ToVoitureEnregistre(VoitureEnregistreInputModel voitureEnregistreInputModel, int id)
+        private VoitureEnregistre ToVoitureEnregistre(VoitureEnregistreInputModel voitureEnregistreInputModel, int id)
         {
-            var voiture = await voitureRepository.GetById(voitureEnregistreInputModel.VoitureId);
-            if (voiture is not null)
+            return new VoitureEnregistre()
             {
-                return new VoitureEnregistre()
-                {
-                    Id = id,
-                    DateAchat = voitureEnregistreInputModel.DateAchat,
-                    PrixAchat = voitureEnregistreInputModel.PrixAchat,
-                    Reparations = voitureEnregistreInputModel.Reparations,
-                    CoutReparations = voitureEnregistreInputModel.CoutReparations,
-                    VoitureId = voitureEnregistreInputModel.VoitureId,
-                    Voiture = voiture
-                };
-                
-            }
-            return null;
+                Id = id,
+                DateAchat = voitureEnregistreInputModel.DateAchat,
+                PrixAchat = voitureEnregistreInputModel.PrixAchat,
+                Reparations = voitureEnregistreInputModel.Reparations,
+                CoutReparations = voitureEnregistreInputModel.CoutReparations,
+                VoitureId = voitureEnregistreInputModel.VoitureId,
+            };
         }
     }
 }

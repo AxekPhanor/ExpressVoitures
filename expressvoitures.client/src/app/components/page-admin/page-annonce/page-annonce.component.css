@@ -1,0 +1,53 @@
+.content {
+    /* Pour augmenter la largeur de la colonne 'titre' */
+    
+
+    /* Ajustez les valeurs ci-dessus en fonction de vos besoins */
+  text-align: left;
+  margin-left: 200px;
+  margin-right: 0px;
+}
+
+/* Pour augmenter la largeur de la colonne 'photos' */
+.mat-column-prixVente {
+  flex: 0 0 200px;
+}
+
+.photos {
+  display: block;
+}
+
+
+.mat-column-dateVente, .mat-column-dateCreation {
+  flex: 0 0 140px;
+}
+
+.mat-column-vendre {
+  flex: 0 0 100px;
+}
+
+.mat-column-mettreAJour {
+  flex: 0 0 148px;
+}
+
+button {
+  border-radius: 32px;
+  border: solid 2px;
+}
+
+ul {
+  list-style-type: none;
+}
+
+li {
+  margin-left: -40px;
+  white-space: nowrap;
+}
+
+.description {
+  text-decoration: underline;
+}
+
+.mat-column-description {
+  flex: 0 0 130px;
+}

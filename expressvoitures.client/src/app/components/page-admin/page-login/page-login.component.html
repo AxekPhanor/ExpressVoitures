@@ -1,12 +1,12 @@
-<form>
+<form [formGroup]="formLogin" (ngSubmit)="onSubmit()">
   <h1>Connexion admnistrateur</h1>
   <div class="identifant">
     <label>Identifiant</label>
-    <input class="lato-regular-italic" placeholder="Identifiant"/>
+    <input placeholder="Identifiant" formControlName="controlIdentifiant" required autocomplete="off"/>
   </div>
   <div class="password">
     <label>Mot de passe</label>
-    <input class="lato-regular-italic" placeholder="Mot de passe"/>
+    <input placeholder="Mot de passe" formControlName="controlPassword" required type="password"/>
   </div>
-  <button mat-raised-button color="primary" href="">Connexion</button>
+  <button type="submit" mat-raised-button color="primary" [disabled]="!formLogin.valid">Connexion</button>
 </form>

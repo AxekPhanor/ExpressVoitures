@@ -30,10 +30,10 @@ namespace ExpressVoitures.Server.Controllers
                 {
                     await userManager.AddToRoleAsync(user, "Admin");
                     await signInManager.SignInAsync(user, isPersistent: false);
-                    return StatusCode(200, "Compte créer avec succès");
+                    return Ok();
                 }
             }
-            return StatusCode(400, "Erreur lors de la création du compte");   
+            return BadRequest();   
         }
 
         [HttpPost(Name = "Login")]
@@ -46,9 +46,40 @@ namespace ExpressVoitures.Server.Controllers
                 lockoutOnFailure: false);
             if (result.Succeeded)
             {
-                return StatusCode(200, "Connexion réussi");
+                return Ok();
             }
-            return StatusCode(400, "Échec de la connexion");
+            return BadRequest();
+        }
+
+        [HttpGet(Name = "Logout")]
+        public async Task<IActionResult> Logout()
+        {
+            if (signInManager.IsSignedIn(User))
+            {
+                await signInManager.SignOutAsync();
+                return Ok();
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpGet(Name = "IsLoggedIn")]
+        public IActionResult IsLoggedIn()
+        {
+            if (signInManager.IsSignedIn(User))
+            {
+                return Ok(true);
+            }
+            else if (!signInManager.IsSignedIn(User))
+            {
+                return Ok(false);
+            }
+            else
+            {
+                return BadRequest();
+            }
         }
     }
 }

@@ -100,9 +100,9 @@ namespace ExpressVoitures.Server.Controllers
 
         [HttpPost("UploadImg")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> UploadImg(IFormFile file, [FromQuery] int id)
+        public async Task<IActionResult> UploadImg([FromForm] List<IFormFile> files, [FromQuery] int id)
         {
-            await annonceService.Upload(file, id);
+            await annonceService.Upload(files, id);
             return Ok();
         }
     }

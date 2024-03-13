@@ -1,0 +1,97 @@
+<form [formGroup]="formVoiture" (ngSubmit)="onSubmit()">
+  <h1 autofocus>Mettre à jour</h1>
+  <div class="input-container">
+    <mat-form-field>
+      <mat-label>Marque</mat-label>
+      <input type="text"
+             value=""
+             placeholder="Marque"
+             aria-label="Marque"
+             matInput
+             formControlName="controlMarque"
+             [matAutocomplete]="autoMarque"
+             required>
+      <mat-autocomplete #autoMarque="matAutocomplete">
+        @for (marque of filteredMarques | async; track marque) {
+        <mat-option [value]="marque">{{marque}}</mat-option>
+        }
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Année</mat-label>
+      <input type="text"
+             placeholder="Année"
+             aria-label="Année"
+             matInput
+             formControlName="controlAnnee"
+             [matAutocomplete]="autoAnnee"
+             required>
+      <mat-autocomplete #autoAnnee="matAutocomplete">
+        @for (annee of filteredAnnees | async; track annee) {
+        <mat-option [value]="annee">{{annee}}</mat-option>
+        }
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Modèle</mat-label>
+      <input type="text"
+             placeholder="Modèle"
+             aria-label="Modèle"
+             matInput
+             formControlName="controlModele"
+             [matAutocomplete]="autoModele"
+             required>
+      <mat-autocomplete #autoModele="matAutocomplete">
+        @for (modele of filteredModeles | async; track modele) {
+        <mat-option [value]="modele">{{modele}}</mat-option>
+        }
+      </mat-autocomplete>
+    </mat-form-field>
+
+
+    <mat-form-field>
+      <mat-label>Finiton</mat-label>
+      <input type="text"
+             placeholder="Finiton"
+             aria-label="Finiton"
+             matInput
+             formControlName="controlFinition"
+             [matAutocomplete]="auto"
+             required>
+      <mat-autocomplete #auto="matAutocomplete">
+        @for (option of filteredFinitions | async; track option) {
+        <mat-option [value]="option">{{option}}</mat-option>
+        }
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Different locale</mat-label>
+      <input matInput [matDatepicker]="dp" formControlName="controlDateAchat" required>
+      <mat-hint>DD/MM/YYYY</mat-hint>
+      <mat-datepicker-toggle matIconSuffix [for]="dp"></mat-datepicker-toggle>
+      <mat-datepicker #dp></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Prix d'achat</mat-label>
+      <input matInput placeholder="Ex. 1200.00" formControlName="controlPrixAchat" required>
+    </mat-form-field>
+  </div>
+  <mat-form-field>
+    <mat-label>Réparations</mat-label>
+    <textarea matInput rows="6" formControlName="controlReparations" required></textarea>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Coût des réparations</mat-label>
+    <input matInput formControlName="controlCoutReparations" required>
+  </mat-form-field><br />
+
+
+  <button class="btn-cancel" mat-raised-button color="primary" mat-dialog-close><span class="lato-bold">Annuler</span></button>
+  <button class="btn-delete" mat-raised-button color="primary" mat-dialog-close (click)="delete()"><span class="lato-bold">Supprimer</span></button>
+  <button class="btn-submit" type="submit" mat-raised-button color="primary" [disabled]="!formVoiture.valid" mat-dialog-close><span class="lato-bold">Valider</span></button>
+</form>

@@ -36,11 +36,30 @@ namespace ExpressVoitures.Server.Models.Repositories
         }
 
         public async Task<IList<VoitureEnregistre>> GetAll()
-            => await _dbContext.VoitureEnregistres.ToListAsync();
+            => await _dbContext.VoitureEnregistres.Include(ve => ve.Voiture)
+                .Include(ve => ve.Voiture)
+                .ThenInclude(v => v.Marque)
+                .Include(ve => ve.Voiture)
+                .ThenInclude(v => v.Modele)
+                .Include(ve => ve.Voiture)
+                .ThenInclude(v => v.Finition)
+                .Include(ve => ve.Voiture)
+                .ThenInclude(v => v.Annee)
+                .ToListAsync();
 
         public async Task<VoitureEnregistre?> GetById(int id)
         {
-            var result = await _dbContext.VoitureEnregistres.Where(ve => ve.Id == id).FirstOrDefaultAsync();
+            var result = await _dbContext.VoitureEnregistres
+                .Where(ve => ve.Id == id)
+                .Include(ve => ve.Voiture)
+                .ThenInclude(v => v.Marque)
+                .Include(ve => ve.Voiture)
+                .ThenInclude(v => v.Modele)
+                .Include(ve => ve.Voiture)
+                .ThenInclude(v => v.Finition)
+                .Include(ve => ve.Voiture)
+                .ThenInclude(v => v.Annee)
+                .FirstOrDefaultAsync();
             if (result is not null)
             {
                 return result;
@@ -50,13 +69,9 @@ namespace ExpressVoitures.Server.Models.Repositories
 
         public async Task<bool> Update(VoitureEnregistre voitureEnregistre)
         {
-            var result = _dbContext.VoitureEnregistres.Update(voitureEnregistre);
-            if (result is not null)
-            {
-                await _dbContext.SaveChangesAsync();
-                return true;
-            }
-            return false;
+            _dbContext.VoitureEnregistres.Update(voitureEnregistre);
+            await _dbContext.SaveChangesAsync();
+            return true;
         }
     }
 }

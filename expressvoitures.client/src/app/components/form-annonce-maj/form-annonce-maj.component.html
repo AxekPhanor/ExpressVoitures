@@ -1,0 +1,26 @@
+<form [formGroup]="formAnnonce" (ngSubmit)="onSubmit()">
+  <h1 autofocus>Créer une annonce</h1>
+  <mat-form-field>
+    <mat-label>Titre</mat-label>
+    <input matInput formControlName="controlTitre" required>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Description</mat-label>
+    <textarea matInput rows="6" formControlName="controlDescription" required></textarea>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Prix de vente</mat-label>
+    <input matInput placeholder="Ex. 1200.00" formControlName="controlPrixVente" required>
+  </mat-form-field>
+  <span class="lato-bold">Photos de l'annonce</span><br />
+  <input type="file" mat-raised-button multiple (change)="onChange($event)" #fileUpload />
+  <br />
+  @for(photo of annonce.photos; track photo; let idx = $index){
+  <span>{{idx + 1}}. {{photo}}</span><br />
+  }
+  <div class="btn-container">
+    <button class="btn-cancel" mat-raised-button color="primary" mat-dialog-close><span class="lato-bold">Annuler</span></button>
+    <button class="btn-delete" mat-raised-button color="primary" (click)="delete()"><span class="lato-bold">Supprimer</span></button>
+    <button class="btn-submit" type="submit" mat-raised-button color="primary" [disabled]="!formAnnonce.valid" mat-dialog-close><span class="lato-bold">Valider</span></button>
+  </div>
+</form>

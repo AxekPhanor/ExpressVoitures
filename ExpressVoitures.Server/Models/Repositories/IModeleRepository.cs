@@ -6,5 +6,6 @@ namespace ExpressVoitures.Server.Models.Repositories
     {
         public Task<Modele?> GetById(int id);
         public Task<Modele?> GetByName(string name);
+        public Task<IList<Modele>> GetAll();
     }
 }

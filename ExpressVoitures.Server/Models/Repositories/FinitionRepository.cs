@@ -31,5 +31,8 @@ namespace ExpressVoitures.Server.Models.Repositories
             }
             return null;
         }
+
+        public async Task<IList<Finition>> GetAll()
+            => await _dbContext.Finitions.ToListAsync();
     }
 }

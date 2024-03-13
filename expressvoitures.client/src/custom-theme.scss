@@ -11,10 +11,10 @@ $wheat-palette: (
     700: #BB9952,
     800: #B59147,
     900: #AE883C,
-    A100: EBD7AE, // Remplacez par la couleur souhaitée
-    A200: EBD7AE, // Remplacez par la couleur souhaitée
-    A400: EBD7AE, // Remplacez par la couleur souhaitée
-    A700: EBD7AE, // Remplacez par la couleur souhaitée
+    A100: #EBD7AE, // Remplacez par la couleur souhaitée
+    A200: #EBD7AE, // Remplacez par la couleur souhaitée
+    A400: #EBD7AE, // Remplacez par la couleur souhaitée
+    A700: #EBD7AE, // Remplacez par la couleur souhaitée
     contrast:(
     50: rgba(black, 0.0),
     100: rgba(black, 0.0),
@@ -111,7 +111,7 @@ $custom-accent: mat.define-palette($eerie-black-palette);
 /*$custom-warn: mat-palette($mat-red);*/
 
 // Create the theme object (a Sass map containing all of the palettes).
-$custom-theme: mat.define-light-theme((
+$custom-theme: mat.define-dark-theme((
     color: (
     primary: $custom-primary,
     accent: $custom-accent,

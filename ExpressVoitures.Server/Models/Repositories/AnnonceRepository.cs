@@ -7,7 +7,7 @@ namespace ExpressVoitures.Server.Models.Repositories
     public class AnnonceRepository : IAnnonceRepository
     {
         private readonly ExpressVoituresDbContext _dbContext;
-        public AnnonceRepository(ExpressVoituresDbContext dbContext) 
+        public AnnonceRepository(ExpressVoituresDbContext dbContext)
         {
             _dbContext = dbContext;
         }
@@ -53,7 +53,8 @@ namespace ExpressVoitures.Server.Models.Repositories
 
         public async Task<Annonce?> GetByIdAvailable(int id)
         {
-            var result = await _dbContext.Annonces.Where(a => a.Id == id && a.DateVente == null).FirstOrDefaultAsync();
+            var result = await _dbContext.Annonces
+                .Where(a => a.Id == id && a.DateVente == null).FirstOrDefaultAsync();
             if (result is not null)
             {
                 return result;
@@ -63,14 +64,20 @@ namespace ExpressVoitures.Server.Models.Repositories
 
         public async Task<bool> Update(Annonce annonce)
         {
-            var result = await _dbContext.Annonces.Where(a => a.Id == annonce.Id).FirstOrDefaultAsync();
-            if (result is not null)
+            var annonceModifier = await _dbContext.Annonces
+                .Where(a => a.Id == annonce.Id).FirstOrDefaultAsync();
+            if (annonceModifier is null)
             {
-                _dbContext.Annonces.Update(annonce);
-                await _dbContext.SaveChangesAsync();
-                return true;
+                return false;
             }
-            return false;
+            annonceModifier.Titre = annonce.Titre;
+            annonceModifier.DateVente = annonce.DateVente;
+            annonceModifier.PrixVente = annonce.PrixVente;
+            annonceModifier.Description = annonce.Description;
+            annonceModifier.Photos = annonce.Photos;
+
+            await _dbContext.SaveChangesAsync();
+            return true;
         }
     }
 }

@@ -5,7 +5,7 @@ html {
   background-color: #1B1B1B;
 }
 
-body{
+body {
   margin: 0;
   padding: 0;
 }
@@ -89,4 +89,8 @@ html, .lato-regular {
 }
 .color-dark {
   color: #080A0C;
+}
+
+input::placeholder, textarea::placeholder {
+  font-style: italic;
 }

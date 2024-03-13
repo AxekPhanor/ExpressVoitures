@@ -26,28 +26,12 @@ namespace ExpressVoitures.Server.Models.Services
             this.finitionRepository = finitionRepository;
         }
 
-        public async Task<bool> Create(VoitureInputModel voiture)
+        public async Task<VoitureOutputModel> Create(VoitureInputModel voiture)
         {
-            var marque = await marqueRepository.GetByName(voiture.Marque);
-            var modele = await modeleRepository.GetByName(voiture.Modele);
-            var finition = await finitionRepository.GetByName(voiture.Finition);
-            var annee = await anneeRepository.GetByValue(voiture.Annee);
-            if (marque is null)
-            {
-                marque = new Marque() { Nom = voiture.Marque };
-            }
-            if (modele is null)
-            {
-                modele = new Modele() { Nom = voiture.Modele };
-            }
-            if (finition is null)
-            {
-                finition = new Finition() { Nom = voiture.Finition };
-            }
-            if (annee is null)
-            {
-                annee = new Annee() { Valeur = voiture.Annee };
-            }
+            var marque = await marqueRepository.GetByName(voiture.Marque) ?? new Marque() { Nom = voiture.Marque };
+            var modele = await modeleRepository.GetByName(voiture.Modele) ?? new Modele() { Nom = voiture.Modele };
+            var finition = await finitionRepository.GetByName(voiture.Finition) ?? new Finition() { Nom = voiture.Finition };
+            var annee = await anneeRepository.GetByValue(voiture.Annee) ?? new Annee() { Valeur = voiture.Annee };
             var newVoiture = new Voiture()
             {
                 MarqueId = marque.Id,
@@ -59,7 +43,7 @@ namespace ExpressVoitures.Server.Models.Services
                 Finition = finition,
                 Annee = annee
             };
-            return await voitureRepository.Create(newVoiture);
+            return ToOutputModel(await voitureRepository.Create(newVoiture));
         }
 
         public async Task<bool> DeleteById(int id)
@@ -73,11 +57,8 @@ namespace ExpressVoitures.Server.Models.Services
             var voitures = await voitureRepository.GetAll();
             foreach (var voiture in voitures)
             {
-                var result = await ToOutputModel(voiture);
-                if(result is not null)
-                {
-                    voituresOutputModel.Add(result);
-                }
+                var result = ToOutputModel(voiture);
+                voituresOutputModel.Add(result);
             }
             return voituresOutputModel;
         }
@@ -89,12 +70,7 @@ namespace ExpressVoitures.Server.Models.Services
             {
                 return null;
             }
-            var result = await ToOutputModel(voiture);
-            if(result is null)
-            {
-                return null;
-            }
-            return result;
+            return ToOutputModel(voiture);
         }
 
         public async Task<bool> Update(VoitureInputModel voiture, int id)
@@ -104,26 +80,10 @@ namespace ExpressVoitures.Server.Models.Services
             {
                 return false;
             }
-            var marque = await marqueRepository.GetByName(voiture.Marque);
-            var modele = await modeleRepository.GetByName(voiture.Modele);
-            var finition = await finitionRepository.GetByName(voiture.Finition);
-            var annee = await anneeRepository.GetByValue(voiture.Annee);
-            if (marque is null)
-            {
-                marque = new Marque() { Nom = voiture.Marque };
-            }
-            if (modele is null)
-            {
-                modele = new Modele() { Nom = voiture.Modele };
-            }
-            if (finition is null)
-            {
-                finition = new Finition() { Nom = voiture.Finition };
-            }
-            if (annee is null)
-            {
-                annee = new Annee() { Valeur = voiture.Annee };
-            }
+            var marque = await marqueRepository.GetByName(voiture.Marque) ?? new Marque() { Nom = voiture.Marque };
+            var modele = await modeleRepository.GetByName(voiture.Modele) ?? new Modele() { Nom = voiture.Modele };
+            var finition = await finitionRepository.GetByName(voiture.Finition) ?? new Finition() { Nom = voiture.Finition };
+            var annee = await anneeRepository.GetByValue(voiture.Annee) ?? new Annee() { Valeur = voiture.Annee };
             existingVoiture.MarqueId = marque.Id;
             existingVoiture.ModeleId = modele.Id;
             existingVoiture.FinitionId = finition.Id;
@@ -135,26 +95,61 @@ namespace ExpressVoitures.Server.Models.Services
             return await voitureRepository.Update(existingVoiture);
         }
 
-        private async Task<VoitureOutputModel?> ToOutputModel(Voiture voiture)
+        public async Task<IList<VoitureOutputModel>> GetFiltered(string? marque, int? annee, string? modele, string? finition)
         {
-            var marque = await marqueRepository.GetById(voiture.MarqueId);
-            var annee = await anneeRepository.GetById(voiture.AnneeId);
-            var modele = await modeleRepository.GetById(voiture.ModeleId);
-            var finition = await finitionRepository.GetById(voiture.FinitionId);
-            if(marque is null ||
-                annee is null ||
+            List<VoitureOutputModel> voituresOutputModel = [];
+            var voitures = await voitureRepository.GetFiltered(marque, annee, modele, finition);
+            foreach (var voiture in voitures)
+            {
+                var result = ToOutputModel(voiture);
+                if (result is not null)
+                {
+                    voituresOutputModel.Add(result);
+                }
+            }
+            return voituresOutputModel;
+        }
+
+        public async Task<VoitureOutputModel?> Exist(VoitureInputModel voiture)
+        {
+            var marque = await marqueRepository.GetByName(voiture.Marque);
+            var modele = await modeleRepository.GetByName(voiture.Modele);
+            var finition = await finitionRepository.GetByName(voiture.Finition);
+            var annee = await anneeRepository.GetByValue(voiture.Annee);
+            if (marque is null ||
                 modele is null ||
-                finition is null)
+                finition is null ||
+                annee is null)
             {
                 return null;
             }
+            var existingVoiture = await voitureRepository.Exist(new Voiture()
+            {
+                MarqueId = marque.Id,
+                ModeleId = modele.Id,
+                FinitionId = finition.Id,
+                AnneeId = annee.Id,
+                Marque = marque,
+                Modele = modele,
+                Finition = finition,
+                Annee = annee
+            });
+            if (existingVoiture is null)
+            {
+                return null;
+            }
+            return ToOutputModel(existingVoiture);
+        }
+
+        private VoitureOutputModel ToOutputModel(Voiture voiture)
+        {
             return new VoitureOutputModel()
             {
                 Id = voiture.Id,
-                Marque = marque.Nom,
-                Annee = annee.Valeur,
-                Modele = modele.Nom,
-                Finition = finition.Nom
+                Marque = voiture.Marque.Nom,
+                Annee = voiture.Annee.Valeur,
+                Modele = voiture.Modele.Nom,
+                Finition = voiture.Finition.Nom
             };
         }
     }

@@ -6,6 +6,10 @@ import { PageLoginComponent } from './components/page-admin/page-login/page-logi
 import { PageContactComponent } from './components/page-contact/page-contact.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { PageDetailAnnonceComponent } from './components/page-detail-annonce/page-detail-annonce.component';
+import { PageVoitureComponent } from './components/page-admin/page-voiture/page-voiture.component';
+import { PageLogoutComponent } from './components/page-admin/page-logout/page-logout.component';
+import { isAdminGuard } from './is-admin.guard';
+import { PageAnnonceComponent } from './components/page-admin/page-annonce/page-annonce.component';
 
 const routes: Routes = [
   { path: '', component: PageHomeComponent },
@@ -13,7 +17,11 @@ const routes: Routes = [
   { path: 'catalogue/detail-annonce/:id', component: PageDetailAnnonceComponent },
   { path: 'contact', component: PageContactComponent },
   { path: 'admin/login', component: PageLoginComponent },
+  { path: 'admin/logout', component: PageLogoutComponent, canActivate: [isAdminGuard] },
+  { path: 'admin/voitures', component: PageVoitureComponent, canActivate: [isAdminGuard] },
+  { path: 'admin/annonces', component: PageAnnonceComponent, canActivate: [isAdminGuard] },
   { path: '**', pathMatch: 'full', component: NotFoundComponent }
+  
 ];
 
 @NgModule({

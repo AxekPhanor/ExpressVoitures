@@ -8,27 +8,12 @@ namespace ExpressVoitures.Server.Models.Services
     {
         private readonly IAnnonceRepository annonceRepository;
         private readonly IVoitureEnregistreRepository voitureEnregistreRepository;
-        private readonly IVoitureRepository voitureRepository;
-        private readonly IAnneeRepository anneeRepository;
-        private readonly IModeleRepository modeleRepository;
-        private readonly IMarqueRepository marqueRepository;
-        private readonly IFinitionRepository finitionRepository;
         public AnnonceService(
             IAnnonceRepository annonceRepository,
-            IVoitureEnregistreRepository voitureEnregistreRepository,
-            IVoitureRepository voitureRepository,
-            IMarqueRepository marqueRepository,
-            IAnneeRepository anneeRepository,
-            IModeleRepository modeleRepository,
-            IFinitionRepository finitionRepository)
+            IVoitureEnregistreRepository voitureEnregistreRepository)
         {
             this.annonceRepository = annonceRepository;
             this.voitureEnregistreRepository = voitureEnregistreRepository;
-            this.voitureRepository = voitureRepository;
-            this.anneeRepository = anneeRepository;
-            this.modeleRepository = modeleRepository;
-            this.marqueRepository = marqueRepository;
-            this.finitionRepository = finitionRepository;
         }
 
         public async Task<IList<AnnonceOutputModel>> GetAll()
@@ -73,29 +58,42 @@ namespace ExpressVoitures.Server.Models.Services
             return null;
         }
 
-        public async Task<bool> Create(AnnonceInputModel annonce)
+        public async Task<bool> Create(AnnonceInputModel annonceInputModel)
         {
-            var result = await ToAnnonce(annonce, 0);
-            if (result is not null)
-            {
-                return await annonceRepository.Create(result);
-            }
-            return false;
-        }
-
-        public async Task<bool> Update(AnnonceInputModel annonce, int id)
-        {
-            var existingAnnonce = await annonceRepository.GetById(id);
-            if (existingAnnonce is null)
+            var voitureEnregistre = await voitureEnregistreRepository.GetById(annonceInputModel.VoitureEnregistreId);
+            if(voitureEnregistre is null)
             {
                 return false;
             }
-            existingAnnonce.Titre = annonce.Titre;
-            existingAnnonce.Description = annonce.Description;
-            existingAnnonce.Photos = annonce.Photos;
-            existingAnnonce.PrixVente = annonce.PrixVente;
+            var result = new Annonce()
+            {
+                Titre = $"{voitureEnregistre.Voiture.Marque.Nom} {voitureEnregistre.Voiture.Annee.Valeur} {voitureEnregistre.Voiture.Modele.Nom} {voitureEnregistre.Voiture.Finition.Nom}",
+                Description = annonceInputModel.Description,
+                Photos = annonceInputModel.Photos,
+                DateCreation = DateTime.Now,
+                PrixVente = annonceInputModel.PrixVente,
+                VoitureEnregistreId = annonceInputModel.VoitureEnregistreId,
+                VoitureEnregistre = voitureEnregistre
+            };
+            if (result is null)
+            {
+                return false;
+            }
+            return await annonceRepository.Create(result);
+        }
 
-            return await annonceRepository.Update(existingAnnonce);
+        public async Task<bool> Update(AnnonceInputModel annonceInputModel, int id)
+        {
+            var annonce = new Annonce()
+            {
+                Id = id,
+                Titre = annonceInputModel.Titre,
+                Description = annonceInputModel.Description,
+                Photos = annonceInputModel.Photos,
+                PrixVente = annonceInputModel.PrixVente,
+                VoitureEnregistreId = annonceInputModel.VoitureEnregistreId
+            };
+            return await annonceRepository.Update(annonce);
         }
 
         public async Task<bool> DeleteById(int id)
@@ -115,18 +113,28 @@ namespace ExpressVoitures.Server.Models.Services
             return true;
         }
 
-        public async Task Upload(IFormFile file, int id)
+        public async Task Upload(List<IFormFile> files, int id)
         {
-            var annonce = await annonceRepository.GetById(id);
-            if (annonce is not null)
+            var voitureEnregistre = await voitureEnregistreRepository.GetById(id);
+            if (voitureEnregistre is not null)
             {
-                var nomFichier = $"{annonce.Id}-{annonce.Titre.Replace(' ', '_')}.jpg";
-                using var memoryStream = new MemoryStream();
-                await file.CopyToAsync(memoryStream);
-                memoryStream.Seek(0, SeekOrigin.Begin);
-                File.WriteAllBytes(
-                    $"../expressvoitures.client/src/assets/img/annonces/{nomFichier}",
-                    memoryStream.ToArray());
+                for(int i = 0; i < files.Count; i++)
+                {
+                    int counter = 0;
+                    string nomFichier;
+                    do
+                    {
+                        nomFichier = $"{voitureEnregistre.Id}-{voitureEnregistre.Voiture.Marque.Nom}_{voitureEnregistre.Voiture.Annee.Valeur}_{voitureEnregistre.Voiture.Modele.Nom}_{voitureEnregistre.Voiture.Finition.Nom}({counter}).jpg";
+                        counter++;
+                    } while (File.Exists($"../expressvoitures.client/src/assets/img/annonces/{nomFichier}"));
+
+                    using var memoryStream = new MemoryStream();
+                    await files[i].CopyToAsync(memoryStream);
+                    memoryStream.Seek(0, SeekOrigin.Begin);
+                    File.WriteAllBytes(
+                        $"../expressvoitures.client/src/assets/img/annonces/{nomFichier}",
+                        memoryStream.ToArray());
+                }
             }
         }
 
@@ -143,43 +151,6 @@ namespace ExpressVoitures.Server.Models.Services
                 DateVente = annonce.DateVente,
                 VoitureEnregistreId = annonce.VoitureEnregistreId
             };
-        }
-
-        private async Task<Annonce?> ToAnnonce(AnnonceInputModel annonceInputModel, int id)
-        {
-            var voitureEnregistre = await voitureEnregistreRepository.GetById(annonceInputModel.VoitureEnregistreId);
-            if (voitureEnregistre is null)
-            {
-                return null;
-            }
-            var voiture = await voitureRepository.GetById(voitureEnregistre.VoitureId);
-            if (voiture is null)
-            {
-                return null;
-            }
-            var marque = await marqueRepository.GetById(voiture.MarqueId);
-            var annee = await anneeRepository.GetById(voiture.AnneeId);
-            var modele = await modeleRepository.GetById(voiture.ModeleId);
-            var finition = await finitionRepository.GetById(voiture.FinitionId);
-            if (marque is null ||
-                annee is null ||
-                modele is null ||
-                finition is null)
-            {
-                return null;
-            }
-            return new Annonce()
-            {
-                Id = id,
-                Titre = $"{marque.Nom} {annee.Valeur} {modele.Nom} {finition.Nom}",
-                Description = annonceInputModel.Description,
-                Photos = annonceInputModel.Photos,
-                DateCreation = DateTime.Now,
-                PrixVente = annonceInputModel.PrixVente,
-                VoitureEnregistreId = annonceInputModel.VoitureEnregistreId,
-                VoitureEnregistre = voitureEnregistre
-            };
-
         }
     }
 }

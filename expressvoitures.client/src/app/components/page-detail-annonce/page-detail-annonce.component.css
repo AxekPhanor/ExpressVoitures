@@ -2,10 +2,12 @@
   display: flex;
   align-items: flex-start;
 }
+
 .annonce-titre {
   text-align: left;
   word-spacing: 6px;
 }
+
 img {
   width: 700px;
   height: 500px;
@@ -13,7 +15,7 @@ img {
   border-radius: 10px;
 }
 
-.image, .description {
+.images, .description {
   margin-top: 50px;
 }
 
@@ -39,12 +41,12 @@ p {
 }
 
 span, a {
-    font-size: 24px;
+  font-size: 24px;
 }
 
 .souligner {
-    text-decoration: underline;
-    text-decoration-color: #EBD7AE;
+  text-decoration: underline;
+  text-decoration-color: #EBD7AE;
 }
 
 .texte-retour {
@@ -55,9 +57,9 @@ span, a {
   color: white;
 }
 
-.texte-retour:hover {
-  color: #EBD7AE;
-}
+  .texte-retour:hover {
+    color: #EBD7AE;
+  }
 
 .fleche {
   position: absolute;
@@ -66,4 +68,40 @@ span, a {
   object-fit: contain;
   top: 95px;
   left: -240px;
+}
+
+.slider {
+  height: 100%;
+  white-space: nowrap;
+  transition: 0.8s;
+}
+
+.bullets > button {
+  display: inline-block;
+  box-sizing: border-box;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  text-decoration: none;
+  text-align: center;
+  background-color: #1B1B1B;
+  border-radius: 90px;
+  margin: -115px 5px 0 5px;
+  border: none;
+  vertical-align: middle;
+}
+
+.bullets > button.active {
+  background-color: #EBD7AE;
+  border: 5px solid #1B1B1B;
+}
+
+.bullets > button.active {
+  background-color: #EBD7AE;
+  border: 7px solid #1B1B1B;
+}
+
+.bullets > button:hover {
+  background-color: #EBD7AE;
+  border: 6px solid #1B1B1B;
 }

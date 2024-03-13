@@ -12,14 +12,17 @@ import { Annonce } from '../../models/annonce';
 })
 export class PageDetailAnnonceComponent {
   @Input() annonce = new Annonce();
+  currentPhoto: string = '';
+
   constructor(
     private annonceService: AnnonceService,
     private route: ActivatedRoute,
-    private router: Router
-  ) { }
+    private router: Router) {
+    
+  }
 
   ngOnInit() {
-    this.getAnnonce();    
+    this.getAnnonce();
   }
 
   getAnnonce() {
@@ -27,6 +30,7 @@ export class PageDetailAnnonceComponent {
     this.annonceService.getByIdAvailable(id).subscribe({
       next: (value) => {
         this.annonce = value as Annonce;
+        this.currentPhoto = this.annonce.photos[0];
       },
       error: (error) => {
         if (error.status == 404) {
@@ -34,6 +38,9 @@ export class PageDetailAnnonceComponent {
         }
       }
     });
-    
+  }
+
+  selectPhoto(photo: string) {
+    this.currentPhoto = photo;
   }
 }
