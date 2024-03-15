@@ -7,23 +7,23 @@
   </div>
   <div class="formulaire">
     <h1 class="form-title">Formulaire de contact</h1>
-    <form action="/" method="post">
+    <form [formGroup]="formContact" (ngSubmit)="onSubmit()">
       <div class="input-container">
         <div class="nom">
           <label>Nom</label>
-          <input type="text" name="nom" placeholder="Nom" required>
+          <input type="text" name="nom" placeholder="Nom" formControlName="controlNom" autocomplete="off">
         </div>
         <div class="email">
           <label>E-mail</label>
-          <input class="email-input" type="text" name="email" placeholder="E-mail" required>
+          <input class="email-input" type="text" name="email" placeholder="E-mail" formControlName="controlEmail" autocomplete="off">
         </div>
       </div>
       <div class="message">
         <label>Message</label>
-        <textarea class="message-input" type="text" name="message" placeholder="Message" required></textarea>
+        <textarea class="message-input" type="text" name="message" placeholder="Message" formControlName="controlMessage" autocomplete="off"></textarea>
       </div>
       <div class="button-container">
-        <button mat-raised-button color="primary" type="submit">Envoyer</button>
+        <button mat-raised-button color="primary" type="submit" [disabled]="!formContact.valid">Envoyer</button>
       </div>
     </form>
   </div>

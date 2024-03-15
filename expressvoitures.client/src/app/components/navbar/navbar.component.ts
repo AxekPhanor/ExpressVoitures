@@ -18,7 +18,6 @@ export class NavbarComponent {
   ngOnInit() {
     this.authService.isLoggedIn().subscribe({
       next: (value) => {
-        console.log(value);
         this.isLoggedIn = value;
       }
     });

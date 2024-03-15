@@ -1,4 +1,5 @@
 using ExpressVoitures.Server.Data;
+using ExpressVoitures.Server.Models;
 using ExpressVoitures.Server.Models.Repositories;
 using ExpressVoitures.Server.Models.Services;
 using Microsoft.AspNetCore.Identity;
@@ -44,6 +45,9 @@ builder.Services.AddScoped<IVoitureEnregistreRepository, VoitureEnregistreReposi
 builder.Services.AddScoped<IVoitureEnregistreService, VoitureEnregistreService>();
 builder.Services.AddScoped<IAnnonceRepository, AnnonceRepository>();
 builder.Services.AddScoped<IAnnonceService, AnnonceService>();
+builder.Services.AddScoped<IMailService, MailService>();
+
+builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
 
 var app = builder.Build();
 
