@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { VoitureService } from '../../services/voiture.service';
 import { Voiture } from '../../models/voiture';
 import { VoitureEnregistreService } from '../../services/voiture-enregistre.service';
@@ -13,6 +13,7 @@ import { Marque } from '../../models/marque';
 import { Annee } from '../../models/annee';
 import { Modele } from '../../models/modele';
 import { Finition } from '../../models/finition';
+import { SnackbarService } from '../../services/snackbar.service';
 
 @Component({
   selector: 'app-form-voiture-create',
@@ -21,14 +22,38 @@ import { Finition } from '../../models/finition';
 })
 export class FormVoitureCreateComponent {
   formVoiture = new FormGroup({
-    controlMarque: new FormControl(''),
-    controlModele: new FormControl(''),
-    controlAnnee: new FormControl(''),
-    controlFinition: new FormControl(''),
-    controlDateAchat: new FormControl(''),
-    controlPrixAchat: new FormControl(''),
-    controlReparations: new FormControl(''),
-    controlCoutReparations: new FormControl('')
+    controlMarque: new FormControl('', Validators.compose([
+      Validators.pattern('^[a-zA-Z]*$'),
+      Validators.required,
+    ])),
+    controlModele: new FormControl('', Validators.compose([
+      Validators.pattern('^[a-zA-Z]*$'),
+      Validators.required,
+    ])),
+    controlAnnee: new FormControl('', Validators.compose([
+      Validators.pattern('^[0-9]*$'),
+      Validators.min(1990),
+      Validators.max(new Date().getFullYear()),
+      Validators.required,
+    ])),
+    controlFinition: new FormControl('', Validators.compose([
+      Validators.pattern('^[a-zA-Z]*$'),
+      Validators.required,
+    ])),
+    controlDateAchat: new FormControl('', Validators.compose([
+      Validators.required,
+    ])),
+    controlPrixAchat: new FormControl('', Validators.compose([
+      Validators.pattern('^[0-9]*$'),
+      Validators.required,
+    ])),
+    controlReparations: new FormControl('', Validators.compose([
+      Validators.required,
+    ])),
+    controlCoutReparations: new FormControl('', Validators.compose([
+      Validators.pattern('^[0-9]*$'),
+      Validators.required,
+    ])),
   });
 
   voitures: Voiture[] = [];
@@ -43,6 +68,7 @@ export class FormVoitureCreateComponent {
     private finitionService: FinitionService,
     private voitureService: VoitureService,
     private voitureEnregistreService: VoitureEnregistreService,
+    private snackbar: SnackbarService,
     private _adapter: DateAdapter<string>)
   {
     this.getMarques();
@@ -70,15 +96,12 @@ export class FormVoitureCreateComponent {
         next: value => {
           if (value != null) {
             voiture = value as Voiture;
-            console.log("voiture existe");
             this.enregistreVoiture(voiture);
           }
           else {
-            console.log("voiture n'existe pas");
             this.voitureService.create(voiture).subscribe({
               next: value => {
                 voiture = value as Voiture;
-                console.log("voiture créée");
                 this.enregistreVoiture(voiture);
               },
               error: () => {
@@ -97,14 +120,13 @@ export class FormVoitureCreateComponent {
     voitureEnregistre.reparations = this.formVoiture.value.controlReparations!;
     voitureEnregistre.prixAchat = parseFloat(this.formVoiture.value.controlPrixAchat!);
     voitureEnregistre.coutReparations = parseFloat(this.formVoiture.value.controlCoutReparations!);
-    console.log(voitureEnregistre);
     this.voitureEnregistreService.create(voitureEnregistre).subscribe({
       next: () => {
-        console.log("voiture enregistrée");
+        this.snackbar.green("Voiture enregistrée");
         window.location.href = '/admin/voitures';
       },
       error: () => {
-        console.log("erreur création voiture enregistrée");
+        this.snackbar.red("Erreur lors de l'enregistrement");
       }
     });
   }

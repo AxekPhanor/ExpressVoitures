@@ -2,15 +2,15 @@
   <h1 autofocus>Créer une annonce</h1>
   <mat-form-field>
     <mat-label>Titre</mat-label>
-    <input matInput formControlName="controlTitre" required>
+    <input matInput formControlName="controlTitre">
   </mat-form-field>
   <mat-form-field>
     <mat-label>Description</mat-label>
-    <textarea matInput rows="6" formControlName="controlDescription" required></textarea>
+    <textarea matInput rows="6" formControlName="controlDescription"></textarea>
   </mat-form-field>
   <mat-form-field>
     <mat-label>Prix de vente</mat-label>
-    <input matInput placeholder="Ex. 1200.00" formControlName="controlPrixVente" required>
+    <input matInput placeholder="Ex. 1200.00" formControlName="controlPrixVente">
   </mat-form-field>
   <span class="lato-bold">Photos de l'annonce</span><br />
   <input type="file" mat-raised-button multiple (change)="onChange($event)" #fileUpload />

@@ -91,6 +91,10 @@ html, .lato-regular {
   color: #080A0C;
 }
 
+.color-grey {
+  color: #D1D1D1;
+}
+
 input::placeholder, textarea::placeholder {
   font-style: italic;
 }

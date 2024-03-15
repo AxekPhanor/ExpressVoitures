@@ -8,8 +8,7 @@
              aria-label="Marque"
              matInput
              formControlName="controlMarque"
-             [matAutocomplete]="autoMarque"
-             required>
+             [matAutocomplete]="autoMarque">
       <mat-autocomplete #autoMarque="matAutocomplete">
         @for (marque of marques; track marque) {
         <mat-option [value]="marque">{{marque}}</mat-option>
@@ -24,8 +23,7 @@
              aria-label="Année"
              matInput
              formControlName="controlAnnee"
-             [matAutocomplete]="autoAnnee"
-             required>
+             [matAutocomplete]="autoAnnee">
       <mat-autocomplete #autoAnnee="matAutocomplete">
         @for (annee of annees; track annee) {
         <mat-option [value]="annee">{{annee}}</mat-option>
@@ -40,8 +38,7 @@
              aria-label="Modèle"
              matInput
              formControlName="controlModele"
-             [matAutocomplete]="autoModele"
-             required>
+             [matAutocomplete]="autoModele">
       <mat-autocomplete #autoModele="matAutocomplete">
         @for (modele of modeles; track modele) {
         <mat-option [value]="modele">{{modele}}</mat-option>
@@ -57,8 +54,7 @@
              aria-label="Finiton"
              matInput
              formControlName="controlFinition"
-             [matAutocomplete]="auto"
-             required>
+             [matAutocomplete]="auto">
       <mat-autocomplete #auto="matAutocomplete">
         @for (finition of finitions; track finition) {
         <mat-option [value]="finition">{{finition}}</mat-option>
@@ -67,26 +63,26 @@
     </mat-form-field>
 
     <mat-form-field>
-      <mat-label>Different locale</mat-label>
-      <input matInput [matDatepicker]="dp" formControlName="controlDateAchat" required>
-      <mat-hint>DD/MM/YYYY</mat-hint>
+      <mat-label>Date d'achat</mat-label>
+      <input matInput [matDatepicker]="dp" formControlName="controlDateAchat">
+      <mat-hint class="color-grey lato-regular-italic">DD/MM/YYYY</mat-hint>
       <mat-datepicker-toggle matIconSuffix [for]="dp"></mat-datepicker-toggle>
       <mat-datepicker #dp></mat-datepicker>
     </mat-form-field>
 
     <mat-form-field>
       <mat-label>Prix d'achat</mat-label>
-      <input matInput placeholder="Ex. 1200.00" formControlName="controlPrixAchat" required>
+      <input matInput placeholder="Ex. 1200.00" formControlName="controlPrixAchat">
     </mat-form-field>
   </div>
   <mat-form-field>
     <mat-label>Réparations</mat-label>
-    <textarea matInput rows="6" formControlName="controlReparations" required></textarea>
+    <textarea matInput rows="6" formControlName="controlReparations"></textarea>
   </mat-form-field>
 
   <mat-form-field>
     <mat-label>Coût des réparations</mat-label>
-    <input matInput formControlName="controlCoutReparations" required>
+    <input matInput formControlName="controlCoutReparations">
   </mat-form-field><br />
 
 

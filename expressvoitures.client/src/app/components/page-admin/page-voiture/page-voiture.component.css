@@ -8,3 +8,11 @@ button {
   border-radius: 32px;
   border: solid 2px;
 }
+
+.mat-column-mettreAJour {
+  flex: 0 0 160px;
+}
+
+.mat-column-creerAnnonce {
+  flex: 0 0 190px;
+}

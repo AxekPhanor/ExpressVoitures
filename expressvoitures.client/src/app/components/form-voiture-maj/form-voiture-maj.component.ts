@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Component, Inject } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable, of } from 'rxjs';
 import { VoitureService } from '../../services/voiture.service';
 import { Voiture } from '../../models/voiture';
@@ -8,6 +8,7 @@ import { VoitureEnregistreService } from '../../services/voiture-enregistre.serv
 import { VoitureEnregistre } from '../../models/voitureEnregistre';
 import { DateAdapter } from '@angular/material/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { SnackbarService } from '../../services/snackbar.service';
 
 @Component({
   selector: 'app-form-voiture-maj',
@@ -16,14 +17,38 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 })
 export class FormVoitureMajComponent {
   formVoiture = new FormGroup({
-    controlMarque: new FormControl(''),
-    controlModele: new FormControl(''),
-    controlAnnee: new FormControl(''),
-    controlFinition: new FormControl(''),
-    controlDateAchat: new FormControl(''),
-    controlPrixAchat: new FormControl(''),
-    controlReparations: new FormControl(''),
-    controlCoutReparations: new FormControl('')
+    controlMarque: new FormControl('', Validators.compose([
+      Validators.pattern('^[a-zA-Z]*$'),
+      Validators.required,
+    ])),
+    controlModele: new FormControl('', Validators.compose([
+      Validators.pattern('^[a-zA-Z]*$'),
+      Validators.required,
+    ])),
+    controlAnnee: new FormControl('', Validators.compose([
+      Validators.pattern('^[0-9]*$'),
+      Validators.min(1990),
+      Validators.max(new Date().getFullYear()),
+      Validators.required,
+    ])),
+    controlFinition: new FormControl('', Validators.compose([
+      Validators.pattern('^[a-zA-Z]*$'),
+      Validators.required,
+    ])),
+    controlDateAchat: new FormControl('', Validators.compose([
+      Validators.required,
+    ])),
+    controlPrixAchat: new FormControl('', Validators.compose([
+      Validators.pattern('^[0-9]*$'),
+      Validators.required,
+    ])),
+    controlReparations: new FormControl('', Validators.compose([
+      Validators.required,
+    ])),
+    controlCoutReparations: new FormControl('', Validators.compose([
+      Validators.pattern('^[0-9]*$'),
+      Validators.required,
+    ])),
   });
 
   voitures: Voiture[] = [];
@@ -37,7 +62,8 @@ export class FormVoitureMajComponent {
   constructor(private voitureService: VoitureService,
     private voitureEnregistreService: VoitureEnregistreService,
     private _adapter: DateAdapter<string>,
-    @Inject(MAT_DIALOG_DATA) public data: any) {
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private snackbar: SnackbarService) {
     this._adapter.setLocale('fr');
     this.remplissageChampsFormulaire(data);
     
@@ -65,15 +91,12 @@ export class FormVoitureMajComponent {
         next: value => {
           if (value != null) {
             voiture = value as Voiture;
-            console.log("voiture existe");
             this.enregistreVoiture(voiture);
           }
           else {
-            console.log("voiture n'existe pas");
             this.voitureService.create(voiture).subscribe({
               next: value => {
                 voiture = value as Voiture;
-                console.log("voiture créée");
                 this.enregistreVoiture(voiture);
               },
               error: () => {
@@ -94,17 +117,17 @@ export class FormVoitureMajComponent {
     console.log(this.voitureEnregistre);
     this.voitureEnregistreService.update(this.voitureEnregistre).subscribe({
       next: () => {
-        console.log("voitureEnregistre mise à jour");
         window.location.href = '/admin/voitures';
+        this.snackbar.green("Voiture mise à jour");
       },
       error: () => {
-        console.log("erreur mise à jour voitureEnregistre");
+        this.snackbar.red("Erreur lors de la mise à jour");
       }
     });
   }
 
   remplissageChampsFormulaire(data: any): void {
-    this.voitureEnregistre = (data.voitureEnregistre)!;
+    this.voitureEnregistre = data;
     this.voitureService.getById(this.voitureEnregistre.voitureId).subscribe({
       next: value => {
         const voiture = value as Voiture;
@@ -119,8 +142,8 @@ export class FormVoitureMajComponent {
           controlFinition: voiture.finition
         });
       },
-      error: () => {
-        console.log("erreur recuperation voiture");
+      error: (error) => {
+        console.log("erreur recuperation voiture"+ error);
       }
     });
   }
@@ -128,11 +151,12 @@ export class FormVoitureMajComponent {
   delete(): void {
     this.voitureEnregistreService.delete(this.voitureEnregistre.id).subscribe({
       next: () => {
-        console.log("voitureEnregistre supprimée");
+        this.snackbar.green("Voiture supprimée");
         window.location.href = '/admin/voitures';
       },
-      error: () => {
-        console.log("erreur suppression voitureEnregistre");
+      error: (error) => {
+        console.log(error);
+        this.snackbar.red("Erreur lors de la suppression");
       }
     });
   }

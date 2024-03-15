@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { AuthService } from '../../../services/auth.service';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { SnackbarService } from '../../../services/snackbar.service';
 
 @Component({
   selector: 'page-login',
@@ -16,14 +17,14 @@ export class PageLoginComponent {
 
   constructor(
     private authService: AuthService,
-    private router: Router
-    ) { }
+    private router: Router,
+    private snackbar: SnackbarService) { }
 
   ngOnInit() {
     this.authService.isLoggedIn().subscribe({
       next: (value) => {
         if (value) {
-          this.router.navigate(['/admin/voiture']);
+          this.router.navigate(['/admin/voitures']);
         }
       }
     });
@@ -34,10 +35,10 @@ export class PageLoginComponent {
     const password = this.formLogin.value.controlPassword!;
     this.authService.login(username, password).subscribe({
       next: () => {
-        window.location.href = '/admin/voitures';
+        this.router.navigate(['/admin/voitures']);
       },
       error: (error) => {
-        console.log("error");
+        this.snackbar.red("Identifiant ou mot de passe incorrect");
         console.log(error);
       }
     });

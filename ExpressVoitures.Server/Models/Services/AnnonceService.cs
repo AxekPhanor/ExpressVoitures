@@ -75,10 +75,6 @@ namespace ExpressVoitures.Server.Models.Services
                 VoitureEnregistreId = annonceInputModel.VoitureEnregistreId,
                 VoitureEnregistre = voitureEnregistre
             };
-            if (result is null)
-            {
-                return false;
-            }
             return await annonceRepository.Create(result);
         }
 

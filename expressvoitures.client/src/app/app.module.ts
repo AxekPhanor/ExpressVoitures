@@ -74,7 +74,7 @@ import { DialogDescriptionComponent } from './components/dialog-description/dial
     MatDialogModule,
     MatGridListModule,
     MatDatepickerModule,
-    MatNativeDateModule 
+    MatNativeDateModule,
   ],
   providers: [
     provideAnimationsAsync(),

@@ -48,7 +48,7 @@ namespace ExpressVoitures.Server.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Update([FromQuery] int id, [FromBody] VoitureInputModel voiture)
         {
-            if(await voitureService.Update(voiture, id))
+            if (await voitureService.Update(voiture, id))
             {
                 return Ok(voiture);
             }

@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Component, Inject } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AnnonceService } from '../../services/annonce.service';
 import { Annonce } from '../../models/annonce';
 import { VoitureEnregistreService } from '../../services/voiture-enregistre.service';
 import { VoitureEnregistre } from '../../models/voitureEnregistre';
+import { SnackbarService } from '../../services/snackbar.service';
 
 @Component({
   selector: 'app-form-annonce-maj',
@@ -14,9 +15,16 @@ import { VoitureEnregistre } from '../../models/voitureEnregistre';
 })
 export class FormAnnonceMajComponent {
   formAnnonce = new FormGroup({
-    controlTitre: new FormControl(''),
-    controlDescription: new FormControl(''),
-    controlPrixVente: new FormControl('')
+    controlTitre: new FormControl('', Validators.compose([
+      Validators.required,
+    ])),
+    controlDescription: new FormControl('', Validators.compose([
+      Validators.required,
+    ])),
+    controlPrixVente: new FormControl('', Validators.compose([
+      Validators.pattern('^[0-9]*$'),
+      Validators.required,
+    ]))
   });
 
   annonce: Annonce = new Annonce();
@@ -25,7 +33,8 @@ export class FormAnnonceMajComponent {
 
   constructor(private annonceService: AnnonceService,
     private voitureEnregistreService: VoitureEnregistreService,
-    @Inject(MAT_DIALOG_DATA) private data: Annonce) {
+    @Inject(MAT_DIALOG_DATA) private data: Annonce,
+    private snackbar: SnackbarService) {
     console.log(data);
     this.formAnnonce.setValue({
       controlTitre: data.titre,
@@ -64,10 +73,12 @@ export class FormAnnonceMajComponent {
     this.annonceService.update(this.annonce).subscribe({
       next: () => {
         console.log("annonce modifié");
+        this.snackbar.green("Annonce modifiée");
         window.location.href = '/admin/annonces';
       },
       error: error => {
-        console.log("Erreur lors de la création" + error);
+        console.log("Erreur lors de la modification" + error);
+        this.snackbar.red("Erreur lors de la modification");
       }
     });
   }
@@ -76,19 +87,18 @@ export class FormAnnonceMajComponent {
     this.annonceService.delete(this.annonce.id).subscribe({
       next: () => {
         console.log("annonce supprimée");
+        this.snackbar.green("Annonce supprimée");
         window.location.href = '/admin/annonces';
       },
       error: error => {
         console.log("Erreur lors de la suppression" + error);
+        this.snackbar.red("Erreur lors de la suppression");
       }
     });
   }
 
   upload(files: File[]) {
     this.annonceService.upload(files, this.voitureEnregistre.id).subscribe({
-      next: () => {
-        console.log("image uploadée");
-      },
       error: error => {
         console.log("Erreur lors de l'upload" + error);
       }
