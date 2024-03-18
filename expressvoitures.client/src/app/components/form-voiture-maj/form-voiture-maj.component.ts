@@ -22,7 +22,6 @@ export class FormVoitureMajComponent {
       Validators.required,
     ])),
     controlModele: new FormControl('', Validators.compose([
-      Validators.pattern('^[a-zA-Z]*$'),
       Validators.required,
     ])),
     controlAnnee: new FormControl('', Validators.compose([
@@ -66,7 +65,7 @@ export class FormVoitureMajComponent {
     private snackbar: SnackbarService) {
     this._adapter.setLocale('fr');
     this.remplissageChampsFormulaire(data);
-    
+
     this.voitureService.getAll().subscribe(value => {
       this.voitures = value as Voiture[];
       this.filteredMarques = of(this.voitures.map(voiture => voiture.marque.toString()));
@@ -110,6 +109,7 @@ export class FormVoitureMajComponent {
 
   enregistreVoiture(voiture: Voiture): void {
     this.voitureEnregistre.voitureId = voiture.id;
+    this.voitureEnregistre.voiture = `${voiture.marque} ${voiture.annee} ${voiture.modele} ${voiture.finition}` ;
     this.voitureEnregistre.dateAchat = this.formVoiture.value.controlDateAchat!;
     this.voitureEnregistre.reparations = this.formVoiture.value.controlReparations!;
     this.voitureEnregistre.prixAchat = parseInt(this.formVoiture.value.controlPrixAchat!);
@@ -143,7 +143,7 @@ export class FormVoitureMajComponent {
         });
       },
       error: (error) => {
-        console.log("erreur recuperation voiture"+ error);
+        console.log("erreur recuperation voiture" + error);
       }
     });
   }
@@ -161,5 +161,3 @@ export class FormVoitureMajComponent {
     });
   }
 }
-
-

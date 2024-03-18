@@ -15,10 +15,11 @@ export class PageContactComponent {
       Validators.required,
     ])),
     controlEmail: new FormControl('', Validators.compose([
+      Validators.email,
       Validators.required,
     ])),
     controlMessage: new FormControl('', Validators.compose([
-      Validators.pattern('^[a-zA-Z0-9\n]*$'),
+      Validators.pattern('^[a-zA-Z0-9\n àâäéèêëïîôöùûüçÀÂÄÉÈÊËÏÎÔÖÙÛÜÇ.,;:!?]*$'),
       Validators.required,
     ]))
   });
@@ -41,7 +42,7 @@ export class PageContactComponent {
         this.snackbar.green('Votre email à été envoyé');
       },
       error: () => {
-        this.snackbar.red('Erreur lors de l\'envoi du mail');
+        this.snackbar.red('Erreur lors de l\'envoi de l\'mail');
       }
     });
   }

@@ -31,7 +31,7 @@ export class PageVoitureComponent {
   }
 
   openDialogMaj(element: VoitureEnregistre) {
-    const dialogRef = this.dialog.open(FormVoitureMajComponent, {
+    this.dialog.open(FormVoitureMajComponent, {
       autoFocus: false,
       disableClose: true,
       data: {
@@ -43,10 +43,6 @@ export class PageVoitureComponent {
         reparations: element.reparations,
         coutReparations: element.coutReparations
       }
-    });
-    dialogRef.afterClosed().subscribe(() => {
-      console.log('The dialog was closed');
-      window.location.href = '/admin/voitures';
     });
   }
 
