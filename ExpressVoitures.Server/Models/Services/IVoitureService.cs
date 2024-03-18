@@ -10,7 +10,6 @@ namespace ExpressVoitures.Server.Models.Services
         public Task<VoitureOutputModel> Create(VoitureInputModel voiture);
         public Task<bool> Update(VoitureInputModel voiture, int id);
         public Task<bool> DeleteById(int id);
-        public Task<IList<VoitureOutputModel>> GetFiltered(string? marque, int? annee, string? modele, string? finition);
         public Task<VoitureOutputModel?> Exist(VoitureInputModel voiture);
     }
 }

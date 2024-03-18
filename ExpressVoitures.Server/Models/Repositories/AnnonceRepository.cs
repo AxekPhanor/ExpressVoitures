@@ -79,5 +79,17 @@ namespace ExpressVoitures.Server.Models.Repositories
             await _dbContext.SaveChangesAsync();
             return true;
         }
+
+        public async Task<bool> CheckVoitureEnregistreExists(int voitureEnregistreId)
+        {
+            var result = await _dbContext.VoitureEnregistres
+                .Where(ve => ve.Id == voitureEnregistreId)
+                .FirstOrDefaultAsync();
+            if (result is not null)
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }

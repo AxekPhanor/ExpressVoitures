@@ -95,21 +95,6 @@ namespace ExpressVoitures.Server.Models.Services
             return await voitureRepository.Update(existingVoiture);
         }
 
-        public async Task<IList<VoitureOutputModel>> GetFiltered(string? marque, int? annee, string? modele, string? finition)
-        {
-            List<VoitureOutputModel> voituresOutputModel = [];
-            var voitures = await voitureRepository.GetFiltered(marque, annee, modele, finition);
-            foreach (var voiture in voitures)
-            {
-                var result = ToOutputModel(voiture);
-                if (result is not null)
-                {
-                    voituresOutputModel.Add(result);
-                }
-            }
-            return voituresOutputModel;
-        }
-
         public async Task<VoitureOutputModel?> Exist(VoitureInputModel voiture)
         {
             var marque = await marqueRepository.GetByName(voiture.Marque);

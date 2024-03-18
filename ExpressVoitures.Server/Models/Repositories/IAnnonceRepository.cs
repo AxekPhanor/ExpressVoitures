@@ -11,6 +11,6 @@ namespace ExpressVoitures.Server.Models.Repositories
         public Task<bool> Create(Annonce annonce);
         public Task<bool> Update(Annonce annonce);
         public Task<bool> DeleteById(int id);
-        
+        public Task<bool> CheckVoitureEnregistreExists(int voitureEnregistreId);
     }
 }

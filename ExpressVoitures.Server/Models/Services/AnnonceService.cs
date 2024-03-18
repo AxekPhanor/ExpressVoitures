@@ -61,7 +61,7 @@ namespace ExpressVoitures.Server.Models.Services
         public async Task<bool> Create(AnnonceInputModel annonceInputModel)
         {
             var voitureEnregistre = await voitureEnregistreRepository.GetById(annonceInputModel.VoitureEnregistreId);
-            if(voitureEnregistre is null)
+            if (voitureEnregistre is null)
             {
                 return false;
             }
@@ -80,15 +80,22 @@ namespace ExpressVoitures.Server.Models.Services
 
         public async Task<bool> Update(AnnonceInputModel annonceInputModel, int id)
         {
-            var annonce = new Annonce()
+            var annonce = await annonceRepository.GetById(annonceInputModel.VoitureEnregistreId);
+            if (annonce is null)
             {
-                Id = id,
-                Titre = annonceInputModel.Titre,
-                Description = annonceInputModel.Description,
-                Photos = annonceInputModel.Photos,
-                PrixVente = annonceInputModel.PrixVente,
-                VoitureEnregistreId = annonceInputModel.VoitureEnregistreId
-            };
+                return false;
+            }
+            var voitureEnregistreExist = await annonceRepository.CheckVoitureEnregistreExists(annonceInputModel.VoitureEnregistreId);
+            if (!voitureEnregistreExist)
+            {
+                return false;
+            }
+            annonce.Id = id;
+            annonce.Titre = annonceInputModel.Titre;
+            annonce.Description = annonceInputModel.Description;
+            annonce.Photos = annonceInputModel.Photos;
+            annonce.PrixVente = annonceInputModel.PrixVente;
+            annonce.VoitureEnregistreId = annonceInputModel.VoitureEnregistreId;
             return await annonceRepository.Update(annonce);
         }
 
@@ -109,29 +116,31 @@ namespace ExpressVoitures.Server.Models.Services
             return true;
         }
 
-        public async Task Upload(List<IFormFile> files, int id)
+        public async Task<bool> Upload(List<IFormFile> files, int id)
         {
             var voitureEnregistre = await voitureEnregistreRepository.GetById(id);
-            if (voitureEnregistre is not null)
+            if (voitureEnregistre is null)
             {
-                for(int i = 0; i < files.Count; i++)
-                {
-                    int counter = 0;
-                    string nomFichier;
-                    do
-                    {
-                        nomFichier = $"{voitureEnregistre.Id}-{voitureEnregistre.Voiture.Marque.Nom}_{voitureEnregistre.Voiture.Annee.Valeur}_{voitureEnregistre.Voiture.Modele.Nom}_{voitureEnregistre.Voiture.Finition.Nom}({counter}).jpg";
-                        counter++;
-                    } while (File.Exists($"../expressvoitures.client/src/assets/img/annonces/{nomFichier}"));
-
-                    using var memoryStream = new MemoryStream();
-                    await files[i].CopyToAsync(memoryStream);
-                    memoryStream.Seek(0, SeekOrigin.Begin);
-                    File.WriteAllBytes(
-                        $"../expressvoitures.client/src/assets/img/annonces/{nomFichier}",
-                        memoryStream.ToArray());
-                }
+                return false;
             }
+            for (int i = 0; i < files.Count; i++)
+            {
+                int counter = 0;
+                string nomFichier;
+                do
+                {
+                    nomFichier = $"{voitureEnregistre.Id}-{voitureEnregistre.Voiture.Marque.Nom}_{voitureEnregistre.Voiture.Annee.Valeur}_{voitureEnregistre.Voiture.Modele.Nom}_{voitureEnregistre.Voiture.Finition.Nom}({counter}).jpg";
+                    counter++;
+                } while (File.Exists($"../expressvoitures.client/src/assets/img/annonces/{nomFichier}"));
+
+                using var memoryStream = new MemoryStream();
+                await files[i].CopyToAsync(memoryStream);
+                memoryStream.Seek(0, SeekOrigin.Begin);
+                File.WriteAllBytes(
+                    $"../expressvoitures.client/src/assets/img/annonces/{nomFichier}",
+                    memoryStream.ToArray());
+            }
+            return true;
         }
 
         private AnnonceOutputModel ToOutputModel(Annonce annonce)

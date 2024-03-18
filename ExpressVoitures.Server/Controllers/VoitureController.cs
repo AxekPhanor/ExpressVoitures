@@ -52,7 +52,7 @@ namespace ExpressVoitures.Server.Controllers
             {
                 return Ok(voiture);
             }
-            return BadRequest();
+            return NotFound();
         }
 
         [HttpDelete()]
@@ -63,20 +63,7 @@ namespace ExpressVoitures.Server.Controllers
             {
                 return Ok();
             }
-            return BadRequest();
-        }
-
-        [HttpGet()]
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> GetFiltered([FromQuery] string? marque, int? annee, string? modele, string? finition)
-        {
-            
-            var result = await voitureService.GetFiltered(marque, annee, modele, finition);
-            if (result is null)
-            {
-                result = await voitureService.GetAll();
-            }
-            return Ok(result);
+            return NotFound();
         }
 
         [HttpPost()]

@@ -54,7 +54,7 @@ namespace ExpressVoitures.Server.Controllers
             {
                 return Ok(voitureEnregistre);
             }
-            return BadRequest();
+            return NotFound();
         }
 
         [HttpDelete("DeleteById")]
@@ -65,7 +65,7 @@ namespace ExpressVoitures.Server.Controllers
             {
                 return Ok();
             }
-            return BadRequest();
+            return NotFound();
         }
     }
 }

@@ -45,17 +45,20 @@ namespace ExpressVoitures.Server.Models.Services
         public async Task<bool> Update(VoitureEnregistreInputModel voitureEnregistreInputModel, int id)
         {
             var voitureEnregistre = await voitureEnregistreRepository.GetById(id);
-            if (voitureEnregistre == null)
+            if (voitureEnregistre is null)
             {
                 return false;
             }
-
+            var voitureExist = await voitureEnregistreRepository.CheckVoitureExists(voitureEnregistreInputModel.VoitureId);
+            if (!voitureExist)
+            {
+                return false;
+            }
             voitureEnregistre.DateAchat = voitureEnregistreInputModel.DateAchat;
             voitureEnregistre.PrixAchat = voitureEnregistreInputModel.PrixAchat;
             voitureEnregistre.Reparations = voitureEnregistreInputModel.Reparations;
             voitureEnregistre.CoutReparations = voitureEnregistreInputModel.CoutReparations;
             voitureEnregistre.VoitureId = voitureEnregistreInputModel.VoitureId;
-
             return await voitureEnregistreRepository.Update(voitureEnregistre);
         }
 

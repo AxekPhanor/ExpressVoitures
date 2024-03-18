@@ -66,28 +66,6 @@ namespace ExpressVoitures.Server.Models.Repositories
             return false;
         }
 
-        public async Task<IList<Voiture>> GetFiltered(string? marque, int? annee, string? modele, string? finition)
-        {
-            var query = _dbContext.Voitures.AsQueryable();
-            if (!string.IsNullOrEmpty(marque))
-            {
-                query = query.Where(v => v.Marque.Nom == marque);
-            }
-            if (annee.HasValue)
-            {
-                query = query.Where(v => v.Annee.Valeur == annee);
-            }
-            if (!string.IsNullOrEmpty(modele))
-            {
-                query = query.Where(v => v.Modele.Nom == modele);
-            }
-            if (!string.IsNullOrEmpty(finition))
-            {
-                query = query.Where(v => v.Finition.Nom == finition);
-            }
-            return await query.ToListAsync();
-        }
-
         public async Task<Voiture?> Exist(Voiture voiture)
         {
             var result = await _dbContext.Voitures

@@ -72,7 +72,7 @@ namespace ExpressVoitures.Server.Controllers
             {
                 return Ok(annonce);
             }
-            return BadRequest();
+            return NotFound();
         }
 
         [HttpDelete("DeleteById")]
@@ -83,7 +83,7 @@ namespace ExpressVoitures.Server.Controllers
             {
                 return Ok();
             }
-            return BadRequest();
+            return NotFound();
         }
 
         [HttpGet("Sold")]
@@ -102,8 +102,11 @@ namespace ExpressVoitures.Server.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UploadImg([FromForm] List<IFormFile> files, [FromQuery] int id)
         {
-            await annonceService.Upload(files, id);
-            return Ok();
+            if(await annonceService.Upload(files, id))
+            {
+                return Ok();
+            }
+            return NotFound();
         }
     }
 }

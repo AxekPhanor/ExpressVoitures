@@ -50,7 +50,6 @@ namespace ExpressVoitures.Server.Models.Repositories
         public async Task<VoitureEnregistre?> GetById(int id)
         {
             var result = await _dbContext.VoitureEnregistres
-                .Where(ve => ve.Id == id)
                 .Include(ve => ve.Voiture)
                 .ThenInclude(v => v.Marque)
                 .Include(ve => ve.Voiture)
@@ -59,6 +58,7 @@ namespace ExpressVoitures.Server.Models.Repositories
                 .ThenInclude(v => v.Finition)
                 .Include(ve => ve.Voiture)
                 .ThenInclude(v => v.Annee)
+                .Where(ve => ve.Id == id)
                 .FirstOrDefaultAsync();
             if (result is not null)
             {
@@ -72,6 +72,18 @@ namespace ExpressVoitures.Server.Models.Repositories
             _dbContext.VoitureEnregistres.Update(voitureEnregistre);
             await _dbContext.SaveChangesAsync();
             return true;
+        }
+
+        public async Task<bool> CheckVoitureExists(int voitureId)
+        {
+            var result = await _dbContext.Voitures
+                .Where(v => v.Id == voitureId)
+                .FirstOrDefaultAsync();
+            if (result is not null)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }
