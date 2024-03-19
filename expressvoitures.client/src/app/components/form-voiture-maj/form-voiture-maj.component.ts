@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Component, Inject } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable, of } from 'rxjs';
 import { VoitureService } from '../../services/voiture.service';
 import { Voiture } from '../../models/voiture';
@@ -9,46 +8,16 @@ import { VoitureEnregistre } from '../../models/voitureEnregistre';
 import { DateAdapter } from '@angular/material/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { SnackbarService } from '../../services/snackbar.service';
+import { FormHelper } from '../../helpers/formHelper';
 
 @Component({
   selector: 'app-form-voiture-maj',
   templateUrl: './form-voiture-maj.component.html',
-  styleUrl: './form-voiture.component.css'
+  styleUrl: '../../styles/form-annonce-voiture.css'
 })
 export class FormVoitureMajComponent {
-  formVoiture = new FormGroup({
-    controlMarque: new FormControl('', Validators.compose([
-      Validators.pattern('^[a-zA-Z]*$'),
-      Validators.required,
-    ])),
-    controlModele: new FormControl('', Validators.compose([
-      Validators.required,
-    ])),
-    controlAnnee: new FormControl('', Validators.compose([
-      Validators.pattern('^[0-9]*$'),
-      Validators.min(1990),
-      Validators.max(new Date().getFullYear()),
-      Validators.required,
-    ])),
-    controlFinition: new FormControl('', Validators.compose([
-      Validators.pattern('^[a-zA-Z]*$'),
-      Validators.required,
-    ])),
-    controlDateAchat: new FormControl('', Validators.compose([
-      Validators.required,
-    ])),
-    controlPrixAchat: new FormControl('', Validators.compose([
-      Validators.pattern('^[0-9]*$'),
-      Validators.required,
-    ])),
-    controlReparations: new FormControl('', Validators.compose([
-      Validators.required,
-    ])),
-    controlCoutReparations: new FormControl('', Validators.compose([
-      Validators.pattern('^[0-9]*$'),
-      Validators.required,
-    ])),
-  });
+  form = new FormHelper();
+  formVoiture = this.form.createformVoiture();
 
   voitures: Voiture[] = [];
   voitureEnregistre: VoitureEnregistre = new VoitureEnregistre();
@@ -110,11 +79,15 @@ export class FormVoitureMajComponent {
   enregistreVoiture(voiture: Voiture): void {
     this.voitureEnregistre.voitureId = voiture.id;
     this.voitureEnregistre.voiture = `${voiture.marque} ${voiture.annee} ${voiture.modele} ${voiture.finition}` ;
-    this.voitureEnregistre.dateAchat = this.formVoiture.value.controlDateAchat!;
+    const dateAchat = new Date(this.formVoiture.value.controlDateAchat!);
+    dateAchat.setMinutes(dateAchat.getMinutes() - dateAchat.getTimezoneOffset());
+    this.voitureEnregistre.dateAchat = dateAchat.toISOString();
     this.voitureEnregistre.reparations = this.formVoiture.value.controlReparations!;
     this.voitureEnregistre.prixAchat = parseInt(this.formVoiture.value.controlPrixAchat!);
     this.voitureEnregistre.coutReparations = parseInt(this.formVoiture.value.controlCoutReparations!);
-    console.log(this.voitureEnregistre);
+    if (!this.voitureEnregistre.reparations) {
+      this.voitureEnregistre.reparations = "aucune";
+    }
     this.voitureEnregistreService.update(this.voitureEnregistre).subscribe({
       next: () => {
         window.location.href = '/admin/voitures';

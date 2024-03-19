@@ -1,31 +1,21 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Component, Inject } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AnnonceService } from '../../services/annonce.service';
 import { Annonce } from '../../models/annonce';
 import { VoitureEnregistreService } from '../../services/voiture-enregistre.service';
 import { VoitureEnregistre } from '../../models/voitureEnregistre';
 import { SnackbarService } from '../../services/snackbar.service';
+import { FormHelper } from '../../helpers/formHelper';
 
 @Component({
   selector: 'app-form-annonce-maj',
   templateUrl: './form-annonce-maj.component.html',
-  styleUrl: './form-annonce-maj.component.css'
+  styleUrl: '../../styles/form-annonce-voiture.css'
 })
 export class FormAnnonceMajComponent {
-  formAnnonce = new FormGroup({
-    controlTitre: new FormControl('', Validators.compose([
-      Validators.required,
-    ])),
-    controlDescription: new FormControl('', Validators.compose([
-      Validators.required,
-    ])),
-    controlPrixVente: new FormControl('', Validators.compose([
-      Validators.pattern('^[0-9]*$'),
-      Validators.required,
-    ]))
-  });
+  form = new FormHelper();
+  formAnnonce = this.form.createformAnnonce();
 
   annonce: Annonce = new Annonce();
   voitureEnregistre: VoitureEnregistre = new VoitureEnregistre();

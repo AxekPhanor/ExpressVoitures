@@ -1,10 +1,8 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { VoitureService } from '../../services/voiture.service';
 import { Voiture } from '../../models/voiture';
 import { VoitureEnregistreService } from '../../services/voiture-enregistre.service';
 import { VoitureEnregistre } from '../../models/voitureEnregistre';
-import { DateAdapter } from '@angular/material/core';
 import { MarqueService } from '../../services/marque.service';
 import { AnneeService } from '../../services/annee.service';
 import { ModeleService } from '../../services/modele.service';
@@ -14,47 +12,17 @@ import { Annee } from '../../models/annee';
 import { Modele } from '../../models/modele';
 import { Finition } from '../../models/finition';
 import { SnackbarService } from '../../services/snackbar.service';
+import { FormHelper } from '../../helpers/formHelper';
 
 @Component({
   selector: 'app-form-voiture-create',
   templateUrl: './form-voiture-create.component.html',
-  styleUrl: './form-voiture.component.css'
+  styleUrl: '../../styles/form-annonce-voiture.css'
 })
 export class FormVoitureCreateComponent {
-  formVoiture = new FormGroup({
-    controlMarque: new FormControl('', Validators.compose([
-      Validators.pattern('^[a-zA-Z]*$'),
-      Validators.required,
-    ])),
-    controlModele: new FormControl('', Validators.compose([
-      Validators.pattern('^[a-zA-Z]*$'),
-      Validators.required,
-    ])),
-    controlAnnee: new FormControl('', Validators.compose([
-      Validators.pattern('^[0-9]*$'),
-      Validators.min(1990),
-      Validators.max(new Date().getFullYear()),
-      Validators.required,
-    ])),
-    controlFinition: new FormControl('', Validators.compose([
-      Validators.pattern('^[a-zA-Z]*$'),
-      Validators.required,
-    ])),
-    controlDateAchat: new FormControl('', Validators.compose([
-      Validators.required,
-    ])),
-    controlPrixAchat: new FormControl('', Validators.compose([
-      Validators.pattern('^[0-9]*$'),
-      Validators.required,
-    ])),
-    controlReparations: new FormControl('', Validators.compose([
-      Validators.required,
-    ])),
-    controlCoutReparations: new FormControl('', Validators.compose([
-      Validators.pattern('^[0-9]*$'),
-      Validators.required,
-    ])),
-  });
+  form = new FormHelper();
+  formVoiture = this.form.createformVoiture();
+
 
   voitures: Voiture[] = [];
   marques: string[] = [];
@@ -68,14 +36,12 @@ export class FormVoitureCreateComponent {
     private finitionService: FinitionService,
     private voitureService: VoitureService,
     private voitureEnregistreService: VoitureEnregistreService,
-    private snackbar: SnackbarService,
-    private _adapter: DateAdapter<string>)
+    private snackbar: SnackbarService)
   {
     this.getMarques();
     this.getAnnees();
     this.getModeles();
     this.getFinition();
-    this._adapter.setLocale('fr');
     this.voitureService.getAll().subscribe(value => {
       this.voitures = value as Voiture[];
     });
@@ -116,10 +82,18 @@ export class FormVoitureCreateComponent {
   enregistreVoiture(voiture: Voiture) {
     const voitureEnregistre = new VoitureEnregistre();
     voitureEnregistre.voitureId = voiture.id;
-    voitureEnregistre.dateAchat = this.formVoiture.value.controlDateAchat!;
+    const dateAchat = new Date(this.formVoiture.value.controlDateAchat!);
+    dateAchat.setMinutes(dateAchat.getMinutes() - dateAchat.getTimezoneOffset());
+    voitureEnregistre.dateAchat = dateAchat.toISOString();
     voitureEnregistre.reparations = this.formVoiture.value.controlReparations!;
     voitureEnregistre.prixAchat = parseFloat(this.formVoiture.value.controlPrixAchat!);
     voitureEnregistre.coutReparations = parseFloat(this.formVoiture.value.controlCoutReparations!);
+    if (!voitureEnregistre.reparations) {
+      voitureEnregistre.reparations = "aucune";
+    }
+    if (!voitureEnregistre.coutReparations) {
+      voitureEnregistre.coutReparations = 0;
+    }
     this.voitureEnregistreService.create(voitureEnregistre).subscribe({
       next: () => {
         this.snackbar.green("Voiture enregistrée");
@@ -134,7 +108,6 @@ export class FormVoitureCreateComponent {
   getMarques() {
     this.marqueService.getAll().subscribe({
       next: value => {
-        console.log(value);
         const marques = value as Marque[];
         for (let i = 0; i < marques.length; i++) {
           this.marques.push(marques[i].nom);

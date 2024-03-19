@@ -8,7 +8,6 @@
     <PublishAssetsDirectory>$(MSBuildProjectDirectory)\dist\expressvoitures.client\</PublishAssetsDirectory>
   </PropertyGroup>
   <ItemGroup>
-    <Folder Include="src\app\models\" />
     <Folder Include="src\app\services\" />
   </ItemGroup>
 </Project>

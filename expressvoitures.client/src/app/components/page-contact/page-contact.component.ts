@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { MailService } from '../../services/mail.service';
+import { ContactService } from '../../services/mail.service';
 import { Mail } from '../../models/mail';
 import { SnackbarService } from '../../services/snackbar.service';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormHelper } from '../../helpers/formHelper';
 
 @Component({
   selector: 'page-contact',
@@ -10,34 +10,23 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   styleUrl: './page-contact.component.css'
 })
 export class PageContactComponent {
-  formContact = new FormGroup({
-    controlNom: new FormControl('', Validators.compose([
-      Validators.required,
-    ])),
-    controlEmail: new FormControl('', Validators.compose([
-      Validators.email,
-      Validators.required,
-    ])),
-    controlMessage: new FormControl('', Validators.compose([
-      Validators.pattern('^[a-zA-Z0-9\n àâäéèêëïîôöùûüçÀÂÄÉÈÊËÏÎÔÖÙÛÜÇ.,;:!?]*$'),
-      Validators.required,
-    ]))
-  });
+  form = new FormHelper();
+  formContact = this.form.createformContact();
   mail = new Mail();
 
-  constructor(private mailService: MailService, private snackbar: SnackbarService) {
+  constructor(private contactService: ContactService, private snackbar: SnackbarService) {
   }
 
   onSubmit() {
-    this.mail.FromName = this.formContact.controls.controlNom.value!;
-    this.mail.FromEmail = this.formContact.controls.controlEmail.value!;
-    this.mail.Subject = 'Contact';
-    this.mail.Body = this.formContact.controls.controlMessage.value!.replaceAll('\n', '<br>');
+    this.mail.fromName = this.formContact.value.controlNom!;
+    this.mail.fromEmail = this.formContact.value.controlEmail!;
+    this.mail.subject = 'Contact';
+    this.mail.body = this.formContact.value.controlMessage!.replaceAll('\n', '<br>');
     this.send();
   }
 
   send() {
-    this.mailService.Send(this.mail).subscribe({
+    this.contactService.send(this.mail).subscribe({
       next: () => {
         this.snackbar.green('Votre email à été envoyé');
       },

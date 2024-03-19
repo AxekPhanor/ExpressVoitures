@@ -6,7 +6,7 @@ import { BaseService } from './base.service';
   providedIn: 'root'
 })
 export class VoitureEnregistreService extends BaseService {
-  override url = 'https://localhost:44383/api/VoitureEnregistre';
+  override url = 'https://localhost:7182/api/VoitureEnregistre';
 
   getById(id: number) {
     return this.http.get(`${this.url}/GetById?id=${id}`, { withCredentials: true });

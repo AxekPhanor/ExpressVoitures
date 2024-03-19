@@ -6,7 +6,7 @@ import { Annonce } from '../models/annonce';
   providedIn: 'root'
 })
 export class AnnonceService extends BaseService {
-  override url = 'https://localhost:44383/api/Annonce';
+  override url = 'https://localhost:7182/api/Annonce';
 
   getByIdAvailable(id: number) {
     return this.http.get(`${this.url}/GetByIdAvailable?id=${id}`);

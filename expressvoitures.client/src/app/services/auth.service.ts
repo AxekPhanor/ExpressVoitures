@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService extends BaseService {
-  override url = 'https://localhost:44383/api/Account';
+  override url = 'https://localhost:7182/api/Account';
 
   login(username: string, password: string): Observable<User> {
     return this.http.post<User>(`${this.url}/Login`, { UserName: username, password: password }, { withCredentials: true });

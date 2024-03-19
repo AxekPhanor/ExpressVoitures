@@ -1,30 +1,20 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Component, Inject } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Annonce } from '../../models/annonce';
 import { AnnonceService } from '../../services/annonce.service';
 import { SnackbarService } from '../../services/snackbar.service';
+import { FormHelper } from '../../helpers/formHelper';
 
 @Component({
   selector: 'app-form-annonce-create',
   templateUrl: './form-annonce-create.component.html',
-  styleUrl: './form-voiture.component.css'
+  styleUrl: '../../styles/form-annonce-voiture.css'
 })
 
 export class FormAnnonceCreateComponent {
-  formAnnonce = new FormGroup({
-    controlTitre: new FormControl('', Validators.compose([
-      Validators.required,
-    ])),
-    controlDescription: new FormControl('', Validators.compose([
-      Validators.required,
-    ])),
-    controlPrixVente: new FormControl('', Validators.compose([
-      Validators.pattern('^[0-9]*$'),
-      Validators.required,
-    ]))
-  });
+  form = new FormHelper();
+  formAnnonce = this.form.createformAnnonce();
 
   annonce: Annonce = new Annonce();
   files: File[] = [];
