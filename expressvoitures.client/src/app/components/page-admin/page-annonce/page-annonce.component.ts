@@ -6,6 +6,7 @@ import { AnnonceService } from '../../../services/annonce.service';
 import { FormAnnonceMajComponent } from '../../form-annonce-maj/form-annonce-maj.component';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogDescriptionComponent } from '../../dialog-description/dialog-description.component';
+import { SnackbarService } from '../../../services/snackbar.service';
 
 @Component({
   selector: 'app-page-annonce',
@@ -18,12 +19,13 @@ export class PageAnnonceComponent {
   displayedColumns: string[] = ['titre', 'description', 'photos', 'dateCreation', 'PrixVente', 'dateVente', 'mettreAJour', 'vendre'];
 
   constructor(private annonceService: AnnonceService,
-    private dialog: MatDialog) {
+    private dialog: MatDialog,
+    private snackbar: SnackbarService) {
     this.getAll();
   }
 
   openDialogAnnonceMaj(element: Annonce) {
-    const dialogRef = this.dialog.open(FormAnnonceMajComponent, {
+    this.dialog.open(FormAnnonceMajComponent, {
       autoFocus: false,
       disableClose: true,
       data: {
@@ -35,31 +37,25 @@ export class PageAnnonceComponent {
         prixVente: element.prixVente
       }
     });
-    dialogRef.afterClosed().subscribe(() => {
-      console.log('The dialog was closed');
-    });
   }
 
   openDialogDescription(description: string) {
-    const dialogRef = this.dialog.open(DialogDescriptionComponent, {
+    this.dialog.open(DialogDescriptionComponent, {
       autoFocus: false,
       data: {
         description: description
       }
-    });
-    dialogRef.afterClosed().subscribe(() => {
-      console.log('The dialog was closed');
     });
   }
 
   vendre(element: Annonce) {
     this.annonceService.vendu(element.id).subscribe({
       next: () => {
-        console.log('Annonce vendue');
+        this.snackbar.green('Annonce vendue');
         window.location.href = '/admin/annonces';
       },
-      error: err => {
-        console.error('Une erreur est survenue lors de la vente de l\'annonce', err);
+      error: () => {
+        this.snackbar.red('Une erreur est survenue lors de la vente de l\'annonce');
       }
     });
   }
@@ -70,8 +66,8 @@ export class PageAnnonceComponent {
         this.annonce = value as Annonce[];
         this.annonceObservable = of(this.annonce.map(annonce => annonce));
       },
-      error: err => {
-        console.error('Une erreur est survenue lors de la récupération des annonces', err);
+      error: () => {
+        this.snackbar.red('Une erreur est survenue lors de la récupération des annonces');
       }
     });
   }

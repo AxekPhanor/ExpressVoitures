@@ -23,7 +23,6 @@ export class FormVoitureCreateComponent {
   form = new FormHelper();
   formVoiture = this.form.createFormVoiture();
 
-  voitures: Voiture[] = [];
   marques: string[] = [];
   annees: string[] = [];
   modeles: string[] = [];
@@ -41,9 +40,6 @@ export class FormVoitureCreateComponent {
     this.getAnnees();
     this.getModeles();
     this.getFinition();
-    this.voitureService.getAll().subscribe(value => {
-      this.voitures = value as Voiture[];
-    });
   }
 
   onSubmit() {
@@ -97,9 +93,6 @@ export class FormVoitureCreateComponent {
     else {
       voitureEnregistre.coutReparations = parseFloat(this.formVoiture.value.controlCoutReparations!);
     }
-    
-    
-    console.log(voitureEnregistre);
     this.voitureEnregistreService.create(voitureEnregistre).subscribe({
       next: () => {
         this.snackbar.green("Voiture enregistrée");

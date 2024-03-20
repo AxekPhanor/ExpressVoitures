@@ -101,6 +101,18 @@ namespace ExpressVoitures.Server.Models.Services
 
         public async Task<bool> DeleteById(int id)
         {
+            var annonce = await annonceRepository.GetById(id);
+            if (annonce is null)
+            {
+                return false;
+            }
+            annonce.Photos.ForEach(photo =>
+            {
+                if (File.Exists($"../expressvoitures.client/src/assets/img/annonces/{photo}"))
+                {
+                    File.Delete($"../expressvoitures.client/src/assets/img/annonces/{photo}");
+                }
+            });
             return await annonceRepository.DeleteById(id);
         }
 

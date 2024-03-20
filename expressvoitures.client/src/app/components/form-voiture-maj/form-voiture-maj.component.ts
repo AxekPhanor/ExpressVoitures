@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Component, Inject } from '@angular/core';
-import { Observable, of } from 'rxjs';
 import { VoitureService } from '../../services/voiture.service';
 import { Voiture } from '../../models/voiture';
 import { VoitureEnregistreService } from '../../services/voiture-enregistre.service';
@@ -8,6 +7,14 @@ import { VoitureEnregistre } from '../../models/voitureEnregistre';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { SnackbarService } from '../../services/snackbar.service';
 import { FormHelper } from '../../helpers/formHelper';
+import { MarqueService } from '../../services/marque.service';
+import { AnneeService } from '../../services/annee.service';
+import { ModeleService } from '../../services/modele.service';
+import { FinitionService } from '../../services/finition.service';
+import { Annee } from '../../models/annee';
+import { Marque } from '../../models/marque';
+import { Modele } from '../../models/modele';
+import { Finition } from '../../models/finition';
 
 @Component({
   selector: 'app-form-voiture-maj',
@@ -18,27 +25,26 @@ export class FormVoitureMajComponent {
   form = new FormHelper();
   formVoiture = this.form.createFormVoiture();
 
-  voitures: Voiture[] = [];
-  voitureEnregistre: VoitureEnregistre = new VoitureEnregistre();
-
-  filteredMarques: Observable<string[]> = new Observable<string[]>();
-  filteredAnnees: Observable<string[]> = new Observable<string[]>();
-  filteredModeles: Observable<string[]> = new Observable<string[]>();
-  filteredFinitions: Observable<string[]> = new Observable<string[]>();
+  marques: string[] = [];
+  annees: string[] = [];
+  modeles: string[] = [];
+  finitions: string[] = [];
+  voitureEnregistre = new VoitureEnregistre();
 
   constructor(private voitureService: VoitureService,
     private voitureEnregistreService: VoitureEnregistreService,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private snackbar: SnackbarService) {
+    private snackbar: SnackbarService,
+    private marqueService: MarqueService,
+    private anneeService: AnneeService,
+    private modeleService: ModeleService,
+    private finitionService: FinitionService)
+  {
     this.remplissageChampsFormulaire(data);
-
-    this.voitureService.getAll().subscribe(value => {
-      this.voitures = value as Voiture[];
-      this.filteredMarques = of(this.voitures.map(voiture => voiture.marque.toString()));
-      this.filteredAnnees = of(this.voitures.map(voiture => voiture.annee.toString()));
-      this.filteredModeles = of(this.voitures.map(voiture => voiture.modele.toString()));
-      this.filteredFinitions = of(this.voitures.map(voiture => voiture.finition.toString()));
-    });
+    this.getMarques();
+    this.getAnnees();
+    this.getModeles();
+    this.getFinition();
   }
 
   onSubmit() {
@@ -124,6 +130,51 @@ export class FormVoitureMajComponent {
       error: (error) => {
         console.log(error);
         this.snackbar.red("Erreur lors de la suppression");
+      }
+    });
+  }
+
+  getMarques() {
+    this.marqueService.getAll().subscribe({
+      next: value => {
+        console.log(value);
+        const marques = value as Marque[];
+        for (let i = 0; i < marques.length; i++) {
+          this.marques.push(marques[i].nom);
+        }
+      }
+    });
+  }
+
+  getAnnees() {
+    this.anneeService.getAll().subscribe({
+      next: value => {
+        const annees = value as Annee[];
+        for (let i = 0; i < annees.length; i++) {
+          this.annees.push(annees[i].valeur.toString());
+        }
+      }
+    });
+  }
+
+  getModeles() {
+    this.modeleService.getAll().subscribe({
+      next: value => {
+        const modeles = value as Modele[];
+        for (let i = 0; i < modeles.length; i++) {
+          this.modeles.push(modeles[i].nom.toString());
+        }
+      }
+    });
+  }
+
+  getFinition() {
+    this.finitionService.getAll().subscribe({
+      next: value => {
+        const finitions = value as Finition[];
+        for (let i = 0; i < finitions.length; i++) {
+          this.finitions.push(finitions[i].nom.toString());
+        }
       }
     });
   }

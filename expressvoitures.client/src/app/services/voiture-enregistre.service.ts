@@ -13,11 +13,13 @@ export class VoitureEnregistreService extends BaseService {
   }
 
   create(voitureEnregistre: VoitureEnregistre) {
-    return this.http.post(`${this.url}/Create`, voitureEnregistre, { withCredentials: true })
+    return this.http.post(`${this.url}/Create`, voitureEnregistre, { withCredentials: true });
   }
+
   getAll() {
     return this.http.get(`${this.url}/GetAll`, { withCredentials: true });
   }
+
   update(voitureEnregistre: VoitureEnregistre) {
     return this.http.put(`${this.url}/Update?id=` + voitureEnregistre.id,
     {
@@ -28,6 +30,7 @@ export class VoitureEnregistreService extends BaseService {
       coutReparations: voitureEnregistre.coutReparations
     }, { withCredentials: true });
   }
+
   delete(id: number) {
     return this.http.delete(`${this.url}/DeleteById?id=${id}`, { withCredentials: true });
   }
