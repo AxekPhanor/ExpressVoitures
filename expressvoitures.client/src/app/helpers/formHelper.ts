@@ -2,7 +2,19 @@
 import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from "@angular/forms";
 
 export class FormHelper {
-  createformVoiture(): FormGroup {
+  createformNewPassword() {
+    const formNewPassword = new FormGroup({
+      controlNewPassword: new FormControl('', Validators.compose([
+        Validators.required,
+      ])),
+      controlNewPasswordConfirm: new FormControl('', Validators.compose([
+        Validators.required,
+      ]))
+    });
+    return formNewPassword;
+  }
+
+  createFormVoiture(): FormGroup {
     const formVoiture = new FormGroup({
       controlMarque: new FormControl('', Validators.compose([
         Validators.pattern('^[a-zA-Z]*$'),
@@ -39,7 +51,7 @@ export class FormHelper {
     return formVoiture;
   }
 
-  createformAnnonce(): FormGroup {
+  createFormAnnonce(): FormGroup {
     const formAnnonce = new FormGroup({
       controlTitre: new FormControl('', Validators.compose([
         Validators.required,
@@ -55,7 +67,7 @@ export class FormHelper {
     return formAnnonce;
   }
 
-  createformContact(): FormGroup {
+  createFormContact(): FormGroup {
     const formContact = new FormGroup({
       controlNom: new FormControl('', Validators.compose([
         Validators.required,

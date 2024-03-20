@@ -9,12 +9,12 @@ import { FormHelper } from '../../helpers/formHelper';
 @Component({
   selector: 'app-form-annonce-create',
   templateUrl: './form-annonce-create.component.html',
-  styleUrl: '../../styles/form-annonce-voiture.css'
+  styleUrl: './form.component.css'
 })
 
 export class FormAnnonceCreateComponent {
   form = new FormHelper();
-  formAnnonce = this.form.createformAnnonce();
+  formAnnonce = this.form.createFormAnnonce();
 
   annonce: Annonce = new Annonce();
   files: File[] = [];

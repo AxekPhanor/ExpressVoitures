@@ -1,6 +1,10 @@
-﻿using ExpressVoitures.Server.Models.InputModels;
+﻿using ExpressVoitures.Server.Models;
+using ExpressVoitures.Server.Models.InputModels;
+using ExpressVoitures.Server.Models.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using System.Web;
 
 namespace ExpressVoitures.Server.Controllers
 {
@@ -10,12 +14,19 @@ namespace ExpressVoitures.Server.Controllers
     {
         private readonly UserManager<IdentityUser> userManager;
         private readonly SignInManager<IdentityUser> signInManager;
-        public AccountController(UserManager<IdentityUser> _userManager, SignInManager<IdentityUser> _signInManager)
+        private readonly IMailService mailService;
+        private readonly MailSettings mailSettings;
+        public AccountController(UserManager<IdentityUser> _userManager, 
+            SignInManager<IdentityUser> _signInManager, 
+            IMailService mailService,
+            IOptions<MailSettings> mailSettings)
         {
             userManager = _userManager;
             signInManager = _signInManager;
+            this.mailService = mailService;
+            this.mailSettings = mailSettings.Value;
         }
-
+        
         [HttpPost(Name = "Register")]
         public async Task<IActionResult> Register([FromBody] AuthentificationInputModel model)
         {
@@ -80,6 +91,45 @@ namespace ExpressVoitures.Server.Controllers
             {
                 return BadRequest();
             }
+        }
+
+        [HttpPost(Name = "ResetPassord")]
+        public async Task<IActionResult> ResetPassord([FromBody] string url)
+        {
+            var user = await userManager.FindByNameAsync("Admin");
+            Console.WriteLine(user);
+            if (user is null)
+            {
+                return BadRequest();
+            }
+            var code = await userManager.GeneratePasswordResetTokenAsync(user);
+            var encodeUrl = HttpUtility.UrlEncode(code);
+            await mailService.SendMail(new MailDataInputModel
+            {
+                FromName = "Express Voitures",
+                FromEmail = mailSettings.ReceiverEmail,
+                Subject = "Rénitialisation du mot de passe",
+                Body = $"Veuillez utiliser le lien ci-dessous pour rénitialiser " +
+                $"votre mot de passe<br> {url}?code={encodeUrl}"
+            });
+            return Ok();
+        }
+
+        [HttpPost(Name = "SetNewPassword")]
+        public async Task<IActionResult> SetNewPassword([FromBody] NewPasswordInputModel model)
+        {
+            var user = await userManager.FindByNameAsync("Admin");
+            if(user is null)
+            {
+                return BadRequest();
+            }
+            var decode = HttpUtility.UrlDecode(model.Code);
+            var result = await userManager.ResetPasswordAsync(user, decode, model.NewPassword);
+            if(!result.Succeeded)
+            {
+                return BadRequest(result.Errors);
+            }
+            return Ok();
         }
     }
 }

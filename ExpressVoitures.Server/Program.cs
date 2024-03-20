@@ -29,7 +29,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ExpressVoituresDbContext>(
     opts => opts.UseSqlServer(builder.Configuration.GetConnectionString("SqlServerConnection")));
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
-    .AddEntityFrameworkStores<ExpressVoituresDbContext>();
+    .AddEntityFrameworkStores<ExpressVoituresDbContext>()
+    .AddDefaultTokenProviders();
 
 builder.Services.AddScoped<IMarqueRepository, MarqueRepository>();
 builder.Services.AddScoped<IMarqueService, MarqueService>();

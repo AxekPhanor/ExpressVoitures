@@ -17,12 +17,11 @@ import { FormHelper } from '../../helpers/formHelper';
 @Component({
   selector: 'app-form-voiture-create',
   templateUrl: './form-voiture-create.component.html',
-  styleUrl: '../../styles/form-annonce-voiture.css'
+  styleUrl: './form.component.css'
 })
 export class FormVoitureCreateComponent {
   form = new FormHelper();
-  formVoiture = this.form.createformVoiture();
-
+  formVoiture = this.form.createFormVoiture();
 
   voitures: Voiture[] = [];
   marques: string[] = [];
@@ -85,15 +84,22 @@ export class FormVoitureCreateComponent {
     const dateAchat = new Date(this.formVoiture.value.controlDateAchat!);
     dateAchat.setMinutes(dateAchat.getMinutes() - dateAchat.getTimezoneOffset());
     voitureEnregistre.dateAchat = dateAchat.toISOString();
-    voitureEnregistre.reparations = this.formVoiture.value.controlReparations!;
     voitureEnregistre.prixAchat = parseFloat(this.formVoiture.value.controlPrixAchat!);
-    voitureEnregistre.coutReparations = parseFloat(this.formVoiture.value.controlCoutReparations!);
-    if (!voitureEnregistre.reparations) {
-      voitureEnregistre.reparations = "aucune";
+    if (this.formVoiture.value.controlReparations == "") {
+      voitureEnregistre.reparations = "Aucune";
     }
-    if (!voitureEnregistre.coutReparations) {
+    else {
+      voitureEnregistre.reparations = this.formVoiture.value.controlReparations!;
+    }
+    if (this.formVoiture.value.controlCoutReparations == "") {
       voitureEnregistre.coutReparations = 0;
     }
+    else {
+      voitureEnregistre.coutReparations = parseFloat(this.formVoiture.value.controlCoutReparations!);
+    }
+    
+    
+    console.log(voitureEnregistre);
     this.voitureEnregistreService.create(voitureEnregistre).subscribe({
       next: () => {
         this.snackbar.green("Voiture enregistrée");
@@ -108,6 +114,7 @@ export class FormVoitureCreateComponent {
   getMarques() {
     this.marqueService.getAll().subscribe({
       next: value => {
+        console.log(value);
         const marques = value as Marque[];
         for (let i = 0; i < marques.length; i++) {
           this.marques.push(marques[i].nom);

@@ -98,3 +98,7 @@ html, .lato-regular {
 input::placeholder, textarea::placeholder {
   font-style: italic;
 }
+
+a:hover {
+  cursor: pointer;
+}

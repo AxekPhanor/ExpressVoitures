@@ -24,7 +24,7 @@ h1 {
 
 .btn-cancel, .btn-submit, .btn-delete, .btn-upload {
   border-radius: 32px;
-  border: 2px solid;
+  border: 2px black solid;
   padding: 20px;
 }
 

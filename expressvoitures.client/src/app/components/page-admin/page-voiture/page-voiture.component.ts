@@ -20,14 +20,11 @@ export class PageVoitureComponent {
   }
 
   openDialogCreate() {
-    const dialogRef = this.dialog.open(FormVoitureCreateComponent,
+    this.dialog.open(FormVoitureCreateComponent,
       {
         autoFocus: false,
         disableClose: true
       });
-    dialogRef.afterClosed().subscribe(() => {
-      
-    });
   }
 
   openDialogMaj(element: VoitureEnregistre) {

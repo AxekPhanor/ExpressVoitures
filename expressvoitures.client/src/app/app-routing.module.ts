@@ -10,6 +10,7 @@ import { PageVoitureComponent } from './components/page-admin/page-voiture/page-
 import { PageLogoutComponent } from './components/page-admin/page-logout/page-logout.component';
 import { isAdminGuard } from './is-admin.guard';
 import { PageAnnonceComponent } from './components/page-admin/page-annonce/page-annonce.component';
+import { FormNewPasswordComponent } from './components/form-new-password/form-new-password.component';
 
 const routes: Routes = [
   { path: '', component: PageHomeComponent },
@@ -20,8 +21,8 @@ const routes: Routes = [
   { path: 'admin/logout', component: PageLogoutComponent, canActivate: [isAdminGuard] },
   { path: 'admin/voitures', component: PageVoitureComponent, canActivate: [isAdminGuard] },
   { path: 'admin/annonces', component: PageAnnonceComponent, canActivate: [isAdminGuard] },
+  { path: 'admin/reset-password', component: FormNewPasswordComponent, canActivate: [isAdminGuard] },
   { path: '**', pathMatch: 'full', component: NotFoundComponent }
-  
 ];
 
 @NgModule({

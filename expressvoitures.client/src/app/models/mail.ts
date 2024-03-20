@@ -1,6 +1,6 @@
 export class Mail {
-  fromName: string = "";
-  fromEmail: string = "";
-  subject: string = "";
-  body: string = "";
+  FromName: string = "";
+  FromEmail: string = "";
+  Subject: string = "";
+  Body: string = "";
 }

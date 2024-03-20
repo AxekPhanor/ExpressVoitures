@@ -11,11 +11,11 @@ import { FormHelper } from '../../helpers/formHelper';
 @Component({
   selector: 'app-form-annonce-maj',
   templateUrl: './form-annonce-maj.component.html',
-  styleUrl: '../../styles/form-annonce-voiture.css'
+  styleUrl: './form.component.css'
 })
 export class FormAnnonceMajComponent {
   form = new FormHelper();
-  formAnnonce = this.form.createformAnnonce();
+  formAnnonce = this.form.createFormAnnonce();
 
   annonce: Annonce = new Annonce();
   voitureEnregistre: VoitureEnregistre = new VoitureEnregistre();

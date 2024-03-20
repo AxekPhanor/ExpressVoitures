@@ -6,10 +6,10 @@ namespace ExpressVoitures.Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class MailController : ControllerBase
+    public class ContactController : ControllerBase
     {
         private readonly IMailService mailService;
-        public MailController(IMailService mailService)
+        public ContactController(IMailService mailService)
         {
             this.mailService = mailService;
         }

@@ -23,7 +23,6 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { PageHomeComponent } from './components/page-home/page-home.component';
 import { PageCatalogueComponent } from './components/page-catalogue/page-catalogue.component';
 import { PageLoginComponent } from './components/page-admin/page-login/page-login.component';
-import { PageContactComponent } from './components/page-contact/page-contact.component';
 import { PageDetailAnnonceComponent } from './components/page-detail-annonce/page-detail-annonce.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { PageVoitureComponent } from './components/page-admin/page-voiture/page-voiture.component';
@@ -33,6 +32,9 @@ import { FormVoitureMajComponent } from './components/form-voiture-maj/form-voit
 import { FormAnnonceCreateComponent } from './components/form-annonce-create/form-annonce-create.component';
 import { FormAnnonceMajComponent } from './components/form-annonce-maj/form-annonce-maj.component';
 import { DialogDescriptionComponent } from './components/dialog-description/dialog-description.component';
+import { FormNewPasswordComponent } from './components/form-new-password/form-new-password.component';
+import { PageContactComponent } from './components/page-contact/page-contact.component';
+import { DialogModifierPasswordComponent } from './components/dialog-modifier-password/dialog-modifier-password.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +42,6 @@ import { DialogDescriptionComponent } from './components/dialog-description/dial
     PageHomeComponent,
     PageCatalogueComponent,
     PageLoginComponent,
-    PageContactComponent,
     PageDetailAnnonceComponent,
     PageVoitureComponent,
     PageAnnonceComponent,
@@ -48,7 +49,11 @@ import { DialogDescriptionComponent } from './components/dialog-description/dial
     FormVoitureMajComponent,
     FormAnnonceCreateComponent,
     FormAnnonceMajComponent,
-    DialogDescriptionComponent
+    DialogDescriptionComponent,
+    FormNewPasswordComponent,
+    PageContactComponent,
+    SidebarComponent,
+    DialogModifierPasswordComponent
   ],
   imports: [
     BrowserModule,
@@ -62,7 +67,6 @@ import { DialogDescriptionComponent } from './components/dialog-description/dial
     RouterLinkActive,
     MatCardModule,
     FormsModule,
-    SidebarComponent,
     MatTableModule,
     FormsModule,
     MatFormFieldModule,

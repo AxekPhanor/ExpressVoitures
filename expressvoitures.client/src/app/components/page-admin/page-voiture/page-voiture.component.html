@@ -1,7 +1,7 @@
 <app-sidebar></app-sidebar>
 <div class="content">
   <h1>Voitures</h1>
-  <button mat-raised-button color="primary" (click)="openDialogCreate()">Enregistrer une voiture</button><br /><br />
+  <button mat-raised-button color="primary" (click)="openDialogCreate()"><span class="color-dark">Enregistrer une voiture</span></button><br /><br />
 
   <mat-table [dataSource]="voitureEnregistres">
     <ng-container matColumnDef="voiture">
@@ -31,12 +31,12 @@
 
     <ng-container matColumnDef="creerAnnonce">
       <mat-header-cell *matHeaderCellDef> </mat-header-cell>
-      <mat-cell *matCellDef="let element"> <button mat-raised-button color="primary" (click)="openDialogAnnonceCreate(element)">Créer une annonce</button> </mat-cell>
+      <mat-cell *matCellDef="let element"> <button mat-raised-button color="primary" (click)="openDialogAnnonceCreate(element)"><span class="color-dark">Créer une annonce</span></button> </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="mettreAJour">
       <mat-header-cell *matHeaderCellDef> </mat-header-cell>
-      <mat-cell *matCellDef="let element"> <button mat-raised-button color="primary" (click)="openDialogMaj(element)">Mettre à jour</button> </mat-cell>
+      <mat-cell *matCellDef="let element"> <button mat-raised-button color="primary" (click)="openDialogMaj(element)"><span class="color-dark">Mettre à jour</span></button> </mat-cell>
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

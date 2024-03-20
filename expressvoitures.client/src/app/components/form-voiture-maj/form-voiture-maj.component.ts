@@ -5,7 +5,6 @@ import { VoitureService } from '../../services/voiture.service';
 import { Voiture } from '../../models/voiture';
 import { VoitureEnregistreService } from '../../services/voiture-enregistre.service';
 import { VoitureEnregistre } from '../../models/voitureEnregistre';
-import { DateAdapter } from '@angular/material/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { SnackbarService } from '../../services/snackbar.service';
 import { FormHelper } from '../../helpers/formHelper';
@@ -13,11 +12,11 @@ import { FormHelper } from '../../helpers/formHelper';
 @Component({
   selector: 'app-form-voiture-maj',
   templateUrl: './form-voiture-maj.component.html',
-  styleUrl: '../../styles/form-annonce-voiture.css'
+  styleUrl: './form.component.css'
 })
 export class FormVoitureMajComponent {
   form = new FormHelper();
-  formVoiture = this.form.createformVoiture();
+  formVoiture = this.form.createFormVoiture();
 
   voitures: Voiture[] = [];
   voitureEnregistre: VoitureEnregistre = new VoitureEnregistre();
@@ -29,10 +28,8 @@ export class FormVoitureMajComponent {
 
   constructor(private voitureService: VoitureService,
     private voitureEnregistreService: VoitureEnregistreService,
-    private _adapter: DateAdapter<string>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private snackbar: SnackbarService) {
-    this._adapter.setLocale('fr');
     this.remplissageChampsFormulaire(data);
 
     this.voitureService.getAll().subscribe(value => {
@@ -85,9 +82,6 @@ export class FormVoitureMajComponent {
     this.voitureEnregistre.reparations = this.formVoiture.value.controlReparations!;
     this.voitureEnregistre.prixAchat = parseInt(this.formVoiture.value.controlPrixAchat!);
     this.voitureEnregistre.coutReparations = parseInt(this.formVoiture.value.controlCoutReparations!);
-    if (!this.voitureEnregistre.reparations) {
-      this.voitureEnregistre.reparations = "aucune";
-    }
     this.voitureEnregistreService.update(this.voitureEnregistre).subscribe({
       next: () => {
         window.location.href = '/admin/voitures';

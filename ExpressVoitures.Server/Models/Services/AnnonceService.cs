@@ -80,7 +80,7 @@ namespace ExpressVoitures.Server.Models.Services
 
         public async Task<bool> Update(AnnonceInputModel annonceInputModel, int id)
         {
-            var annonce = await annonceRepository.GetById(annonceInputModel.VoitureEnregistreId);
+            var annonce = await annonceRepository.GetById(id);
             if (annonce is null)
             {
                 return false;

@@ -10,7 +10,7 @@
 
     <ng-container matColumnDef="description">
       <mat-header-cell *matHeaderCellDef> Description </mat-header-cell>
-      <mat-cell *matCellDef="let element"> <span class="color-primary description" (click)="openDialogDescription(element.description)">voir</span> </mat-cell>
+      <mat-cell *matCellDef="let element"> <a class="color-primary description" (click)="openDialogDescription(element.description)">voir</a> </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="photos">
@@ -45,12 +45,12 @@
 
     <ng-container matColumnDef="mettreAJour">
       <mat-header-cell *matHeaderCellDef> </mat-header-cell>
-      <mat-cell *matCellDef="let element"> <button mat-raised-button color="primary" (click)="openDialogAnnonceMaj(element)">Mettre à jour</button> </mat-cell>
+      <mat-cell *matCellDef="let element"> <button mat-raised-button color="primary" (click)="openDialogAnnonceMaj(element)"><span class="color-dark">Mettre à jour</span></button> </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="vendre">
       <mat-header-cell *matHeaderCellDef> </mat-header-cell>
-      <mat-cell *matCellDef="let element"> <button mat-raised-button color="primary" (click)="vendre(element)">Vendre</button> </mat-cell>
+      <mat-cell *matCellDef="let element"> <button mat-raised-button color="primary" (click)="vendre(element)"><span class="color-dark">Vendre</span></button> </mat-cell>
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

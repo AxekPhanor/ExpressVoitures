@@ -1,8 +1,6 @@
 ﻿using ExpressVoitures.Server.Models.InputModels;
 using Microsoft.Extensions.Options;
 using Mailjet.Client;
-using Mailjet.Client.Resources;
-using Newtonsoft.Json.Linq;
 using Mailjet.Client.TransactionalEmails;
 
 namespace ExpressVoitures.Server.Models.Services
@@ -22,11 +20,11 @@ namespace ExpressVoitures.Server.Models.Services
                 .WithFrom(new SendContact(mailData.FromEmail, mailData.FromName))
                 .WithSubject(mailData.Subject)
                 .WithHtmlPart(mailData.Body)
-                .WithTo(new SendContact(mailSettings.SenderEmail))
+                .WithTo(new SendContact(mailSettings.ReceiverEmail))
                 .Build();
 
             var response = await client.SendTransactionalEmailAsync(request);
-            Console.WriteLine(mailSettings.SenderEmail);
+            Console.WriteLine(mailSettings.ReceiverEmail);
             Console.WriteLine(response);
             if (response is not null)
             {

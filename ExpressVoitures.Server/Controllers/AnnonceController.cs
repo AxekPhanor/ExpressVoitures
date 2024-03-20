@@ -108,5 +108,12 @@ namespace ExpressVoitures.Server.Controllers
             }
             return NotFound();
         }
+
+        [HttpDelete("DeleteImg")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> DeleteImg([FromForm] List<IFormFile> files, [FromQuery] int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
