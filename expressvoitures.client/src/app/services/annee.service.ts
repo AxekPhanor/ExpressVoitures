@@ -5,9 +5,7 @@ import { BaseService } from './base.service';
   providedIn: 'root'
 })
 export class AnneeService extends BaseService {
-  override url = 'https://localhost:7182/api/Annee';
-
   getAll() {
-    return this.http.get(`${this.url}/GetAll`, { withCredentials: true });
+    return this.http.get(`${this.url}/Annee/GetAll`, { withCredentials: true });
   }
 }

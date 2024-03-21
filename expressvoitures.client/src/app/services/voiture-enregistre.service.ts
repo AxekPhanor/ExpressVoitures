@@ -6,22 +6,20 @@ import { BaseService } from './base.service';
   providedIn: 'root'
 })
 export class VoitureEnregistreService extends BaseService {
-  override url = 'https://localhost:7182/api/VoitureEnregistre';
-
   getById(id: number) {
-    return this.http.get(`${this.url}/GetById?id=${id}`, { withCredentials: true });
+    return this.http.get(`${this.url}/VoitureEnregistre/GetById?id=${id}`, { withCredentials: true });
   }
 
   create(voitureEnregistre: VoitureEnregistre) {
-    return this.http.post(`${this.url}/Create`, voitureEnregistre, { withCredentials: true });
+    return this.http.post(`${this.url}/VoitureEnregistre/Create`, voitureEnregistre, { withCredentials: true });
   }
 
   getAll() {
-    return this.http.get(`${this.url}/GetAll`, { withCredentials: true });
+    return this.http.get(`${this.url}/VoitureEnregistre/GetAll`, { withCredentials: true });
   }
 
   update(voitureEnregistre: VoitureEnregistre) {
-    return this.http.put(`${this.url}/Update?id=` + voitureEnregistre.id,
+    return this.http.put(`${this.url}/VoitureEnregistre/Update?id=` + voitureEnregistre.id,
     {
       voitureId: voitureEnregistre.voitureId,
       dateAchat: voitureEnregistre.dateAchat,
@@ -32,6 +30,6 @@ export class VoitureEnregistreService extends BaseService {
   }
 
   delete(id: number) {
-    return this.http.delete(`${this.url}/DeleteById?id=${id}`, { withCredentials: true });
+    return this.http.delete(`${this.url}/VoitureEnregistre/DeleteById?id=${id}`, { withCredentials: true });
   }
 }

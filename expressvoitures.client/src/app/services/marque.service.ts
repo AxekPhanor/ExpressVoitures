@@ -5,9 +5,7 @@ import { BaseService } from './base.service';
   providedIn: 'root'
 })
 export class MarqueService extends BaseService {
-  override url = 'https://localhost:7182/api/Marque';
-
   getAll() {
-    return this.http.get(`${this.url}/GetAll`, { withCredentials: true });
+    return this.http.get(`${this.url}/Marque/GetAll`, { withCredentials: true });
   }
 }

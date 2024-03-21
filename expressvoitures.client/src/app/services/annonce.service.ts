@@ -6,21 +6,19 @@ import { Annonce } from '../models/annonce';
   providedIn: 'root'
 })
 export class AnnonceService extends BaseService {
-  override url = 'https://localhost:7182/api/Annonce';
-
   getByIdAvailable(id: number) {
-    return this.http.get(`${this.url}/GetByIdAvailable?id=${id}`);
+    return this.http.get(`${this.url}/Annonce/GetByIdAvailable?id=${id}`);
   }
   getAllAvailable() {
-    return this.http.get(`${this.url}/GetAllAvailable`);
+    return this.http.get(`${this.url}/Annonce/GetAllAvailable`);
   }
 
   getAll() {
-    return this.http.get(`${this.url}/GetAll`, { withCredentials: true })
+    return this.http.get(`${this.url}/Annonce/GetAll`, { withCredentials: true })
   }
 
   create(annonce: Annonce) {
-    return this.http.post(`${this.url}/Create`,
+    return this.http.post(`${this.url}/Annonce/Create`,
       {
         voitureEnregistreId: annonce.voitureEnregistreId,
         titre: annonce.titre,

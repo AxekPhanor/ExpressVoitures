@@ -6,18 +6,16 @@ import { Voiture } from '../models/voiture';
   providedIn: 'root'
 })
 export class VoitureService extends BaseService {
-  override url = 'https://localhost:7182/api/Voiture';
-
   create(voiture: Voiture) {
-    return this.http.post(`${this.url}/Create`, voiture, { withCredentials: true })
+    return this.http.post(`${this.url}/Voiture/Create`, voiture, { withCredentials: true })
   }
 
   getAll() {
-    return this.http.get(`${this.url}/GetAll`, { withCredentials: true });
+    return this.http.get(`${this.url}/Voiture/GetAll`, { withCredentials: true });
   }
 
   exist(marque: string, annee: number, modele: string, finition: string) {
-    return this.http.post(`${this.url}/Exist`,
+    return this.http.post(`${this.url}/Voiture/Exist`,
       {
         marque: marque,
         annee: annee,
