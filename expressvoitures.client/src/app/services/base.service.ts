@@ -8,6 +8,6 @@ import { HttpClient } from '@angular/common/http';
 export class BaseService {
   url: string;
   constructor(protected http: HttpClient) {
-    this.url = 'https://localhost:7182/api';
+    this.url = 'http://localhost:5148/api';
   }
 }
