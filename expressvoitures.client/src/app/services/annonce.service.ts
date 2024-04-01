@@ -29,7 +29,7 @@ export class AnnonceService extends BaseService {
   }
 
   update(annonce: Annonce) {
-    return this.http.put(`${this.url}/Update?id=` + annonce.id,
+    return this.http.put(`${this.url}/Annonce/Update?id=` + annonce.id,
       {
         id: annonce.id,
         voitureEnregistreId: annonce.voitureEnregistreId,
@@ -41,7 +41,8 @@ export class AnnonceService extends BaseService {
   }
 
   delete(id: number) {
-    return this.http.delete(`${this.url}/DeleteById?id=` + id, { withCredentials: true });
+    console.log(this.url);
+    return this.http.delete(`${this.url}/Annonce/DeleteById?id=` + id, { withCredentials: true });
   }
 
   upload(files: File[], id: number) {
@@ -49,10 +50,10 @@ export class AnnonceService extends BaseService {
     for (let i = 0; i < files.length; i++) {
       formData.append('files', files[i], files[i].name);
     }
-    return this.http.post(`${this.url}/UploadImg?id=` + id, formData, { withCredentials: true });
+    return this.http.post(`${this.url}/Annonce/UploadImg?id=` + id, formData, { withCredentials: true });
   }
 
   vendu(id: number) {
-    return this.http.get(`${this.url}/Sold?id=` + id, { withCredentials: true });
+    return this.http.get(`${this.url}/Annonce/Sold?id=` + id, { withCredentials: true });
   }
 }
