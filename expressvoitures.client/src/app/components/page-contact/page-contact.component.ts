@@ -28,6 +28,7 @@ export class PageContactComponent {
   send() {
     this.contactService.Send(this.mail).subscribe({
       next: () => {
+        this.formContact.reset();
         this.snackbar.green('Votre email à été envoyé');
       },
       error: () => {
