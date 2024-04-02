@@ -18,10 +18,10 @@ export class PageContactComponent {
   }
 
   onSubmit() {
-    this.mail.FromName = this.formContact.value.controlName!;
-    this.mail.FromEmail = this.formContact.value.controlEmail!;
-    this.mail.Subject = 'Contact';
-    this.mail.Body = this.formContact.value.controlMessage!.replaceAll('\n', '<br>');
+    this.mail.fromName = this.formContact.value.controlNom!;
+    this.mail.fromEmail = this.formContact.value.controlEmail!;
+    this.mail.subject = 'Contact';
+    this.mail.body = this.formContact.value.controlMessage!.replaceAll('\n', '<br>');
     this.send();
   }
 

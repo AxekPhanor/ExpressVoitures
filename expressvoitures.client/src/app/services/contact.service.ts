@@ -7,6 +7,6 @@ import { Mail } from '../models/mail';
 })
 export class ContactService extends BaseService {
   Send(mail: Mail) {
-    return this.http.post(`${this.url}/Annonce/Send`, mail);
+    return this.http.post(`${this.url}/Contact/Send`, mail);
   }
 }
