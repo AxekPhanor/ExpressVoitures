@@ -22,7 +22,7 @@ export class AuthService extends BaseService {
   }
 
   resetPassword() {
-    return this.http.post(`${this.url}/Account/ResetPassword`, "https://localhost:4200/admin/reset-password", { withCredentials: true })
+    return this.http.get(`${this.url}/Account/ResetPassword`, { withCredentials: true })
   }
 
   setNewPassword(newPassword: NewPassword) {

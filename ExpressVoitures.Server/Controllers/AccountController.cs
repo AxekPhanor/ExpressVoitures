@@ -16,15 +16,18 @@ namespace ExpressVoitures.Server.Controllers
         private readonly SignInManager<IdentityUser> signInManager;
         private readonly IMailService mailService;
         private readonly MailSettings mailSettings;
+        private readonly UrlSettings urlSettings;
         public AccountController(UserManager<IdentityUser> _userManager, 
             SignInManager<IdentityUser> _signInManager, 
             IMailService mailService,
-            IOptions<MailSettings> mailSettings)
+            IOptions<MailSettings> mailSettings,
+            IOptions<UrlSettings> urlSettings)
         {
             userManager = _userManager;
             signInManager = _signInManager;
             this.mailService = mailService;
             this.mailSettings = mailSettings.Value;
+            this.urlSettings = urlSettings.Value;
         }
         
         [HttpPost(Name = "Register")]
@@ -93,8 +96,8 @@ namespace ExpressVoitures.Server.Controllers
             }
         }
 
-        [HttpPost(Name = "ResetPassord")]
-        public async Task<IActionResult> ResetPassord([FromBody] string url)
+        [HttpGet(Name = "ResetPassword")]
+        public async Task<IActionResult> ResetPassword()
         {
             var user = await userManager.FindByNameAsync("Admin");
             Console.WriteLine(user);
@@ -110,7 +113,7 @@ namespace ExpressVoitures.Server.Controllers
                 FromEmail = mailSettings.ReceiverEmail,
                 Subject = "Rénitialisation du mot de passe",
                 Body = $"Veuillez utiliser le lien ci-dessous pour rénitialiser " +
-                $"votre mot de passe<br> {url}?code={encodeUrl}"
+                $"votre mot de passe<br> {urlSettings.ClientUrl}admin/reset-password?code={encodeUrl}"
             });
             return Ok();
         }

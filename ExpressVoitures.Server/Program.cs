@@ -49,6 +49,7 @@ builder.Services.AddScoped<IAnnonceService, AnnonceService>();
 builder.Services.AddScoped<IMailService, MailService>();
 
 builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
+builder.Services.Configure<UrlSettings>(builder.Configuration.GetSection("UrlSettings"));
 
 var app = builder.Build();
 
