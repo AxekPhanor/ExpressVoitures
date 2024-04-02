@@ -135,6 +135,13 @@ namespace ExpressVoitures.Server.Models.Services
             {
                 return false;
             }
+
+            string directoryPath = "../expressvoitures.client/src/assets/img/annonces";
+            if (!Directory.Exists(directoryPath))
+            {
+                Directory.CreateDirectory(directoryPath);
+            }
+
             for (int i = 0; i < files.Count; i++)
             {
                 int counter = 0;
@@ -143,13 +150,13 @@ namespace ExpressVoitures.Server.Models.Services
                 {
                     nomFichier = $"{voitureEnregistre.Id}-{voitureEnregistre.Voiture.Marque.Nom}_{voitureEnregistre.Voiture.Annee.Valeur}_{voitureEnregistre.Voiture.Modele.Nom}_{voitureEnregistre.Voiture.Finition.Nom}({counter}).jpg";
                     counter++;
-                } while (File.Exists($"../expressvoitures.client/src/assets/img/annonces/{nomFichier}"));
+                } while (File.Exists(Path.Combine(directoryPath, nomFichier)));
 
                 using var memoryStream = new MemoryStream();
                 await files[i].CopyToAsync(memoryStream);
                 memoryStream.Seek(0, SeekOrigin.Begin);
                 File.WriteAllBytes(
-                    $"../expressvoitures.client/src/assets/img/annonces/{nomFichier}",
+                    Path.Combine(directoryPath, nomFichier),
                     memoryStream.ToArray());
             }
             return true;
