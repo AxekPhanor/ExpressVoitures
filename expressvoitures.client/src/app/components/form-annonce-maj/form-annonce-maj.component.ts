@@ -28,7 +28,7 @@ export class FormAnnonceMajComponent {
     console.log(data);
     this.formAnnonce.setValue({
       controlTitre: data.titre,
-      controlDescription: data.description,
+      controlDescription: data.description.replaceAll('<br>', '\n'),
       controlPrixVente: data.prixVente.toString()
     });
     this.annonce.id = this.data.id;
@@ -53,7 +53,7 @@ export class FormAnnonceMajComponent {
 
   onSubmit() {
     this.annonce.titre = this.formAnnonce.value.controlTitre!;
-    this.annonce.description = this.formAnnonce.value.controlDescription!;
+    this.annonce.description = this.formAnnonce.value.controlDescription!.replaceAll('\n', '<br>');
     this.annonce.prixVente = parseFloat(this.formAnnonce.value.controlPrixVente!);
     this.update();
     this.upload(this.files);

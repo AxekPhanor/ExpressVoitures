@@ -43,7 +43,7 @@ export class FormAnnonceCreateComponent {
   onSubmit() {
     this.annonce.voitureEnregistreId = this.data.id;
     this.annonce.titre = this.formAnnonce.value.controlTitre!;
-    this.annonce.description = this.formAnnonce.value.controlDescription!;
+    this.annonce.description = this.formAnnonce.value.controlDescription!.replaceAll('\n', '<br>');
     this.annonce.prixVente = parseFloat(this.formAnnonce.value.controlPrixVente!);
     this.create();
     this.upload(this.files);
