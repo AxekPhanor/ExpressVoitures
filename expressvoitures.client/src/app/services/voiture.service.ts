@@ -26,6 +26,6 @@ export class VoitureService extends BaseService {
   }
 
   getById(id: number) {
-    return this.http.get(`${this.url}/GetById?id=${id}`, { withCredentials: true });
+    return this.http.get(`${this.url}/Voiture/GetById?id=${id}`, { withCredentials: true });
   }
 }
