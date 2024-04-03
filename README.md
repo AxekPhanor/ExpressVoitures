@@ -129,16 +129,22 @@ Une fois les prérequis rempli et le projet téléchargé, vous allez devoir ins
 dotnet tool install dotnet-ef --global
 ```
 
+
 Puis entrer cette commande dans le répertoire ExpressVoitures.Server pour créer la base de donnée.
 ```
 dotnet ef database update
 ```
 
 Ouvrez le fichier appsettings.json et dans la chaine de connexion remplacer la valeur de Data Source part le nom du serveur SQL Express.
+
 Pour ce qui est du service de mail vous devez créer un compte  [Mailjet](). 
+
 Ensuite aller dans l'onglet API pour ensuite créer votre clé api.
+
 Vous pouvez maintenant renseigner votre apiKey et secretKey dans la section MailSettings du fichier appsettings.json.
+
 Pour ce qui est du ReceiverEmail renseigner l'email qui recevra les messages de contact et les demandes de modifications de mot de passe du compte administrateur.
+
 
 Maintenant vous pouvez lancer le projet avec cette commande :
 ```
@@ -148,8 +154,10 @@ dotnet run --launch-profile https
 **Usage**
 
 Depuis cette adresse [Swagger UI](https://localhost:7182/swagger/index.html) vous avez la documentation de l'api, vous pouvez aussi réaliser des requêtes.
+
 Je vous invite à vous créer un compte adminstrateur depuis la route api/Account/Register. 
-**<font color="red">Attention, votre nom d'utilisateur doit obligatoirement être "Admin" pour créer un compte. Vous pouvez créer un seul compte, donc ne perdez pas votre mot de passe.</font>**
+
+**Attention, votre nom d'utilisateur doit obligatoirement être "Admin" pour créer un compte. Vous pouvez créer un seul compte, donc ne perdez pas votre mot de passe.**
 
 Je vous invite à accéder au site en suivant cette adresse :
 https://localhost:4200/
