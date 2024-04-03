@@ -110,21 +110,15 @@ Fonctionnalités disponible pour l'administrateur :
 ## Installation et Usage
 **Prérequis**
 
-.NET 8.0
+.NET 8.0 : https://dotnet.microsoft.com/en-us/download/dotnet
 
-https://dotnet.microsoft.com/en-us/download/dotnet
+.NET Framework 4.7.2 Developper Pack : https://dotnet.microsoft.com/en-us/download/visual-studio-sdks?cid=msbuild-developerpacks
 
-.NET Framework 4.7.2 Developper Pack
+Node : https://nodejs.org/en/download
 
-https://dotnet.microsoft.com/en-us/download/visual-studio-sdks?cid=msbuild-developerpacks
+SQL Express : https://www.microsoft.com/fr-fr/sql-server/sql-server-downloads
 
-Node
 
-https://nodejs.org/en/download
-
-SQL Express 
-
-https://www.microsoft.com/fr-fr/sql-server/sql-server-downloads
 
 > _Veuillez noter qu'une fois l'installation de SQL EXPRESS terminée, vous pouvez récupérer la chaîne de connexion qui sera utilisée par la suite._
 > 
