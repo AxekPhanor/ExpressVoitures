@@ -119,7 +119,6 @@ Node : https://nodejs.org/en/download
 SQL Express : https://www.microsoft.com/fr-fr/sql-server/sql-server-downloads
 
 
-
 > _Veuillez noter qu'une fois l'installation de SQL EXPRESS terminée, vous pouvez récupérer la chaîne de connexion qui sera utilisée par la suite._
 > 
 
@@ -150,9 +149,9 @@ dotnet run --launch-profile https
 
 Depuis cette adresse [Swagger UI](https://localhost:7182/swagger/index.html) vous avez la documentation de l'api, vous pouvez aussi réaliser des requêtes.
 Je vous invite à vous créer un compte adminstrateur depuis la route api/Account/Register. 
-<font color="red">
+<span style="color:blue;">
 Attention, votre nom d'utilisateur doit obligatoirement être "Admin" pour créer un compte. Vous pouvez créer un seul compte, donc ne perdez pas votre mot de passe.
-</font>
+</span>
 
 Je vous invite à accéder au site en suivant cette adresse :
 https://localhost:4200/
