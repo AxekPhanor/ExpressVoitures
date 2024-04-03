@@ -6,6 +6,7 @@
 ## Informations Générales
 Ce projet avait pour objectif de réaliser une application web pour un client fictif, un concessionnaire automobile. Le client souhaitait disposer d'un site lui permettant de répertorier les voitures disponibles à la vente et de les rendre visibles pour ses clients à travers un catalogue de voitures. Pour la réalisation de ce projet, j'ai choisi de développer une API avec ASP.NET Core, qui est consommée par une application Angular.
 
+
 ## Conception
 Pour concevoir le modèle de données, j'ai utilisé un diagramme de classes pour représenter les entités et leurs relations. Voici le diagramme de classes :
 ```mermaid
@@ -108,7 +109,6 @@ Fonctionnalités disponible pour l'administrateur :
 
 
 ## Prérequis
-
 .NET 8.0 : https://dotnet.microsoft.com/en-us/download/dotnet
 
 .NET Framework 4.7.2 Developper Pack : https://dotnet.microsoft.com/en-us/download/visual-studio-sdks?cid=msbuild-developerpacks
@@ -121,8 +121,8 @@ SQL Express : https://www.microsoft.com/fr-fr/sql-server/sql-server-downloads
 > _Veuillez noter qu'une fois l'installation de SQL EXPRESS terminée, vous pouvez récupérer la chaîne de connexion qui sera utilisée par la suite._
 > 
 
-## Installation
 
+## Installation
 Une fois les prérequis rempli et le projet téléchargé, vous allez devoir installer Entity Framework Core avec la commande ci-dessous.
 ```
 dotnet tool install dotnet-ef --global
@@ -133,6 +133,7 @@ Puis entrer cette commande dans le répertoire ExpressVoitures.Server pour crée
 ```
 dotnet ef database update
 ```
+
 
 Ouvrez le fichier appsettings.json et dans la chaine de connexion remplacer la valeur de Data Source part le nom du serveur SQL Express.
 
@@ -145,12 +146,12 @@ Vous pouvez maintenant renseigner votre apiKey et secretKey dans la section Mail
 Pour ce qui est du ReceiverEmail renseigner l'email qui recevra les messages de contact et les demandes de modifications de mot de passe du compte administrateur.
 
 
+## Usage
 Maintenant vous pouvez lancer le projet avec cette commande :
 ```
 dotnet run --launch-profile https
 ```
 
-## Usage
 
 Depuis cette adresse [Swagger UI](https://localhost:7182/swagger/index.html) vous avez la documentation de l'api, vous pouvez aussi réaliser des requêtes.
 
@@ -172,6 +173,7 @@ Le projet est : _Terminé_ ✅
 - Ajout de filtre sur le catalogue de voiture
 - Avoir la possibilité de générer une description via lors de la création d'une annonce
 - Permettre au concessionnaire de créer d'autres administrateurs
+
 
 ## Contact
 Créer par [@AxekPhanor](https://github.com/AxekPhanor)
