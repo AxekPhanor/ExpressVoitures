@@ -107,8 +107,7 @@ Fonctionnalités disponible pour l'administrateur :
 - Créer, modifier, supprimer une annonce
 
 
-## Installation et Usage
-**Prérequis**
+## Prérequis
 
 .NET 8.0 : https://dotnet.microsoft.com/en-us/download/dotnet
 
@@ -122,7 +121,7 @@ SQL Express : https://www.microsoft.com/fr-fr/sql-server/sql-server-downloads
 > _Veuillez noter qu'une fois l'installation de SQL EXPRESS terminée, vous pouvez récupérer la chaîne de connexion qui sera utilisée par la suite._
 > 
 
-**Installation**
+## Installation
 
 Une fois les prérequis rempli et le projet téléchargé, vous allez devoir installer Entity Framework Core avec la commande ci-dessous.
 ```
@@ -151,7 +150,7 @@ Maintenant vous pouvez lancer le projet avec cette commande :
 dotnet run --launch-profile https
 ```
 
-**Usage**
+## Usage
 
 Depuis cette adresse [Swagger UI](https://localhost:7182/swagger/index.html) vous avez la documentation de l'api, vous pouvez aussi réaliser des requêtes.
 
@@ -159,10 +158,9 @@ Je vous invite à vous créer un compte adminstrateur depuis la route api/Accoun
 
 **Attention, votre nom d'utilisateur doit obligatoirement être "Admin" pour créer un compte. Vous pouvez créer un seul compte, donc ne perdez pas votre mot de passe.**
 
-Je vous invite à accéder au site en suivant cette adresse : \n
-https://localhost:4200/
-Si vous souhaitez vous connecter en tant qu'administrateur sur le site, je vous invite à accéder à cette adresse : \n
-https://localhost:4200/admin/login
+Je vous invite à accéder au site en suivant cette adresse : https://localhost:4200/
+
+Si vous souhaitez vous connecter en tant qu'administrateur sur le site, je vous invite à accéder à cette adresse : https://localhost:4200/admin/login
 
 
 ## Etat du projet
