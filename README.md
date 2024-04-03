@@ -160,9 +160,13 @@ Je vous invite à vous créer un compte adminstrateur depuis la route api/Accoun
 **Attention, votre nom d'utilisateur doit obligatoirement être "Admin" pour créer un compte. Vous pouvez créer un seul compte, donc ne perdez pas votre mot de passe.**
 
 Je vous invite à accéder au site en suivant cette adresse :
+
 https://localhost:4200/
+
 Si vous souhaitez vous connecter en tant qu'administrateur sur le site, je vous invite à accéder à cette adresse :
+
 https://localhost:4200/admin/login
+
 
 ## Etat du projet
 Le projet est : _Terminé_ ✅
