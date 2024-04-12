@@ -28,7 +28,7 @@ namespace ExpressVoitures.Server.Controllers
         {
             using (var sr = new StreamReader("data.txt"))
             {
-                string? line = ".";
+                string? line = sr.ReadLine();
                 string[] elements = new string[20];
                 while (!String.IsNullOrEmpty(line))
                 {
