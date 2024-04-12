@@ -7,7 +7,7 @@ namespace ExpressVoitures.Server.Models.Services
     {
         public Task<IList<VoitureEnregistreOutputModel>> GetAll();
         public Task<VoitureEnregistreOutputModel?> GetById(int id);
-        public Task<bool> Create(VoitureEnregistreInputModel voitureEnregistreInputModel);
+        public Task<int> Create(VoitureEnregistreInputModel voitureEnregistreInputModel);
         public Task<bool> Update(VoitureEnregistreInputModel voitureEnregistreInputModel, int id);
         public Task<bool> DeleteById(int id);
     }
