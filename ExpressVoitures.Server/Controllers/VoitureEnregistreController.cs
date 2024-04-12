@@ -19,9 +19,10 @@ namespace ExpressVoitures.Server.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([FromBody] VoitureEnregistreInputModel voitureEnregistre)
         {
-            if (await voitureEnregistreService.Create(voitureEnregistre))
+            var result = await voitureEnregistreService.Create(voitureEnregistre);
+            if (result != 0)
             {
-                return Created("201", voitureEnregistre);
+                return Created("201", result);
             }
             return BadRequest();
         }

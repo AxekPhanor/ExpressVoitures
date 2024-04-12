@@ -12,15 +12,11 @@ namespace ExpressVoitures.Server.Models.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task<bool> Create(VoitureEnregistre voitureEnregistre)
+        public async Task<VoitureEnregistre> Create(VoitureEnregistre voitureEnregistre)
         {
-            var result = _dbContext.VoitureEnregistres.Add(voitureEnregistre);
-            if (result is not null)
-            {
-                await _dbContext.SaveChangesAsync();
-                return true;
-            }
-            return false;
+            _dbContext.VoitureEnregistres.Add(voitureEnregistre);
+            await _dbContext.SaveChangesAsync();
+            return voitureEnregistre;
         }
 
         public async Task<bool> DeleteById(int id)

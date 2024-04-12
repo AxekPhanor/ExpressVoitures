@@ -12,10 +12,22 @@ namespace ExpressVoitures.Server.Models.Services
         {
             this.voitureEnregistreRepository = voitureEnregistreRepository;
         }
-        public async Task<bool> Create(VoitureEnregistreInputModel voitureEnregistreInputModel)
+        public async Task<int> Create(VoitureEnregistreInputModel voitureEnregistreInputModel)
         {
-            var result = ToVoitureEnregistre(voitureEnregistreInputModel, 0);
-            return await voitureEnregistreRepository.Create(result);
+            var voitureEnregistre = new VoitureEnregistre()
+            {
+                DateAchat = voitureEnregistreInputModel.DateAchat,
+                PrixAchat = voitureEnregistreInputModel.PrixAchat,
+                Reparations = voitureEnregistreInputModel.Reparations,
+                CoutReparations = voitureEnregistreInputModel.CoutReparations,
+                VoitureId = voitureEnregistreInputModel.VoitureId,
+            };
+            var result = await voitureEnregistreRepository.Create(voitureEnregistre);
+            if(result is not null)
+            {
+                return result.Id;
+            }
+            return 0;
         }
 
         public async Task<bool> DeleteById(int id)
@@ -73,19 +85,6 @@ namespace ExpressVoitures.Server.Models.Services
                 PrixAchat = voitureEnregistre.PrixAchat,
                 Reparations = voitureEnregistre.Reparations,
                 CoutReparations = voitureEnregistre.CoutReparations
-            };
-        }
-
-        private VoitureEnregistre ToVoitureEnregistre(VoitureEnregistreInputModel voitureEnregistreInputModel, int id)
-        {
-            return new VoitureEnregistre()
-            {
-                Id = id,
-                DateAchat = voitureEnregistreInputModel.DateAchat,
-                PrixAchat = voitureEnregistreInputModel.PrixAchat,
-                Reparations = voitureEnregistreInputModel.Reparations,
-                CoutReparations = voitureEnregistreInputModel.CoutReparations,
-                VoitureId = voitureEnregistreInputModel.VoitureId,
             };
         }
     }
