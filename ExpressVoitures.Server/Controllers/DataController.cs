@@ -27,20 +27,13 @@ namespace ExpressVoitures.Server.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Import()
         {
-            
             using StreamReader reader = new StreamReader(Request.Body, Encoding.UTF8);
             string? line = ".";
             string[] elements = new string[10];
             while (!String.IsNullOrEmpty(line))
             {
-<<<<<<< HEAD
-                string? line = sr.ReadLine();
-                string[] elements = new string[20];
-                while (!String.IsNullOrEmpty(line))
-=======
                 line = await reader.ReadLineAsync();
                 if (line is not null)
->>>>>>> dev
                 {
                     elements = line.Split(";");
                     var voiture = await voitureService
