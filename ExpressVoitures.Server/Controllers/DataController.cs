@@ -2,6 +2,7 @@
 using ExpressVoitures.Server.Models.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Text;
 
 namespace ExpressVoitures.Server.Controllers
 {
@@ -22,52 +23,57 @@ namespace ExpressVoitures.Server.Controllers
             this.voitureEnregistreService = voitureEnregistreService;
         }
 
-        [HttpGet("ImportTxt")]
-        [Authorize(Roles="Admin")]
-        public async Task<IActionResult> ImportTxt()
+        [HttpPost("Import")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Import()
         {
-            using (var sr = new StreamReader("data.txt"))
+            
+            using StreamReader reader = new StreamReader(Request.Body, Encoding.UTF8);
+            string? line = ".";
+            string[] elements = new string[10];
+            while (!String.IsNullOrEmpty(line))
             {
+<<<<<<< HEAD
                 string? line = sr.ReadLine();
                 string[] elements = new string[20];
                 while (!String.IsNullOrEmpty(line))
+=======
+                line = await reader.ReadLineAsync();
+                if (line is not null)
+>>>>>>> dev
                 {
-                    line = sr.ReadLine();
-                    if (line is not null)
-                    {
-                        elements = line.Split(";");
-                        var voiture = await voitureService
-                            .Create(new VoitureInputModel
-                            {
-                                Marque = elements[0],
-                                Annee = int.Parse(elements[1]),
-                                Modele = elements[2],
-                                Finition = elements[3]
-                            });
-                        var voitureEnregistreId = await voitureEnregistreService
-                            .Create(new VoitureEnregistreInputModel
-                            {
-                                VoitureId = voiture.Id,
-                                Reparations = elements[4],
-                                CoutReparations = int.Parse(elements[5]),
-                                DateAchat = new DateTime(
-                                int.Parse(elements[6]),
-                                int.Parse(elements[7]),
-                                int.Parse(elements[8])),
-                                PrixAchat = int.Parse(elements[9]),
-                            });
-                        var result = await annonceService
-                            .Create(new AnnonceInputModel
-                            {
-                                VoitureEnregistreId = voitureEnregistreId,
-                                Description = elements[10],
-                                Photos = [],
-                                PrixVente = int.Parse(elements[5]) + int.Parse(elements[9]) + 500,
-                            });
-                        if(!result)
+                    elements = line.Split(";");
+                    var voiture = await voitureService
+                        .Create(new VoitureInputModel
                         {
-                            return BadRequest("Erreur lors de la création d'une annonce");
-                        }
+                            Marque = elements[0],
+                            Annee = int.Parse(elements[1]),
+                            Modele = elements[2],
+                            Finition = elements[3]
+                        });
+                    var voitureEnregistreId = await voitureEnregistreService
+                        .Create(new VoitureEnregistreInputModel
+                        {
+                            VoitureId = voiture.Id,
+                            Reparations = elements[4],
+                            CoutReparations = int.Parse(elements[5]),
+                            DateAchat = new DateTime(
+                            int.Parse(elements[6]),
+                            int.Parse(elements[7]),
+                            int.Parse(elements[8])),
+                            PrixAchat = int.Parse(elements[9]),
+                        });
+                    var result = await annonceService
+                        .Create(new AnnonceInputModel
+                        {
+                            VoitureEnregistreId = voitureEnregistreId,
+                            Description = elements[10],
+                            Photos = [],
+                            PrixVente = int.Parse(elements[5]) + int.Parse(elements[9]) + 500,
+                        });
+                    if (!result)
+                    {
+                        return BadRequest("Erreur lors de la création d'une annonce");
                     }
                 }
             }
