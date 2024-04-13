@@ -27,7 +27,6 @@ namespace ExpressVoitures.Server.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Import()
         {
-            
             using StreamReader reader = new StreamReader(Request.Body, Encoding.UTF8);
             string? line = ".";
             string[] elements = new string[10];
