@@ -171,7 +171,7 @@ Le projet est : _Terminé_ ✅
 ## Améliorations possibles
 - Mettre en place un cache sur notre api
 - Ajout de filtre sur le catalogue de voiture
-- Avoir la possibilité de générer une description via lors de la création d'une annonce
+- Avoir la possibilité de générer une description via IA lors de la création d'une annonce
 - Permettre au concessionnaire de créer d'autres administrateurs
 
 
