@@ -17,7 +17,7 @@ export class FormHelper {
   createFormVoiture(): FormGroup {
     const formVoiture = new FormGroup({
       controlMarque: new FormControl('', Validators.compose([
-        Validators.pattern('^[a-zA-Z]*$'),
+        Validators.pattern('^[a-zA-Z0-9\n àâäéèêëïîôöùûüçÀÂÄÉÈÊËÏÎÔÖÙÛÜÇ.,;:!?]*$'),
         Validators.required,
       ])),
       controlModele: new FormControl('', Validators.compose([
@@ -30,7 +30,7 @@ export class FormHelper {
         Validators.required,
       ])),
       controlFinition: new FormControl('', Validators.compose([
-        Validators.pattern('^[a-zA-Z0-9]*$'),
+        Validators.pattern('^[a-zA-Z0-9\n àâäéèêëïîôöùûüçÀÂÄÉÈÊËÏÎÔÖÙÛÜÇ.,;:!?]*$'),
         Validators.required,
       ])),
       controlDateAchat: new FormControl('', Validators.compose([
