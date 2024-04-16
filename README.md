@@ -1,6 +1,6 @@
 
 # Express Voitures
-> OpenClassrooms Projet 5 : Créez votre première application avec ASP .NET Core
+> OpenClassrooms Projet 5 : Créez votre première application avec ASP.NET Core
 
 
 ## Informations Générales
@@ -169,8 +169,10 @@ Le projet est : _Terminé_ ✅
 
 
 ## Améliorations possibles
+- Pouvoir changer l'ordre dans lequel les photos des annonces sont affichées et pouvoir supprimer une photo d'une annonce
 - Mettre en place un cache sur notre api
-- Ajout de filtre sur le catalogue de voiture
+- Mise en place d'une pagination sur le catalogue de voiture, les pages de gestions de voitures et d'annonces
+- Ajout de filtre/tri sur le catalogue de voiture, les pages de gestions de voitures et d'annonces
 - Avoir la possibilité de générer une description via IA lors de la création d'une annonce
 - Permettre au concessionnaire de créer d'autres administrateurs
 
