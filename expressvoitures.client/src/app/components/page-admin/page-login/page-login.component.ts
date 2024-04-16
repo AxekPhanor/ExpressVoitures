@@ -24,7 +24,7 @@ export class PageLoginComponent {
     this.authService.isLoggedIn().subscribe({
       next: (value) => {
         if (value) {
-          this.router.navigate(['/admin/voitures']);
+          window.location.href = '/admin/annonces';
         }
       }
     });
@@ -35,7 +35,7 @@ export class PageLoginComponent {
     const password = this.formLogin.value.controlPassword!;
     this.authService.login(username, password).subscribe({
       next: () => {
-        this.router.navigate(['/admin/voitures']);
+        window.location.href = '/admin/annonces';
       },
       error: (error) => {
         this.snackbar.red("Identifiant ou mot de passe incorrect");
