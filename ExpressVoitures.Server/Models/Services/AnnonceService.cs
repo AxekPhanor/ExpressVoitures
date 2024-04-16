@@ -146,9 +146,14 @@ namespace ExpressVoitures.Server.Models.Services
             {
                 int counter = 0;
                 string nomFichier;
+                string marque = voitureEnregistre.Voiture.Marque.Nom.Replace(" ", "_");
+                int annee = voitureEnregistre.Voiture.Annee.Valeur;
+                string modele = voitureEnregistre.Voiture.Modele.Nom.Replace(" ", "_");
+                string finition = voitureEnregistre.Voiture.Finition.Nom.Replace(" ", "_");
                 do
                 {
-                    nomFichier = $"{voitureEnregistre.Id}-{voitureEnregistre.Voiture.Marque.Nom}_{voitureEnregistre.Voiture.Annee.Valeur}_{voitureEnregistre.Voiture.Modele.Nom}_{voitureEnregistre.Voiture.Finition.Nom}({counter}).jpg";
+                    
+                    nomFichier = $"{voitureEnregistre.Id}-{marque}_{annee}_{modele}_{finition}({counter}).jpg";
                     counter++;
                 } while (File.Exists(Path.Combine(directoryPath, nomFichier)));
 
